@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import supabase from "../../supabaseClient";
 
-const Section = styled.section`
-
-`
+const Section = styled.section``;
 
 const PublicHome = () => {
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = async () => {
+    const { data } = await supabase.from("posts").select();
+
+    console.log(data);
+  };
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    navigate('/sign-in');
-  }
+    navigate("/sign-in");
+  };
 
   const handleSignUp = () => {
-    navigate('/sign-up');
-  }
+    navigate("/sign-up");
+  };
 
   return (
     <Section>

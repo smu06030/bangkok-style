@@ -13,6 +13,7 @@ const SignIn = () => {
       email: signInInputs.email,
       password: signInInputs.password
     });
+    
     if (data.user) {
       signIn();
       alert("로그인이 완료되었습니다.");

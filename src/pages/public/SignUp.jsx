@@ -1,13 +1,15 @@
 import { useState } from "react";
 import supabase from "../../supabaseClient";
 import SignInputs from "../../components/SignInputs";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [signUpInputs, setIdInputs] = useState({ email: "", password: "", verifyPassword: "", nickname: "" });
 
   const onSignUpHandler = async (event) => {
     event.preventDefault();
-    await supabase.auth.signUp({
+    const { data } = await supabase.auth.signUp({
       email: signUpInputs.email,
       password: signUpInputs.password,
       options: {
@@ -16,9 +18,14 @@ const SignUp = () => {
         }
       }
     });
-    alert("회원가입이 완료되었습니다.");
-    return;
+    if (data.user) {
+      alert("회원가입이 완료되었습니다.");
+      navigate("/sign-in");
+    } else {
+      alert("아이디와 비밀번호를 확인해주세요.");
+    }
   };
+
   const signInWithGithub = async (event) => {
     event.preventDefault();
     await supabase.auth.signInWithOAuth({
