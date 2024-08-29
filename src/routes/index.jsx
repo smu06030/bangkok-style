@@ -8,7 +8,7 @@ import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 import Like from "../pages/Like";
-
+import Detail from "../pages/public/Detail";
 const Routes = () => {
   // 로그인이 됐는지
   const isSignIn = window.localStorage.getItem("signIn");
