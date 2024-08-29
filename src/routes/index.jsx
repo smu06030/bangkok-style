@@ -6,9 +6,9 @@ import PublicHome from "../pages/public/Home";
 import ProtectedHome from "../pages/protected/Home";
 import PublicRoute from "./PublicRoute";
 import MyPage from "../pages/protected/MyPage";
+import Like from "../pages/public/Like";
 
 const Routes = () => {
-
   // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
   const isSignIn = true;
 
@@ -16,7 +16,7 @@ const Routes = () => {
   const publicRoutes = [
     {
       path: "/about",
-      element: "",
+      element: ""
     }
   ];
 
@@ -24,7 +24,7 @@ const Routes = () => {
   const unAuthorizedRoutes = [
     {
       path: "/",
-      element: <PublicRoute isSignIn={isSignIn}/>,
+      element: <PublicRoute isSignIn={isSignIn} />,
       children: [
         {
           path: "/",
@@ -37,9 +37,13 @@ const Routes = () => {
         {
           path: "/sign-up",
           element: <SignUp />
+        },
+        {
+          path: "/protected-like",
+          element: <Like />
         }
       ]
-    },
+    }
   ];
 
   // 권한이 있는 사용자만 접근
@@ -56,13 +60,17 @@ const Routes = () => {
           path: "/my-page",
           element: <MyPage />
         },
-      ],
+        {
+          path: "/public-like",
+          element: <Like />
+        }
+      ]
     }
   ];
 
   const notFound = {
     path: "*",
-    element: <Navigate to="/" replace />,
+    element: <Navigate to="/" replace />
   };
 
   const router = createBrowserRouter([
@@ -71,7 +79,7 @@ const Routes = () => {
     ...authorizedRoutes,
     notFound
   ]);
-  
+
   return <RouterProvider router={router} />;
 };
 
