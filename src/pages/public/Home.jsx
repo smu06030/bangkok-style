@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import supabase from "../../supabaseClient";
 import Banner from "../../components/Layout/Banner";
 import { useNavigate } from "react-router-dom";
+import Posts from "../../components/Layout/Posts";
 
 const Section = styled.section`
   
@@ -10,16 +11,6 @@ const Section = styled.section`
 
 const PublicHome = () => {
   const navigate = useNavigate();
-  
-  useEffect(() => {
-    fetch();
-  }, []);
-
-  const fetch = async () => {
-    const { data } = await supabase.from("posts").select();
-
-    console.log(data);
-  };
 
   const handleSignIn = () => {
     navigate("/sign-in");
@@ -49,7 +40,7 @@ const PublicHome = () => {
       </button>
       <button onClick={handleSignUp}>회원가입</button>
       <Banner />
-      
+      <Posts />
     </Section>
   );
 };
