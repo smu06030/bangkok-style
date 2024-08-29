@@ -10,7 +10,7 @@ import MyPage from "../pages/protected/MyPage";
 const Routes = () => {
 
   // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
-  const isSignIn = true;
+  const isSignIn = false;
 
   // 모든 사용자 접근 가능
   const publicRoutes = [
