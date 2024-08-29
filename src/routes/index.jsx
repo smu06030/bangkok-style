@@ -7,12 +7,7 @@ import PublicHome from "../pages/public/Home";
 import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
-<<<<<<< HEAD
 import Like from "../pages/Like";
-import { useContext } from "react";
-import EntireContext from "../store/Context/EntireContext";
-=======
->>>>>>> 72d3ac27ac17ae0d1bf679a86f799a197fd8591c
 
 const Routes = () => {
   // 로그인이 됐는지
