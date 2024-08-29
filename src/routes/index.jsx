@@ -7,19 +7,16 @@ import PublicHome from "../pages/public/Home";
 import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
-import { useContext } from "react";
-import EntireContext from "../store/Context/EntireContext";
-import Detail from "../pages/public/Detail";
 
 const Routes = () => {
-  // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
-  const { isSignIn } = useContext(EntireContext);
+  // 로그인이 됐는지
+  const isSignIn = window.localStorage.getItem("signIn");
 
   // 모든 사용자 접근 가능
   const routes = [
     {
       path: "/",
-      element: <Layout isSignIn={isSignIn} />,
+      element: <Layout />,
       children: [
         {
           index: true,
@@ -37,10 +34,10 @@ const Routes = () => {
   const unAuthorizedRoutes = [
     {
       path: "/",
-      element: <PublicRoute isSignIn={isSignIn} />,
+      element: <PublicRoute />,
       children: [
         {
-          element: <Layout isSignIn={isSignIn} />,
+          element: <Layout />,
           children: [
             {
               path: "/sign-in",
@@ -60,10 +57,10 @@ const Routes = () => {
   const authorizedRoutes = [
     {
       path: "/",
-      element: <ProtectedRoute isSignIn={isSignIn} />,
+      element: <ProtectedRoute />,
       children: [
         {
-          element: <Layout isSignIn={isSignIn} />,
+          element: <Layout />,
           children: [
             {
               path: "/my-page",
