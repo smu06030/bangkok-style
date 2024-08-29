@@ -1,28 +1,47 @@
 import styled from "styled-components";
 import supabase from "../../supabaseClient";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+// import EntireContext from "../../store/Context/EntireContext";
 
 const UpLoad = () => {
   const { data } = supabase.storage.from("fashions").getPublicUrl("default-img.png");
+  // console.log("fashionImg : ", fashionImg);
 
   const [fashionUrl, setFashionUrl] = useState("");
   const fileInputRef = useRef(null);
   const fashionImg = data.publicUrl;
+  //console.log("fashionUrl :", fashionUrl);
+  // const { isSignIn } = useContext(EntireContext);
 
-  console.log("fashionImg : ", fashionImg);
-  console.log("fashionUrl :", fashionUrl);
+  //
+  //
+  // 맨 처음 랜더링 시 checkFashion() 호출
+  useEffect(() => {
+    checkFashion();
+  }, []);
+  function checkFashion() {
+    const { data } = supabase.storage.from("fashions").getPublicUrl("default-img.png");
+    setFashionUrl(data.publicUrl);
+  }
 
+  //
+  //
+  // storage에 파일 업로드 함수
   async function handleFileInputChange(files) {
     const [file] = files;
 
     if (!file) {
       return;
     }
-
     const { data } = await supabase.storage.from("fashions").upload(`fashion_${Date.now()}.png`, file);
-
-    setFashionUrl(`https://<project>.supabase.co/storage/v1/object/public/fashions/${data.path}`);
+    // setFashionUrl(`fashions/${data.path}`);
+    setFashionUrl(`https://bangkok-style.supabase.co/storage/v1/object/public/fashions/${data.path}`);
+    // const { publicUrl } = supabase.storage.from("fashions").getPublicUrl(data.path);
+    // setFashionUrl(publicUrl);
   }
+  console.log("fashionUrl :", fashionUrl);
+
+  //업로드한 파일 불러오는 함수
 
   return (
     <>
@@ -38,7 +57,7 @@ const UpLoad = () => {
             className="rounded-full cursor-pointer w-[45px] h-[45px]"
             width={45}
             height={45}
-            src={fashionImg}
+            src={fashionUrl}
             alt="myFashion"
             onClick={() => fileInputRef.current.click()}
           />

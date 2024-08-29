@@ -24,6 +24,10 @@ const Routes = () => {
         {
           index: true,
           element: <PublicHome />
+        },
+        {
+          path: "/upload",
+          element: <UpLoad />
         }
       ]
     }
@@ -64,10 +68,6 @@ const Routes = () => {
             {
               path: "/my-page",
               element: <MyPage />
-            },
-            {
-              path: "/upload",
-              element: <UpLoad />
             }
           ]
         }
