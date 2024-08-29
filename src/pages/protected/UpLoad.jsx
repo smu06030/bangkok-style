@@ -85,8 +85,12 @@ const UpLoad = () => {
       return;
     }
 
-    const { data } = await supabase.storage.from("fashions").upload(`fashion_${Date.now()}.png`, file);
-    setFashionUrl(`https://bangkok-style.supabase.co/storage/v1/object/public/fashions/${data.path}`);
+    // const { data } = await supabase.storage.from("fashions").upload(`fashion_${Date.now()}.png`, file);
+    // setFashionUrl(`https://bangkok-style.supabase.co/storage/v1/object/public/fashions/${data.path}`);
+    const filePath = `fashion_${Date.now()}`;
+    const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
+    if (error) return;
+    setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
   }
   console.log("fashionUrl :", fashionUrl);
 
@@ -116,7 +120,6 @@ const UpLoad = () => {
             alt="myFashion"
             onClick={() => fileInputRef.current.click()}
           />
-          이미지영역
         </ImagesDiv>
         <InputDiv>
           <input type="text" />
