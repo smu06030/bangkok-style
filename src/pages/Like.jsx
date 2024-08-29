@@ -65,12 +65,17 @@ const Like = () => {
         </div>
       ) : (
         <div>
+          <TitleStyle>
+            <h1>좋아요</h1>
+          </TitleStyle>
           {likedPhotos.length > 0 ? (
             likedPhotos.map((photoID, index) => (
-              <div key={index} id={photoID}>
-                <img src={`https://example.com/${photoID}.jpg`} alt={`Photo ${index + 1}`} />
-                <button onClick={(event) => handleUnlike(event, photoID)}>좋아요 해제</button>
-              </div>
+              <CardStyle>
+                <div key={index} id={photoID}>
+                  <ImageStyle img src={`https://example.com/${photoID}.jpg`} alt={`Photo ${index + 1}`} />
+                  <button onClick={(event) => handleUnlike(event, photoID)}>좋아요 해제</button>
+                </div>
+              </CardStyle>
             ))
           ) : (
             <p>좋아요 한 사진이 없습니다.</p>
