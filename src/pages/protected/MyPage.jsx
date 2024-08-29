@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import Avatar from "../../components/MyPage/Avatar";
+import Nickname from "../../components/MyPage/NickName";
 
 const MyPage = () => {
   return (
-    <div>MyPage</div>
-  )
-}
+    <>
+      <Avatar />
+      <Nickname />
+    </>
+  );
+};
 
-export default MyPage
+export default MyPage;
