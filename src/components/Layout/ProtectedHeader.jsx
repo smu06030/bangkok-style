@@ -14,6 +14,8 @@ const HeaderWrapper = styled.header`
   background-color: #f5f5f5;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.013), 0px 4px 5px 0px rgba(0, 0, 0, 0.07),
     0px 1px 10px 0px rgba(0, 0, 0, 0);
+  position: relative;
+  z-index: 99;
 `;
 
 const HeaderIcons = styled.div`
@@ -23,7 +25,7 @@ const HeaderIcons = styled.div`
   cursor: pointer;
   gap: 0.5rem;
   transition: all 0.3s;
-`
+`;
 
 const linkStyles = css`
   text-decoration: none;
@@ -46,9 +48,15 @@ const ProtectedHeader = () => {
       <Logo to="/">방콕 스타일</Logo>
 
       <HeaderIcons>
-        <Upload width="24" height="24" />
-        <Like width="24" height="24" />
-        <MyUser width="24" height="24" />
+        <Link to="/upload">
+          <Upload width="24" height="24" />
+        </Link>
+        <Link to="/like">
+          <Like width="24" height="24" />
+        </Link>
+        <Link to="/my-page">
+          <MyUser width="24" height="24" />
+        </Link>
         <Logout>로그아웃</Logout>
       </HeaderIcons>
     </HeaderWrapper>

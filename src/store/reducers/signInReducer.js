@@ -1,4 +1,4 @@
-export const signInitialState = false;
+export const signInitialState = true;
 
 export const signInReducer = (state = signInitialState, action) => {
   switch (action.type) {
