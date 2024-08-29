@@ -8,6 +8,7 @@ import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 import UpLoad from "../pages/protected/Upload";
+import Like from "../pages/Like";
 
 const Routes = () => {
   // 로그인이 됐는지
@@ -22,6 +23,10 @@ const Routes = () => {
         {
           index: true,
           element: <PublicHome />
+        },
+        {
+          path: "/Like",
+          element: <Like />
         }
       ]
     }

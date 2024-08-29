@@ -85,8 +85,6 @@ const UpLoad = () => {
       return;
     }
 
-    // const { data } = await supabase.storage.from("fashions").upload(`fashion_${Date.now()}.png`, file);
-    // setFashionUrl(`https://bangkok-style.supabase.co/storage/v1/object/public/fashions/${data.path}`);
     const filePath = `fashion_${Date.now()}`;
     const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
     if (error) return;

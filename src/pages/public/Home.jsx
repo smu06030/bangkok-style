@@ -4,13 +4,11 @@ import supabase from "../../supabaseClient";
 import Banner from "../../components/Layout/Banner";
 import { useNavigate } from "react-router-dom";
 
-const Section = styled.section`
-  
-`;
+const Section = styled.section``;
 
 const PublicHome = () => {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     fetch();
   }, []);
@@ -27,6 +25,10 @@ const PublicHome = () => {
 
   const handleSignUp = () => {
     navigate("/sign-up");
+  };
+
+  const handleLike = () => {
+    navigate("/Like");
   };
 
   const onSignOutHandler = async () => {
@@ -48,8 +50,8 @@ const PublicHome = () => {
         로그아웃
       </button>
       <button onClick={handleSignUp}>회원가입</button>
+      <button onClick={handleLike}>좋아요</button>
       <Banner />
-      
     </Section>
   );
 };
