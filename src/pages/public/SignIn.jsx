@@ -18,6 +18,7 @@ const SignIn = () => {
       email: signInInputs.email,
       password: signInInputs.password
     });
+    
     if (data.user) {
       window.localStorage.setItem("signIn", true);
       alert("로그인이 완료되었습니다.");

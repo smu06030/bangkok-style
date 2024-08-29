@@ -16,7 +16,7 @@ const Routes = () => {
   const routes = [
     {
       path: "/",
-      element: <Layout isSignIn={isSignIn} />,
+      element: <Layout />,
       children: [
         {
           index: true,
@@ -30,10 +30,10 @@ const Routes = () => {
   const unAuthorizedRoutes = [
     {
       path: "/",
-      element: <PublicRoute isSignIn={isSignIn} />,
+      element: <PublicRoute />,
       children: [
         {
-          element: <Layout isSignIn={isSignIn} />,
+          element: <Layout />,
           children: [
             {
               path: "/sign-in",
@@ -53,10 +53,10 @@ const Routes = () => {
   const authorizedRoutes = [
     {
       path: "/",
-      element: <ProtectedRoute isSignIn={isSignIn} />,
+      element: <ProtectedRoute />,
       children: [
         {
-          element: <Layout isSignIn={isSignIn} />,
+          element: <Layout />,
           children: [
             {
               path: "/my-page",
