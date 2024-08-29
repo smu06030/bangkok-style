@@ -7,6 +7,7 @@ import PublicHome from "../pages/public/Home";
 import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
+import Like from "../pages/Like";
 
 const Routes = () => {
   // 모든 사용자 접근 가능
@@ -18,6 +19,10 @@ const Routes = () => {
         {
           index: true,
           element: <PublicHome />
+        },
+        {
+          path: "/Like",
+          element: <Like />
         }
       ]
     }
