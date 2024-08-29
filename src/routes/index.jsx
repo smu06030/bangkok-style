@@ -7,12 +7,10 @@ import PublicHome from "../pages/public/Home";
 import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
-import { useContext } from "react";
-import EntireContext from "../store/Context/EntireContext";
 
 const Routes = () => {
-  // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
-  const { isSignIn } = useContext(EntireContext);
+  // 로그인이 됐는지
+  const isSignIn = window.localStorage.getItem("signIn");
 
   // 모든 사용자 접근 가능
   const routes = [
