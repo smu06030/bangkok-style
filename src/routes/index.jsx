@@ -9,6 +9,7 @@ import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 import { useContext } from "react";
 import EntireContext from "../store/Context/EntireContext";
+import Detail from "../pages/public/Detail";
 
 const Routes = () => {
   // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
@@ -23,6 +24,10 @@ const Routes = () => {
         {
           index: true,
           element: <PublicHome />
+        },
+        {
+          path: "detail",
+          element: <Detail />
         }
       ]
     }
