@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import EntireContext from "../store/Context/EntireContext";
 import { useNavigate } from "react-router-dom";
+import SignIn from "./public/SignIn";
 
 const LikeContainer = styled.div`
   display: flex;
@@ -59,7 +60,9 @@ const Like = () => {
     <LikeContainer>
       {!isSignIn ? (
         <div>
-          <h1>좋아요 한 사진이 없습니다.</h1>
+          <TitleStyle>
+            <h1>좋아요</h1>
+          </TitleStyle>
           <p>로그인하고 관심있는 사진을 등록 해 보세요.</p>
           <button onClick={handleSignIn}>로그인하기</button>
         </div>
