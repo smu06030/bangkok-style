@@ -1,22 +1,34 @@
-import { BrowserRouter, Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 import SignIn from "../pages/public/SignIn";
 import SignUp from "../pages/public/SignUp";
 import PublicHome from "../pages/public/Home";
-import ProtectedHome from "../pages/protected/Home";
-import PublicRoute from "./PublicRoute";
 import MyPage from "../pages/protected/MyPage";
-import Like from "../pages/public/Like";
+import Layout from "../components/Layout/Layout";
+import NotPound from "../pages/NotPound";
+import Like from "../pages/Like";
+import PLike from "../pages/protected/PLike";
 
 const Routes = () => {
   // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
   const isSignIn = true;
 
   // 모든 사용자 접근 가능
-  const publicRoutes = [
+  const routes = [
     {
-      path: "/about",
-      element: ""
+      path: "/",
+      element: <Layout isSignIn={isSignIn} />,
+      children: [
+        {
+          index: true,
+          element: <PublicHome />
+        },
+        {
+          path: "/Like",
+          element: <Like />
+        }
+      ]
     }
   ];
 
@@ -27,20 +39,17 @@ const Routes = () => {
       element: <PublicRoute isSignIn={isSignIn} />,
       children: [
         {
-          path: "/",
-          element: <PublicHome />
-        },
-        {
-          path: "/sign-in",
-          element: <SignIn />
-        },
-        {
-          path: "/sign-up",
-          element: <SignUp />
-        },
-        {
-          path: "/protected-like",
-          element: <Like />
+          element: <Layout isSignIn={isSignIn} />,
+          children: [
+            {
+              path: "/sign-in",
+              element: <SignIn />
+            },
+            {
+              path: "/sign-up",
+              element: <SignUp />
+            }
+          ]
         }
       ]
     }
@@ -53,16 +62,13 @@ const Routes = () => {
       element: <ProtectedRoute isSignIn={isSignIn} />,
       children: [
         {
-          path: "/",
-          element: <ProtectedHome />
-        },
-        {
-          path: "/my-page",
-          element: <MyPage />
-        },
-        {
-          path: "/public-like",
-          element: <Like />
+          element: <Layout isSignIn={isSignIn} />,
+          children: [
+            {
+              path: "/my-page",
+              element: <MyPage />
+            }
+          ]
         }
       ]
     }
@@ -70,15 +76,10 @@ const Routes = () => {
 
   const notFound = {
     path: "*",
-    element: <Navigate to="/" replace />
+    element: <NotPound />
   };
 
-  const router = createBrowserRouter([
-    ...publicRoutes,
-    ...(!isSignIn ? unAuthorizedRoutes : []),
-    ...authorizedRoutes,
-    notFound
-  ]);
+  const router = createBrowserRouter([...routes, ...unAuthorizedRoutes, ...authorizedRoutes, notFound]);
 
   return <RouterProvider router={router} />;
 };
