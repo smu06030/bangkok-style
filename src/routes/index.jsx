@@ -9,6 +9,9 @@ import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 
 const Routes = () => {
+  // 로그인이 됐는지
+  const isSignIn = window.localStorage.getItem("signIn");
+
   // 모든 사용자 접근 가능
   const routes = [
     {
