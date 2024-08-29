@@ -3,7 +3,7 @@ import EntireContext from "./EntireContext";
 import { signInitialState, signInReducer } from "../reducers/signInReducer";
 
 const EntireProvider = ({ children }) => {
-  // sign
+  // 로그인 context
   const [signState, signDispatch] = useReducer(signInReducer, signInitialState);
 
   const signIn = () => {
