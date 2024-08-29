@@ -1,11 +1,16 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import SignInputs from "../../components/SignInputs";
 import supabase from "../../supabaseClient";
-import EntireContext from "../../store/Context/EntireContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-  const { signIn } = useContext(EntireContext);
+  const navigate = useNavigate();
   const [signInInputs, setInInputs] = useState({ email: "", password: "" });
+
+  const signUpInfo = useLocation().state ?? { email: "", password: "" };
+  useEffect(() => {
+    signUpInfo && setInInputs({ email: signUpInfo.email, password: signUpInfo.password });
+  }, []);
 
   const onSignInHandler = async (event) => {
     event.preventDefault();
@@ -14,12 +19,28 @@ const SignIn = () => {
       password: signInInputs.password
     });
     if (data.user) {
-      signIn();
+      window.localStorage.setItem("signIn", true);
       alert("로그인이 완료되었습니다.");
+      navigate("/");
+      window.location.reload();
     } else {
       alert("로그인에 실패했습니다.");
     }
   };
+
+  // const signInWithGithub = async (event) => {
+  //   event.preventDefault();
+  //   const { data } = await supabase.auth.signInWithOAuth({
+  //     provider: "github"
+  //   });
+  //   console.log("data", data);
+  //   if (data) {
+  //   window.localStorage.setItem("signIn", true);
+  //     alert("로그인이 완료되었습니다.");
+  //   } else {
+  //     alert("로그인에 실패했습니다.");
+  //   }
+  // };
 
   const signInInputsElements = [
     { label: "아이디", name: "email", type: "text", placeholder: "이메일을 입력해주세요." },
@@ -32,8 +53,9 @@ const SignIn = () => {
           return <SignInputs key={index} inputs={signInInputs} setInputs={setInInputs} element={element} />;
         })}
       </fieldset>
-      {/* <button onClick={(e) => signInWithGithub(e)}>github 회원가입</button> */}
       <button onClick={(e) => onSignInHandler(e)}>로그인</button>
+      {/* <button onClick={(e) => signInWithGithub(e)}>github 로그인</button> */}
+      <button onClick={() => navigate("/sign-up")}>회원가입</button>
     </form>
   );
 };
