@@ -1,11 +1,25 @@
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import supabase from "../../supabaseClient";
+import Banner from "../../components/Layout/Banner";
+import { useNavigate } from "react-router-dom";
 
-const Section = styled.section``;
+const Section = styled.section`
+  
+`;
 
 const PublicHome = () => {
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    fetch();
+  }, []);
+
+  const fetch = async () => {
+    const { data } = await supabase.from("posts").select();
+
+    console.log(data);
+  };
 
   const handleSignIn = () => {
     navigate("/sign-in");
@@ -34,6 +48,8 @@ const PublicHome = () => {
         로그아웃
       </button>
       <button onClick={handleSignUp}>회원가입</button>
+      <Banner />
+      
     </Section>
   );
 };
