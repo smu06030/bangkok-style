@@ -7,6 +7,7 @@ import PublicHome from "../pages/public/Home";
 import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
+import UpLoad from "../pages/protected/Upload";
 
 const Routes = () => {
   // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
@@ -61,6 +62,10 @@ const Routes = () => {
             {
               path: "/my-page",
               element: <MyPage />
+            },
+            {
+              path: "/upload",
+              element: <UpLoad />
             }
           ]
         }
@@ -73,12 +78,7 @@ const Routes = () => {
     element: <NotPound />
   };
 
-  const router = createBrowserRouter([
-    ...routes,
-    ...unAuthorizedRoutes,
-    ...authorizedRoutes,
-    notFound
-  ]);
+  const router = createBrowserRouter([...routes, ...unAuthorizedRoutes, ...authorizedRoutes, notFound]);
 
   return <RouterProvider router={router} />;
 };
