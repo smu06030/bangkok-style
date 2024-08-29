@@ -1,10 +1,9 @@
-
-const SignInputs = ({ idInputs, setIdInputs, element }) => {
+const SignInputs = ({ inputs, setInputs, element }) => {
   const { label, name, type, placeholder } = element;
 
   const inputOnChange = (event) => {
     const { name, value } = event.target;
-    setIdInputs((prev) => {
+    setInputs((prev) => {
       return { ...prev, [name]: value };
     });
   };
@@ -15,7 +14,7 @@ const SignInputs = ({ idInputs, setIdInputs, element }) => {
         type={type}
         name={name}
         placeholder={placeholder}
-        value={idInputs[name]}
+        value={inputs[name]}
         onChange={(e) => inputOnChange(e)}
       />
     </>
