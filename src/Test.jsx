@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient("https://<project>.supabase.co", "<your-anon-key>");
+import supabase from "./supabaseClient";
 
 function App() {
   const [posts, setPosts] = useState([]);

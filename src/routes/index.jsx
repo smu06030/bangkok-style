@@ -1,4 +1,4 @@
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import SignIn from "../pages/public/SignIn";
@@ -8,10 +8,12 @@ import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 import UpLoad from "../pages/protected/Upload";
+import { useContext } from "react";
+import EntireContext from "../store/Context/EntireContext";
 
 const Routes = () => {
   // 로그인이 됐는지 (나중에 전역 상태 관리로 바꿈)
-  const isSignIn = true;
+  const { isSignIn } = useContext(EntireContext);
 
   // 모든 사용자 접근 가능
   const routes = [
