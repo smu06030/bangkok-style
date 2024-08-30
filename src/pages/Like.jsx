@@ -32,7 +32,7 @@ const ImageStyle = styled.img`
 `;
 
 const Like = () => {
-  const { isSignIn } = useContext(EntireContext);
+  const { usrInfo } = useContext(EntireContext);
   const navigate = useNavigate();
 
   const handleSignIn = () => {
@@ -58,7 +58,7 @@ const Like = () => {
 
   return (
     <LikeContainer>
-      {!isSignIn ? (
+      {!usrInfo ? (
         <div>
           <TitleStyle>
             <h1>좋아요</h1>

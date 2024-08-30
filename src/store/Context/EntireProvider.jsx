@@ -6,7 +6,7 @@ import supabase from "../../supabaseClient";
 
 const EntireProvider = ({ children }) => {
   // 로그인 context
-  const [signState, signDispatch] = useReducer(signInReducer, signInitialState);
+  const [userInfo, userInfoDispatch] = useReducer(signInReducer, signInitialState);
   // 게시물 context
   const [postsState, postsDispatch] = useReducer(postsReducer, postsInitialState);
 
@@ -15,26 +15,20 @@ const EntireProvider = ({ children }) => {
   };
 
   const entireContext = {
-    isSignIn: signState,
+    userInfo,
     posts: postsState,
     setPosts,
-    signIn: (payload) => signDispatch({ type: "SIGN_IN", payload }),
-    signOut: () => signDispatch({ type: "SIGN_OUT" })
+    signIn: (payload) => userInfoDispatch({ type: "SIGN_IN", payload }),
+    signOut: () => userInfoDispatch({ type: "SIGN_OUT" })
   };
 
   useEffect(() => {
-    const getSession = async () => {
-      const response = await supabase.auth.getSession();
-      signDispatch({ type: "SIGN_IN", payload: response.data.session.user });
-    };
-    getSession();
-
-    const { data } = supabase.auth.onAuthStateChange((_, session) => {
-      console.log("session", session.user);
+    const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
+      session && userInfoDispatch({ type: "SIGN_IN", payload: session.user });
     });
 
     return () => {
-      data.subscription.unsubscribe();
+      authListener.subscription.unsubscribe();
     };
   }, []);
 
