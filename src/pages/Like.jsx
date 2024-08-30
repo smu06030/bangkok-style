@@ -47,7 +47,6 @@ const Like = () => {
       const savedPhotos = await getLikedPhotosFromDB(); // DB에서 데이터 가져오기
       setLikedPhotos(savedPhotos);
     };
-
     fetchLikedPhotos();
   }, []);
 
