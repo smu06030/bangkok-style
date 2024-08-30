@@ -10,9 +10,6 @@ import NotPound from "../pages/NotPound";
 import Like from "../pages/Like";
 import Detail from "../pages/public/Detail";
 const Routes = () => {
-  // 로그인이 됐는지
-  const isSignIn = window.localStorage.getItem("signIn");
-
   // 모든 사용자 접근 가능
   const routes = [
     {

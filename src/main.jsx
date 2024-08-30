@@ -5,9 +5,7 @@ import "./index.css";
 import EntireProvider from "./store/Context/EntireProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <EntireProvider>
-      <App />
-    </EntireProvider>
-  </StrictMode>
+  <EntireProvider>
+    <App />
+  </EntireProvider>
 );
