@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import Upload from "../../assets/images/Upload";
 import MyUser from "../../assets/images/MyUser";
 import Like from "../../assets/images/Like";
-import useSignHandler from "../../hooks/useSignHandler";
+import useSignInHandler from "../../hooks/useSignInHandler";
 
 const HeaderWrapper = styled.header`
   padding: 1.5rem;
@@ -43,7 +43,7 @@ const Logout = styled(Link)`
 `;
 
 const ProtectedHeader = () => {
-  const { onSignOutHandler } = useSignHandler();
+  const { onSignOutHandler } = useSignInHandler();
   return (
     <HeaderWrapper>
       <Logo to="/">방콕 스타일</Logo>
