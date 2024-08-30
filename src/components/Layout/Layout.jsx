@@ -11,11 +11,11 @@ const Main = styled.main`
 `;
 
 const Layout = () => {
-  const { isSignIn } = useContext(EntireContext);
+  const { userInfo } = useContext(EntireContext);
 
   return (
     <Container>
-      {isSignIn ? <ProtectedHeader /> : <PublicHeader />}
+      {userInfo ? <ProtectedHeader /> : <PublicHeader />}
       <Main>
         <Outlet />
       </Main>
