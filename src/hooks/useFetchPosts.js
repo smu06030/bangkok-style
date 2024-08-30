@@ -10,7 +10,7 @@ const useFetchPosts = () => {
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await supabase.from("posts").select().limit(PAGES);
+      const { data } = await supabase.from("posts").select().order("created_at", { ascending: false }).limit(PAGES);
       setPosts(data);
       console.log(data);
     } catch (error) {
@@ -22,7 +22,7 @@ const useFetchPosts = () => {
 
   useEffect(() => {
     fetchPosts();
-    
+
     // // 실시간 구독
     // const channel = supabase
     //   .channel("posts")
