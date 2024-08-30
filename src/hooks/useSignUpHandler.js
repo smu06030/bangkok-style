@@ -5,7 +5,7 @@ const useSignUpHandler = () => {
   const navigate = useNavigate();
   const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
   const password_regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
-
+  
   const onSignUpHandler = async (event, signUpInputs) => {
     event.preventDefault();
     if (!email_regex.test(signUpInputs.email)) {
@@ -38,7 +38,7 @@ const useSignUpHandler = () => {
       }
     });
 
-    if (error?.message === "User already registered") {
+    if (error.message === "User already registered") {
       alert("이미 존재하는 아이디입니다.");
       return;
     }

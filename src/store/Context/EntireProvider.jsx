@@ -1,14 +1,23 @@
 import { useEffect, useReducer } from "react";
 import EntireContext from "./EntireContext";
 import { signInitialState, signInReducer } from "../reducers/signInReducer";
+import { postsInitialState, postsReducer } from "../reducers/postsReducer";
 import supabase from "../../supabaseClient";
 
 const EntireProvider = ({ children }) => {
   // 로그인 context
   const [signState, signDispatch] = useReducer(signInReducer, signInitialState);
+  // 게시물 context
+  const [postsState, postsDispatch] = useReducer(postsReducer, postsInitialState);
 
-  const signContext = {
+  const setPosts = (posts) => {
+    postsDispatch({ type: "SET_DATA", posts });
+  };
+
+  const entireContext = {
     isSignIn: signState,
+    posts: postsState,
+    setPosts,
     signIn: (payload) => signDispatch({ type: "SIGN_IN", payload }),
     signOut: () => signDispatch({ type: "SIGN_OUT" })
   };
@@ -29,7 +38,7 @@ const EntireProvider = ({ children }) => {
     };
   }, []);
 
-  return <EntireContext.Provider value={signContext}>{children}</EntireContext.Provider>;
+  return <EntireContext.Provider value={entireContext}>{children}</EntireContext.Provider>;
 };
 
 export default EntireProvider;
