@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import EntireContext from "../../store/Context/EntireContext";
@@ -12,11 +12,23 @@ const Detail = () => {
   const [inputVal, setInputVal] = useState("");
   const [comments, setComments] = useState([]);
 
+  // 댓글 불러오기
+  useEffect(() => {
+    const storedComments = localStorage.getItem(`comments_${postId}`);
+    if (storedComments) {
+      setComments(JSON.parse(storedComments));
+      console.log("로컬스토리지 데이터 ->", JSON.parse(storedComments));
+    }
+  }, [postId]);
+
   if (!post) return <div>해당 post를 찾을 수 없습니다.</div>;
 
+  // 댓글 추가
   const handleAddComment = () => {
     if (inputVal.trim()) {
-      setComments((prev) => [...prev, inputVal]);
+      const newComments = [...comments, inputVal];
+      setComments(newComments);
+      localStorage.setItem(`comments_${postId}`, JSON.stringify(newComments));
       setInputVal("");
     }
   };
@@ -24,6 +36,7 @@ const Detail = () => {
     <OuterDiv>
       <PostDiv>
         <span>id: {post.user_id}</span>
+        <span>id: {post.id}</span>
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5QPTO0dfQhrhSVMfjUTjj-7uh1zyqNnjYCg&s"
           alt=""
@@ -36,7 +49,6 @@ const Detail = () => {
             <Heart src="https://velog.velcdn.com/images/bsjaehee94/post/09517912-428c-4edb-871e-8b474c141ad9/image.png" />
           )}
         </span>
-        <span>+ 99</span>
         <span>{post.hash_tag}</span>
         <span>{post.content}</span>
         <div style={{ display: "flex", gap: "5px" }}>
