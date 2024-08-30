@@ -3,7 +3,7 @@ import supabase from "../supabaseClient";
 import { useContext } from "react";
 import EntireContext from "../store/Context/EntireContext";
 
-const useSignHandler = () => {
+const useSignInHandler = () => {
   const navigate = useNavigate();
   const { signIn, signOut } = useContext(EntireContext);
 
@@ -20,7 +20,7 @@ const useSignHandler = () => {
       alert("로그인이 완료되었습니다.");
       navigate("/");
     } else {
-      alert("없는 계정입니다. 회원가입 하시겠습니까?");
+      alert("존재하지 않는 계정입니다.");
     }
   };
 
@@ -35,7 +35,8 @@ const useSignHandler = () => {
     alert("로그아웃 하였습니다.");
     window.location.reload();
   };
+
   return { onSignInHandler, onSignOutHandler };
 };
 
-export default useSignHandler;
+export default useSignInHandler;
