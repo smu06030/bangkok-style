@@ -1,9 +1,9 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Upload from "../../assets/images/Upload";
 import MyUser from "../../assets/images/MyUser";
 import Like from "../../assets/images/Like";
+import useSignHandler from "../../hooks/useSignHandler";
 
 const HeaderWrapper = styled.header`
   padding: 1.5rem;
@@ -43,6 +43,7 @@ const Logout = styled(Link)`
 `;
 
 const ProtectedHeader = () => {
+  const { onSignOutHandler } = useSignHandler();
   return (
     <HeaderWrapper>
       <Logo to="/">방콕 스타일</Logo>
@@ -57,7 +58,7 @@ const ProtectedHeader = () => {
         <Link to="/my-page">
           <MyUser width="24" height="24" />
         </Link>
-        <Logout>로그아웃</Logout>
+        <Logout onClick={onSignOutHandler}>로그아웃</Logout>
       </HeaderIcons>
     </HeaderWrapper>
   );
