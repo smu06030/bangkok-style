@@ -13,7 +13,7 @@ const ArticleHeader = styled.h2`
 `;
 
 const Article = styled.article`
-position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,8 +25,7 @@ const Links = styled(Link)`
   text-decoration: none;
 `;
 
-const PostWrapper = styled.div`
-`;
+const PostWrapper = styled.div``;
 
 const PostImageWrapper = styled.div`
   width: 100%;
@@ -89,7 +88,7 @@ const Posts = () => {
   // 게시글 보여주기
   const articles = posts.posts.map((post) => (
     <Article key={post.id}>
-      <Links>
+      <Links to={`/detail?id=${post.id}`}>
         <PostWrapper>
           <PostImageWrapper>
             <PostImage src={dummy} />

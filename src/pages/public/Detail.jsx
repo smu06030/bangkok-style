@@ -1,100 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import supabase from "../../supabaseClient";
 import { useLocation } from "react-router-dom";
+import EntireContext from "../../store/Context/EntireContext";
+import Like from "../../assets/images/Like";
 
 const Detail = () => {
   const location = useLocation();
-  const UrlParameter = new URLSearchParams(location.search);
+  const queryParams = new URLSearchParams(location.search);
+  const postId = queryParams.get("id");
+  console.log(postId);
+  const { posts } = useContext(EntireContext);
+  console.log("Posts:", posts);
+  const post = posts.posts.find((post) => post.id === Number(postId));
 
-  const [posts, setPosts] = useState([]);
-  const [isLike, setIsLike] = useState(false);
-  const getPosts = async () => {
-    let { data: posts, error } = await supabase.from("posts").select("*");
-    if (error) {
-      console.log(error);
-    }
-    setPosts(posts);
-  };
-  useEffect(() => {
-    getPosts();
-  }, []);
+  if (!post) return <div>해당 post를 찾을 수 없습니다.</div>;
 
-  console.log(posts);
-  const handleHeartClick = () => {
-    setIsLike((prev) => !prev);
-  };
   return (
     <OuterDiv>
-      {posts.map((post) => (
-        <Div key={post.id}>
-          <UserName>{post.username}</UserName>
-          <InnerDiv>
-            <Img src={post.img_url} alt="post image" />
-          </InnerDiv>
-          <TextDiv>
-            <span onClick={handleHeartClick}>
-              <img
-                style={{ width: "1em" }}
-                src={
-                  isLike
-                    ? "https://velog.velcdn.com/images/bsjaehee94/post/589d104f-1104-43db-980a-548d879ef168/image.png"
-                    : "https://velog.velcdn.com/images/bsjaehee94/post/09517912-428c-4edb-871e-8b474c141ad9/image.png"
-                }
-                alt="heart icon"
-              />
-            </span>
-
-            <span>{post.hash_tag}</span>
-            <span>{post.content}</span>
-            <span>댓글을 남겨주세요.</span>
-          </TextDiv>
-        </Div>
-      ))}
+      <PostDiv>
+        <span>id: {post.id}</span>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5QPTO0dfQhrhSVMfjUTjj-7uh1zyqNnjYCg&s"
+          alt=""
+        />
+        {/* <img src={post.img_url} alt="" /> */}
+        <span>❤️</span>
+        <span>+ 99</span>
+        <span>{post.hash_tag}</span>
+        <span>{post.content}</span>
+      </PostDiv>
     </OuterDiv>
   );
 };
-
 export default Detail;
 
 const OuterDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: auto;
-  max-width: 20%;
-  height: 50%;
+  justify-content: center;
+  align-items: center;
+  max-width: 30%;
+  height: calc(100vh - 80px);
+  margin: 0 auto;
 
   span {
     margin-bottom: 10px;
   }
 `;
 
-const Div = styled.div`
+const PostDiv = styled.div`
   display: flex;
   flex-direction: column;
+  margin: auto;
+
   border: 1px solid lightgray;
   padding: 1em;
   width: 100%;
   border-radius: 1rem;
-`;
-
-const InnerDiv = styled.div`
-  margin: auto;
-`;
-
-const UserName = styled.p`
-  margin: 15px;
-`;
-const Img = styled.img`
-  flex: 1;
-  max-width: 100%;
-  max-height: 60vh;
-  object-fit: contain;
-  margin-bottom: 1em;
-`;
-
-const TextDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 1%;
 `;

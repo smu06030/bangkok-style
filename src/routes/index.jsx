@@ -21,12 +21,12 @@ const Routes = () => {
           element: <PublicHome />
         },
         {
-          path: "detail",
-          element: <Detail />
-        },
-        {
           path: "/Like",
           element: <Like />
+        },
+        {
+          path: "/detail",
+          element: <Detail />
         }
       ]
     }
