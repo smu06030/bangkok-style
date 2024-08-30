@@ -70,7 +70,7 @@ const PostCard = ({ post }) => {
 
   // 게시글 보여주기
   const postCard = (
-    <Links>
+    <Links to={`/detail?id=${post.id}`}>
       <PostWrapper>
         <PostImageWrapper>
           <PostImage src={dummy} />

@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import EntireContext from "../../store/Context/EntireContext";
-import Like from "../../assets/images/Like";
 
 const Detail = () => {
   const location = useLocation();
@@ -24,10 +23,14 @@ const Detail = () => {
           alt=""
         />
         {/* <img src={post.img_url} alt="" /> */}
-        <span>❤️</span>
+        <span style={{ marginTop: "5px" }}>❤️</span>
         <span>+ 99</span>
         <span>{post.hash_tag}</span>
         <span>{post.content}</span>
+        <div style={{ display: "flex", gap: "5px" }}>
+          <CommentInput placeholder="댓글을 입력해주세요" />
+          <button>추가</button>
+        </div>
       </PostDiv>
     </OuterDiv>
   );
@@ -57,4 +60,14 @@ const PostDiv = styled.div`
   padding: 1em;
   width: 100%;
   border-radius: 1rem;
+`;
+
+const CommentInput = styled.input`
+  flex: 1;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+  ::placeholder {
+    font-size: 14px;
+  }
 `;
