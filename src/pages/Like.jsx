@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import EntireContext from "../store/Context/EntireContext";
 import { useNavigate } from "react-router-dom";
-import SignIn from "./public/SignIn";
 
 const LikeContainer = styled.div`
   display: flex;
@@ -32,28 +31,24 @@ const ImageStyle = styled.img`
 `;
 
 const Like = () => {
-  const { isSignIn } = useContext(EntireContext);
+  const { isSignIn, saveLikeIDArray } = useContext(EntireContext);
+  const [likedPosts, setLikedPosts] = useState([]);
+
   const navigate = useNavigate();
 
   const handleSignIn = () => {
     navigate("/sign-in");
   };
 
-  const [likedPhotos, setLikedPhotos] = useState([]);
-
   useEffect(() => {
-    // 좋아요 한 사진 데이터를 불러오는 로직
-    const fetchLikedPhotos = async () => {
-      const savedPhotos = await getLikedPhotosFromDB(); // DB에서 데이터 가져오기
-      setLikedPhotos(savedPhotos);
-    };
-    fetchLikedPhotos();
-  }, []);
+    const fetchLikedPosts = async () => {
+      const { data } = await supabase.from("posts").select().in("id", saveLikeIDArray);
 
-  const handleUnlike = (event, photoID) => {
-    saveButtonEvent(event);
-    setLikedPhotos((prevPhotos) => prevPhotos.filter((id) => id !== photoID));
-  };
+      setLikedPosts(data);
+    };
+
+    fetchLikedPosts();
+  }, [saveLikeIDArray]);
 
   return (
     <LikeContainer>
@@ -70,12 +65,12 @@ const Like = () => {
           <TitleStyle>
             <h1>좋아요</h1>
           </TitleStyle>
-          {likedPhotos.length > 0 ? (
-            likedPhotos.map((photoID, index) => (
-              <CardStyle>
+          {likedPosts.length > 0 ? (
+            likedPosts.map((post) => (
+              <CardStyle key={post.id} id={post.id}>
                 <div key={index} id={photoID}>
-                  <ImageStyle img src={`https://example.com/${photoID}.jpg`} alt={`Photo ${index + 1}`} />
-                  <button onClick={(event) => handleUnlike(event, photoID)}>좋아요 해제</button>
+                  <ImageStyle img src={post.imageUrl} alt={post.title} />
+                  <button onClick={(event) => saveButtonEvent(event)}>좋아요 해제</button>
                 </div>
               </CardStyle>
             ))
@@ -91,9 +86,9 @@ const Like = () => {
 export default Like;
 
 /* 
-  1. 인증 상태 확인 
-  2. 비로그인 시, 로그인 하라는 컴포넌트 띄우기 
-  3. 로그인 시, '좋아요' 한 사진들 띄우기 
+  1. 인증 상태 확인 o
+  2. 비로그인 시, 로그인 하라는 컴포넌트 띄우고 이동 o
+  3. 로그인 시, '좋아요' 한 사진 데이터 가져오기
   4. 사진 '좋아요' 버튼 클릭 시, '좋아요' 해제 및 좋아요 페이지에서 삭제 
   4. '좋아요' 한 사진들 클릭 시 디테일 페이지로 이동
   5. 메인 페이지에서 사진에 '좋아요' 버튼 띄우고 '좋아요' 버튼 클릭 시 해당 데이터 좋아요 페이지로 이동
