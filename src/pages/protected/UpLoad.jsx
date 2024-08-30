@@ -8,6 +8,7 @@ const UpLoad = () => {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  // const [userId, setUserId] = useState("");
   //const [hashtag, setHashtag] = useState([]);
   const [previewUrls, setPreviewUrls] = useState(""); // 이미지 프리뷰 상태 추가
   const [fashionUrl, setFashionUrl] = useState("");
@@ -15,7 +16,9 @@ const UpLoad = () => {
   const fileInputRef = useRef(null);
 
   const { isSignIn } = useContext(EntireContext);
-  console.log("isSignIn", isSignIn);
+
+  const loginUserId = isSignIn.id;
+  console.log("userId===>", loginUserId);
 
   const navigate = useNavigate();
 
@@ -42,7 +45,7 @@ const UpLoad = () => {
         created_at: Date.now(),
         title: prompt("수정할 제목을 입력해주세요."),
         content: prompt("수정할 내용을 입력해주세요."),
-        user_id: "",
+        user_id: loginUserId,
         hash_tag: ["#멋쟁이", "#데일리"],
         img_url: prompt("수정할 이미지")
       })
@@ -103,16 +106,18 @@ const UpLoad = () => {
     e.preventDefault();
     await supabase.from("posts").insert([
       {
-        create_at: Date.now(),
         title,
         content,
-        hashtag: ["#멋쟁이", "#데일리"],
-        fashionUrl
-        // user_id: user_id
+        hash_tag: ["#멋쟁이", "#데일리"],
+        img_url: fashionUrl,
+        user_id: loginUserId,
+        like: false
       }
     ]);
 
     // 업로드되면 알림뜨고 리다이렉트
+    setTitle("");
+    setContent("");
   };
 
   // 게시글 생성하기
