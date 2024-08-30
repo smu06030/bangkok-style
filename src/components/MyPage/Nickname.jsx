@@ -1,32 +1,37 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "../../supabaseClient";
 
 const Nickname = () => {
   const [nickname, setNickname] = useState("");
+  const [updateNickname, setUpdateNickname] = useState("");
 
-  const handleNicknameChange = (e) => {
-    setNickname(e.target.value);
-  };
+  useEffect(() => {
+    checkNickname();
+  }, []);
 
-  async function handleNicknameUpdate() {
+  const checkNickname = async () => {
     const {
       data: { user }
     } = await supabase.auth.getUser();
-    console.log(user.user_metadata.nickname);
+    setNickname(user.user_metadata.nickname.updateNickname);
+  };
 
-    const { data, error } = await supabase.auth.updateUser({
-      data: { nickname: "world" }
+  const handleNicknameChange = (e) => {
+    setUpdateNickname(e.target.value);
+  };
+
+  const handleNicknameUpdate = async () => {
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: { nickname: { updateNickname } }
     });
-  }
-
-  useEffect(() => {
-    handleNicknameUpdate();
-  }, []);
+    setNickname(updateNickname);
+  };
 
   return (
     <>
-      <h2>NickName</h2>;
-      <input type="text" placeholder="닉네임 수정" onChange={handleNicknameChange} />
+      <h2>{nickname}</h2>
+      <input type="text" placeholder="변경 닉네임" value={updateNickname} onChange={handleNicknameChange} />
+      <button onClick={handleNicknameUpdate}>수정</button>
     </>
   );
 };

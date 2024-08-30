@@ -1,4 +1,3 @@
-import React from "react";
 import Avatar from "../../components/MyPage/Avatar";
 import Nickname from "../../components/MyPage/NickName";
 
