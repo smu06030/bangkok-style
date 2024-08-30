@@ -1,10 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import supabase from "../../supabaseClient";
-import EntireContext from "../../store/Context/EntireContext";
+import React from "react";
 import { Link } from "react-router-dom";
 import dummy from "../../assets/images/dummy.jpg";
 import styled from "styled-components";
 import Like from "../../assets/images/Like";
+import useFetchPosts from "../../hooks/useFetchPosts";
 
 const ArticleHeader = styled.h2`
   margin-top: 2rem;
@@ -73,18 +72,7 @@ const PostContent = styled.div`
 `;
 
 const Posts = () => {
-  const { posts, setPosts } = useContext(EntireContext);
-  const PAGES = 10;
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const { data } = await supabase.from("posts").select().limit(PAGES);
-
-      setPosts(data);
-      console.log(data);
-    };
-    fetchPosts();
-  }, [PAGES]);
+  const { posts } = useFetchPosts();
 
   // 게시글 보여주기
   const articles = posts.posts.map((post) => (
