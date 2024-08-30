@@ -1,17 +1,20 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SignInputs from "../../components/SignInputs";
 import { useLocation, useNavigate } from "react-router-dom";
-import useSignHandler from "../../hooks/useSignHandler";
+import useSignInHandler from "../../hooks/useSignInHandler";
+import supabase from "../../supabaseClient";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { onSignInHandler } = useSignHandler();
+  const { onSignInHandler } = useSignInHandler();
   const [signInInputs, setInInputs] = useState({ email: "", password: "" });
 
   const signUpInfo = useLocation().state ?? { email: "", password: "" };
   useEffect(() => {
     signUpInfo && setInInputs({ email: signUpInfo.email, password: signUpInfo.password });
   }, []);
+
+
 
   // const signInWithGithub = async (event) => {
   //   event.preventDefault();
