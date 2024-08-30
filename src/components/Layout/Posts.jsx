@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Loading from "../../assets/images/Loading";
 
 const PostsWrapper = styled.div`
-   text-align: center;
+  text-align: center;
 `;
 
 const ArticleHeader = styled.h2`
@@ -28,17 +28,33 @@ const Article = styled.article`
   padding: 0;
 `;
 
+const LoadingWrapper = styled.div`
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+`;
+
 const Posts = () => {
   const { posts, loading } = useFetchPosts();
 
   const postCard = posts.posts.map((post) => <PostCard key={post.id} post={post} />);
-  const showLoading = loading && <Loading />;
   const showPosts = posts.posts.length ? <Article>{postCard}</Article> : <h2>게시글이 없습니다.</h2>;
-  
+
+  if (loading) {
+    return (
+      <LoadingWrapper>
+        <Loading />
+      </LoadingWrapper>
+    );
+  }
+
   return (
     <PostsWrapper>
       <ArticleHeader>방콕 스타일</ArticleHeader>
-      {showLoading}
       {showPosts}
     </PostsWrapper>
   );
