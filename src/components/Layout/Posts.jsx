@@ -1,9 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import dummy from "../../assets/images/dummy.jpg";
-import styled from "styled-components";
-import Like from "../../assets/images/Like";
 import useFetchPosts from "../../hooks/useFetchPosts";
+import PostCard from "./PostCard";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ArticleHeader = styled.h2`
   margin-top: 2rem;
@@ -73,31 +72,12 @@ const PostContent = styled.div`
 const Posts = () => {
   const { posts } = useFetchPosts();
 
-  // 게시글 보여주기
-  const articles = posts.posts.map((post) => (
-    <Article key={post.id}>
-      <Links>
-        <PostWrapper>
-          <PostImageWrapper>
-            <PostImage src={dummy} />
-          </PostImageWrapper>
-          <PostTitle>
-            <Title>{post.title}</Title>
-            <LikeIcon>
-              <Like width="24" height="24" />
-            </LikeIcon>
-          </PostTitle>
-          <PostHashTag>{post.hash_tag}</PostHashTag>
-          <PostContent>{post.content}</PostContent>
-        </PostWrapper>
-      </Links>
-    </Article>
-  ));
+  const postCard = posts.posts.map((post) => <PostCard key={post.id} post={post} />);
 
   return (
     <>
       <ArticleHeader>방콕 스타일</ArticleHeader>
-      {articles}
+      <Article>{postCard}</Article>
     </>
   );
 };

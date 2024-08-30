@@ -3,10 +3,12 @@ import styled from "styled-components";
 
 const Svg = styled.svg`
   padding: 6px;
+  transition: all 0.3s;
 
   &:hover {
     border-radius: 100%;
     background-color: rgba(0, 0, 0, 0.04);
+    transform: scale(1.2);
   }
 `;
 

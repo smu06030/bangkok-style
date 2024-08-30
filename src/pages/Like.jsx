@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import EntireContext from "../store/Context/EntireContext";
 import { useNavigate } from "react-router-dom";
+import supabase from "../supabaseClient";
 
 const LikeContainer = styled.div`
   display: flex;
@@ -31,8 +32,9 @@ const ImageStyle = styled.img`
 `;
 
 const Like = () => {
-  const { isSignIn, saveLikeIDArray } = useContext(EntireContext);
+  const { userInfo } = useContext(EntireContext);
   const [likedPosts, setLikedPosts] = useState([]);
+  const PAGES = 10;
 
   const navigate = useNavigate();
 
@@ -41,18 +43,28 @@ const Like = () => {
   };
 
   useEffect(() => {
-    const fetchLikedPosts = async () => {
-      const { data } = await supabase.from("posts").select().in("id", saveLikeIDArray);
+    fetchLikedPosts(); // 함수 이름 변경
+  }, [PAGES]);
 
-      setLikedPosts(data);
-    };
+  const fetchLikedPosts = async () => {
+    const { data, error } = await supabase
+      .from("posts")
+      .select()
+      .eq("like", true) // 'like' 값이 true인 데이터만 가져오기
+      .limit(PAGES);
 
-    fetchLikedPosts();
-  }, [saveLikeIDArray]);
+    if (error) {
+      console.error("Error fetching liked posts:", error);
+      return;
+    }
+
+    setLikedPosts(data);
+    console.log(data);
+  };
 
   return (
     <LikeContainer>
-      {!isSignIn ? (
+      {!userInfo ? (
         <div>
           <TitleStyle>
             <h1>좋아요</h1>
@@ -68,10 +80,8 @@ const Like = () => {
           {likedPosts.length > 0 ? (
             likedPosts.map((post) => (
               <CardStyle key={post.id} id={post.id}>
-                <div key={index} id={photoID}>
-                  <ImageStyle img src={post.imageUrl} alt={post.title} />
-                  <button onClick={(event) => saveButtonEvent(event)}>좋아요 해제</button>
-                </div>
+                <ImageStyle img src={post.imageUrl} alt={post.title} />
+                <button onClick={(event) => setLikedPosts(event)}>좋아요 해제</button>
               </CardStyle>
             ))
           ) : (
