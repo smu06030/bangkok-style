@@ -1,52 +1,13 @@
 import { useState } from "react";
-import supabase from "../../supabaseClient";
 import SignInputs from "../../components/SignInputs";
-import { useNavigate } from "react-router-dom";
+import useSignUpHandler from "../../hooks/useSignUpHandler";
 
 const SignUp = () => {
-  const navigate = useNavigate();
+  const { onSignUpHandler } = useSignUpHandler();
   const [signUpInputs, setIdInputs] = useState({ email: "", password: "", verifyPassword: "", nickname: "" });
 
   const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
   const password_regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
-  const onSignUpHandler = async (event) => {
-    event.preventDefault();
-    if (!email_regex.test(signUpInputs.email)) {
-      alert("잘못된 아이디입니다.");
-      return;
-    }
-
-    if (!password_regex.test(signUpInputs.password)) {
-      alert("잘못된 비밀번호입니다.");
-      return;
-    }
-
-    if (signUpInputs.password !== signUpInputs.verifyPassword) {
-      alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-      return;
-    }
-
-    if (signUpInputs.nickname.trim().length === 0) {
-      alert("닉네임을 입력해주세요.");
-      return;
-    }
-
-    const { data } = await supabase.auth.signUp({
-      email: signUpInputs.email,
-      password: signUpInputs.password,
-      options: {
-        data: {
-          nickname: signUpInputs.nickname
-        }
-      }
-    });
-    if (data.user) {
-      alert("회원가입이 완료되었습니다.");
-      navigate("/sign-in", { state: { email: signUpInputs.email, password: signUpInputs.password } });
-    } else {
-      alert("회원가입에 실패했습니다.");
-    }
-  };
 
   const signUpInputsElements = [
     {
@@ -88,7 +49,7 @@ const SignUp = () => {
           return <SignInputs key={index} inputs={signUpInputs} setInputs={setIdInputs} element={element} />;
         })}
       </fieldset>
-      <button onClick={(e) => onSignUpHandler(e)}>회원가입</button>
+      <button onClick={(e) => onSignUpHandler(e, signUpInputs)}>회원가입</button>
     </form>
   );
 };
