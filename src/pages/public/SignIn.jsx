@@ -24,7 +24,7 @@ const SignIn = () => {
           name={"email"}
           type={"text"}
           placeholder={"이메일을 입력해주세요."}
-          terms={EMAIL_REGEX.test(signInInputs.email) || "아이디는 이메일 형식입니다."}
+          terms={EMAIL_REGEX.test(signInInputs.email) || "이메일 형식으로 입력해주세요."}
         />
         <SignInput
           regex={PASSWORD_INPUT_REGEX}
