@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useSignInHandler from "../../hooks/useSignInHandler";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX } from "../../constant/regularExpression";
+import { Toaster } from "sonner";
 
 const PasswordRecovery = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const PasswordRecovery = () => {
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       <h2>비밀번호 찾기</h2>
       <SignFrom>
         <SignInput

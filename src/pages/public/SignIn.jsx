@@ -5,6 +5,7 @@ import useSignInHandler from "../../hooks/useSignInHandler";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import styled from "styled-components";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
+import { Toaster } from "sonner";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const SignIn = () => {
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       <h2>로그인</h2>
       <SignFrom>
         <SignInput

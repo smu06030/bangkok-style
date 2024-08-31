@@ -4,6 +4,7 @@ import SignInput from "../../components/SignInputs";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import { useNavigate } from "react-router-dom";
+import { Toaster } from "sonner";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const SignUp = () => {
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       <h2>회원가입</h2>
       <SignFrom>
         <SignInput

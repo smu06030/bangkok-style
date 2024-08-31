@@ -1,14 +1,14 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import SignIn from "../pages/public/SignIn";
 import SignUp from "../pages/public/SignUp";
 import PublicHome from "../pages/public/Home";
-import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 import Like from "../pages/Like";
 import PasswordRecovery from "../pages/public/PasswordRecovery";
+import PrivateRoute from "./PrivateRoute";
+import MyPage from "../pages/private/MyPage";
 
 const Routes = () => {
   // 모든 사용자 접근 가능
@@ -60,7 +60,7 @@ const Routes = () => {
   const authorizedRoutes = [
     {
       path: "/",
-      element: <ProtectedRoute />,
+      element: <PrivateRoute />,
       children: [
         {
           element: <Layout />,

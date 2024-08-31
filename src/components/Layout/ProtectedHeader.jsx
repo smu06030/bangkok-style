@@ -4,6 +4,7 @@ import Upload from "../../assets/images/Upload";
 import MyUser from "../../assets/images/MyUser";
 import { Like } from "../../assets/images/Likes";
 import useSignInHandler from "../../hooks/useSignInHandler";
+import { Toaster } from "sonner";
 
 const HeaderWrapper = styled.header`
   padding: 1.5rem;
@@ -46,6 +47,7 @@ const ProtectedHeader = () => {
   const { onSignOutHandler } = useSignInHandler();
   return (
     <HeaderWrapper>
+      <Toaster position="top-center" richColors />
       <Logo to="/">방콕 스타일</Logo>
 
       <HeaderIcons>
