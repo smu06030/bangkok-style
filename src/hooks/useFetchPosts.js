@@ -1,8 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import supabase from "../supabaseClient";
 import EntireContext from "../Context/EntireContext";
 import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData";
 import { LIMIT_NUMBER } from "../constant/constants";
+import getAllData from "../services/getAllDataService";
+import formattedLikeData from "../utils/formattedLikeData";
 
 const useFetchPosts = () => {
   const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
@@ -10,26 +11,15 @@ const useFetchPosts = () => {
 
   useEffect(() => {
     fetchPosts();
+  }, [userInfo]);
 
-    // // 실시간 구독
-    // const channel = supabase
-    //   .channel("posts")
-    //   .on("postgres_changes", { event: "UPDATE", schema: "public", table: "posts" }, (payload) => {
-    //     console.log(payload)
-    //     fetchPosts(); // 데이터가 변경되면 다시 가져오기
-    //   })
-    //   .subscribe();
-
-    // return () => {
-    //   supabase.removeChannel(channel); // 클린업 함수
-    // };
-  }, []); //fetchPosts
-
-  const fetchPosts = useCallback(async () => {
+  const fetchPosts = async () => {
+    setLoading(true);
     try {
-      // 전체 게시글 데이터 가져오기
-      setLoading(true);
-      const { data } = await supabase.from("posts").select().order("created_at", { ascending: false });
+      // 로그인 유무 확인
+      const userId = !!userInfo ? userInfo.id : null;
+      const response = await getAllData(userId)
+      const data = formattedLikeData(response, userId)
 
       // 전체 게시글 데이터 저장
       setAllPosts(data);
@@ -42,7 +32,7 @@ const useFetchPosts = () => {
     } finally {
       setLoading(false);
     }
-  }, [allPosts]);
+  }
 
   return {
     allPosts,

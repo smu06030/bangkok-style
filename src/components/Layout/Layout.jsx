@@ -12,7 +12,7 @@ const Main = styled.main`
 
 const Layout = () => {
   const { userInfo } = useContext(EntireContext);
-
+  
   return (
     <Container>
       {userInfo ? <ProtectedHeader /> : <PublicHeader />}

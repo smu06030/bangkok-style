@@ -78,19 +78,19 @@ const PostContent = styled.div`
   ${commonStyles}
 `;
 
-const PostCard = ({ post, isLogin }) => {
-  const { id: post_id, img_url, like, title, hash_tag, content, user_id } = post;
-  const [isLike, setIsLike] = useState(like);
+const PostCard = ({ post, userInfo }) => {
+  const { id: post_id, img_url, isLiked, title, hash_tag, content } = post;
+  const [isLike, setIsLike] = useState(isLiked);
   const navigate = useNavigate();
-
+  
   const toggleLike = async () => {
-    if (!isLogin) {
+    if (!userInfo) {
       alert('로그인이 필요합니다.');
       return navigate('/sign-in')
     }
     
     setIsLike(!isLike);
-    await updateLikeStatus(post_id, user_id, isLike);
+    await updateLikeStatus(post_id, userInfo.id, isLike);
   };
   
   // 게시글 보여주기
