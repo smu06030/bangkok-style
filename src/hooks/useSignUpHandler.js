@@ -3,34 +3,34 @@ import { EMAIL_REGEX, PASSWORD_REGEX } from "../constant/regularExpression";
 
 const useSignUpHandler = () => {
   // 회원가입 함수
-  const onSignUpHandler = async (event, signUpInputs) => {
+  const onSignUpHandler = async (event, enteredInfo) => {
     event.preventDefault();
-    if (!EMAIL_REGEX.test(signUpInputs.email)) {
+    if (!EMAIL_REGEX.test(enteredInfo.email)) {
       alert("잘못된 아이디입니다.");
       return;
     }
 
-    if (!PASSWORD_REGEX.test(signUpInputs.password)) {
+    if (!PASSWORD_REGEX.test(enteredInfo.password)) {
       alert("잘못된 비밀번호입니다.");
       return;
     }
 
-    if (signUpInputs.password !== signUpInputs.verifyPassword) {
+    if (enteredInfo.password !== enteredInfo.verifyPassword) {
       alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       return;
     }
 
-    if (signUpInputs.nickname.trim().length === 0) {
+    if (enteredInfo.nickname.trim().length === 0) {
       alert("닉네임을 입력해주세요.");
       return;
     }
 
     const { data, error } = await supabase.auth.signUp({
-      email: signUpInputs.email,
-      password: signUpInputs.password,
+      email: enteredInfo.email,
+      password: enteredInfo.password,
       options: {
         data: {
-          nickname: signUpInputs.nickname
+          nickname: enteredInfo.nickname
         }
       }
     });
@@ -40,8 +40,7 @@ const useSignUpHandler = () => {
       return;
     }
     if (data.user) {
-      alert(`회원가입이 완료되었습니다.
-        ${signUpInputs.nickname}님 환영합니다.`);
+      alert(`회원가입이 완료되었습니다. ${enteredInfo.nickname}님 환영합니다.`);
     } else {
       alert("회원가입에 실패했습니다.");
       console.log(error.message);

@@ -9,7 +9,7 @@ import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } 
 const SignIn = () => {
   const navigate = useNavigate();
   const { onSignInHandler, signInWithGithub } = useSignInHandler();
-  const [signInInputs, setInInputs] = useState({ email: "", password: "" });
+  const [signInInputs, setSignInInputs] = useState({ email: "", password: "" });
 
   return (
     <>
@@ -19,7 +19,7 @@ const SignIn = () => {
           firstFocus={true}
           regex={EMAIL_INPUT_REGEX}
           inputs={signInInputs}
-          setInputs={setInInputs}
+          setInputs={setSignInInputs}
           label={"아이디"}
           name={"email"}
           type={"text"}
@@ -29,7 +29,7 @@ const SignIn = () => {
         <SignInput
           regex={PASSWORD_INPUT_REGEX}
           inputs={signInInputs}
-          setInputs={setInInputs}
+          setInputs={setSignInInputs}
           label={"비밀번호"}
           name={"password"}
           type={"password"}
@@ -44,7 +44,7 @@ const SignIn = () => {
           <SignBtn onClick={(e) => signInWithGithub(e)}>github 로그인</SignBtn>
         </BtnBundle>
         <NavGuide>
-          <p>회원이 아니신가요?</p>
+          <SignNav onClick={() => navigate("/password-recovery")}>비밀번호 찾기</SignNav>
           <SignNav onClick={() => navigate("/sign-up")}>회원가입하기</SignNav>
         </NavGuide>
       </SignFrom>{" "}

@@ -8,6 +8,7 @@ import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 import Like from "../pages/Like";
+import PasswordRecovery from "../pages/public/PasswordRecovery";
 
 const Routes = () => {
   // 모든 사용자 접근 가능
@@ -44,6 +45,10 @@ const Routes = () => {
             {
               path: "/sign-up",
               element: <SignUp />
+            },
+            {
+              path: "/password-recovery",
+              element: <PasswordRecovery />
             }
           ]
         }
