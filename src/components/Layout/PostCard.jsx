@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import dummy from "../../assets/images/dummy.jpg";
 import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
-import updateLikeStatus from "../../utils/updateLikeStatus";
+import likeService from "../../services/likeService";
 
 const Links = styled(Link)`
   color: #000;
@@ -80,7 +80,7 @@ const PostCard = ({ post }) => {
 
   const toggleLike = async () => {
     setIsLike(!isLike);
-    await updateLikeStatus(post_id, user_id, isLike);
+    await likeService(post_id, user_id, isLike);
   };
 
   // 게시글 보여주기
