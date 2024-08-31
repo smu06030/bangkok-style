@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Upload from "../../assets/images/Upload";
 import MyUser from "../../assets/images/MyUser";
-import Like from "../../assets/images/Like";
+import { Like } from "../../assets/images/Likes";
 import useSignInHandler from "../../hooks/useSignInHandler";
 
 const HeaderWrapper = styled.header`
