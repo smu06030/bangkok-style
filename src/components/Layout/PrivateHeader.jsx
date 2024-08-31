@@ -43,7 +43,7 @@ const Logout = styled(Link)`
   ${linkStyles}
 `;
 
-const ProtectedHeader = () => {
+const PrivateHeader = () => {
   const { onSignOutHandler } = useSignInHandler();
   return (
     <HeaderWrapper>
@@ -66,4 +66,4 @@ const ProtectedHeader = () => {
   );
 };
 
-export default ProtectedHeader;
+export default PrivateHeader;

@@ -16,7 +16,7 @@ const useSignInHandler = () => {
     }
 
     if (!EMAIL_REGEX.test(enteredInfo.email)) {
-      toast.error("잘못된 아이디입니다.");
+      toast.error("아이디를 이메일 형식으로 입력해주세요.");
       return;
     }
 
@@ -26,7 +26,7 @@ const useSignInHandler = () => {
     }
 
     if (!PASSWORD_REGEX.test(enteredInfo.password)) {
-      toast.error("잘못된 비밀번호입니다.");
+      toast.error("비밀번호는 숫자, 특수문자, 영어를 포함해야합니다.");
       return;
     }
 
