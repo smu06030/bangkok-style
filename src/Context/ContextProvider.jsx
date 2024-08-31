@@ -8,8 +8,8 @@ const ContextProvider = ({ children }) => {
   const [userInfo, userInfoDispatch] = useReducer(signInReducer, signInitialState);
   // 게시물 state
   const [postsState, postsDispatch] = useReducer(postsReducer, postsInitialState);
-  // 게시물 setter함수
 
+  // 게시물 setter함수
   const setAllPosts = (allPosts) => {
     postsDispatch({ type: "ALL_POSTS", allPosts });
   };
