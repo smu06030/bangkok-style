@@ -1,7 +1,7 @@
 import React from "react";
 import supabase from "../supabaseClient";
 
-const likeService = async (post_id, user_id, like) => {
+const updateLikeStatus = async (post_id, user_id, like) => {
   try {
     const { data } = await supabase
       .from("posts")
@@ -14,4 +14,4 @@ const likeService = async (post_id, user_id, like) => {
   }
 };
 
-export default likeService;
+export default updateLikeStatus;

@@ -38,11 +38,21 @@ const LoadingWrapper = styled.div`
   z-index: 100;
 `;
 
-const Posts = () => {
-  const { posts, loading } = useFetchPosts();
+const Button = styled.button`
+  background-color: #1e293b;
+  color: white;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.5rem;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+`
 
-  const postCard = posts.posts.map((post) => <PostCard key={post.id} post={post} />);
-  const showPosts = posts.posts.length ? <Article>{postCard}</Article> : <h2>게시글이 없습니다.</h2>;
+const Posts = () => {
+  const { displayedPosts, loading } = useFetchPosts();
+
+  const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} />);
+  const showPosts = displayedPosts.length ? <Article>{postCard}</Article> : <h2>게시글이 없습니다.</h2>;
 
   if (loading) {
     return (
@@ -56,6 +66,7 @@ const Posts = () => {
     <PostsWrapper>
       <ArticleHeader>방콕 스타일</ArticleHeader>
       {showPosts}
+      <Button>더보기</Button>
     </PostsWrapper>
   );
 };

@@ -10,14 +10,20 @@ const EntireProvider = ({ children }) => {
   // 게시물 context
   const [postsState, postsDispatch] = useReducer(postsReducer, postsInitialState);
 
-  const setPosts = (posts) => {
-    postsDispatch({ type: "SET_DATA", posts });
+  const setAllPosts = (allPosts) => {
+    postsDispatch({ type: "ALL_POSTS", allPosts });
+  };
+
+  const setDisplayedPosts = (displayedPosts) => {
+    postsDispatch({ type: "DISPLAYED_POSTS", displayedPosts });
   };
 
   const entireContext = {
     userInfo,
-    posts: postsState,
-    setPosts,
+    allPosts: postsState.allPosts,
+    displayedPosts: postsState.displayedPosts,
+    setAllPosts,
+    setDisplayedPosts,
     signIn: (payload) => userInfoDispatch({ type: "SIGN_IN", payload }),
     signOut: () => userInfoDispatch({ type: "SIGN_OUT" })
   };

@@ -1,28 +1,18 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import supabase from "../supabaseClient";
 import EntireContext from "../store/Context/EntireContext";
+import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData";
 
 const useFetchPosts = () => {
-  const { posts, setPosts } = useContext(EntireContext);
+  const { displayedPosts, setAllPosts, setDisplayedPosts } = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
-  const PAGES = 10;
 
-  const fetchPosts = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data } = await supabase.from("posts").select().order('created_at', {ascending: false}).limit(PAGES);
-      setPosts(data);
-      console.log(data);
-    } catch (error) {
-      console.error("게시글 데이터를 가져오지 못했습니다.", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // 한번에 보여주는 게시글 수
+  const limitNumber = 10;
 
   useEffect(() => {
     fetchPosts();
-    
+
     // // 실시간 구독
     // const channel = supabase
     //   .channel("posts")
@@ -37,8 +27,27 @@ const useFetchPosts = () => {
     // };
   }, []); //fetchPosts
 
+  const fetchPosts = useCallback(async () => {
+    setLoading(true);
+    try {
+      // 전체 게시글 데이터 가져오기
+      const { data } = await supabase.from("posts").select().order("created_at", { ascending: false });
+
+      // 전체 게시글 데이터 저장
+      setAllPosts(data);
+
+      // 실제 화면에 보여줄 데이터 저장
+      setDisplayedPosts(filteredDisplayedPostsData(limitNumber, data));
+      console.log(data);
+    } catch (error) {
+      console.error("게시글 데이터를 가져오지 못했습니다.", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return {
-    posts,
+    displayedPosts,
     loading
   };
 };
