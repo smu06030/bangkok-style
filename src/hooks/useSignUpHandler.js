@@ -40,7 +40,8 @@ const useSignUpHandler = () => {
       return;
     }
     if (data.user) {
-      alert("회원가입이 완료되었습니다.");
+      alert(`회원가입이 완료되었습니다.
+        ${signUpInputs.nickname}님 환영합니다.`);
     } else {
       alert("회원가입에 실패했습니다.");
       console.log(error.message);

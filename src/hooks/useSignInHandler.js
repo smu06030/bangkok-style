@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
 import { useContext } from "react";
 import EntireContext from "../Context/EntireContext";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../constant/regularExpression";
 
 const useSignInHandler = () => {
-  const navigate = useNavigate();
   const { signOut } = useContext(EntireContext);
 
   // 로그인 함수
@@ -26,10 +24,7 @@ const useSignInHandler = () => {
       password: signInInputs.password
     });
 
-    if (data.user) {
-      alert("로그인이 완료되었습니다.");
-      navigate("/");
-    } else {
+    if (!data.user) {
       alert("존재하지 않는 계정입니다.");
     }
   };
