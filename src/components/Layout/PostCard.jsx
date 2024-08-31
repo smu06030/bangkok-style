@@ -5,6 +5,16 @@ import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 
+const commonStyles = `
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+`;
+
 const Links = styled(Link)`
   color: #000;
   text-decoration: none;
@@ -14,6 +24,7 @@ const PostWrapper = styled.div`
   /* width: 350px; */
   width: 100%;
   padding: 0 0 8px 0;
+  text-align: left;
 
   &:hover {
     border-radius: 0.3rem;
@@ -45,6 +56,7 @@ const PostTitle = styled.div`
 
 const Title = styled.span`
   font-size: 1.125rem;
+  ${commonStyles}
 `;
 
 const LikeIcon = styled.span`
@@ -53,25 +65,17 @@ const LikeIcon = styled.span`
 `;
 
 const PostHashTag = styled.div`
-  text-align: left;
   font-size: 0.875rem;
   padding: 0 6px 6px;
-  margin-top: -6px;
-  color: rgba(0, 0, 0, 0.5);
+  margin-top: -4px;
+  color: rgba(18, 93, 255, 0.9);
 `;
 
 const PostContent = styled.div`
-  width: 100%;
-  text-align: left;
   margin-top: 0.5rem;
   font-size: 0.875rem;
   padding: 2px 6px 2px;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: wrap;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  ${commonStyles}
 `;
 
 const PostCard = ({ post }) => {

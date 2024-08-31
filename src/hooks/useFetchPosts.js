@@ -4,7 +4,7 @@ import EntireContext from "../Context/EntireContext";
 import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData";
 
 const useFetchPosts = () => {
-  const { displayedPosts, setAllPosts, setDisplayedPosts } = useContext(EntireContext);
+  const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts} = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
 
   // 한번에 보여주는 게시글 수
@@ -47,7 +47,9 @@ const useFetchPosts = () => {
   }, []);
 
   return {
+    allPosts,
     displayedPosts,
+    setDisplayedPosts,
     loading
   };
 };

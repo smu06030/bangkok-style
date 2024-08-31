@@ -3,6 +3,8 @@ import useFetchPosts from "../../hooks/useFetchPosts";
 import PostCard from "./PostCard";
 import styled from "styled-components";
 import Loading from "../../assets/images/Loading";
+import Button from "../UI/Button";
+import { filteredDisplayedPostsData } from "../../utils/filteredDisplayedPostsData";
 
 const PostsWrapper = styled.div`
   text-align: center;
@@ -38,21 +40,20 @@ const LoadingWrapper = styled.div`
   z-index: 100;
 `;
 
-const Button = styled.button`
-  background-color: #1e293b;
-  color: white;
-  font-size: 0.875rem;
-  padding: 0.5rem 1.5rem;
-  margin: 1rem 0;
-  border-radius: 0.5rem;
-  cursor: pointer;
-`
-
 const Posts = () => {
-  const { displayedPosts, loading } = useFetchPosts();
+  const { allPosts, displayedPosts, setDisplayedPosts, loading } = useFetchPosts();
 
   const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} />);
-  const showPosts = displayedPosts.length ? <Article>{postCard}</Article> : <h2>게시글이 없습니다.</h2>;
+  const showPosts = displayedPosts.length ? (
+    <>
+      <Article>{postCard}</Article>
+      <Button onClick={() => setDisplayedPosts(filteredDisplayedPostsData(10, allPosts, displayedPosts))}>
+        더보기
+      </Button>
+    </>
+  ) : (
+    <h3>게시글이 없습니다.</h3>
+  );
 
   if (loading) {
     return (
@@ -66,7 +67,6 @@ const Posts = () => {
     <PostsWrapper>
       <ArticleHeader>방콕 스타일</ArticleHeader>
       {showPosts}
-      <Button>더보기</Button>
     </PostsWrapper>
   );
 };
