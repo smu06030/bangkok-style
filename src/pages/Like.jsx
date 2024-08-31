@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import EntireContext from "../store/Context/EntireContext";
+import EntireContext from "../Context/EntireContext";
 import { useNavigate } from "react-router-dom";
 import SignIn from "./public/SignIn";
 
