@@ -2,13 +2,11 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import supabase from "../supabaseClient";
 import EntireContext from "../Context/EntireContext";
 import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData";
+import { LIMIT_NUMBER } from "../constant/constants";
 
 const useFetchPosts = () => {
   const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts} = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
-
-  // 한번에 보여주는 게시글 수
-  const limitNumber = 10;
 
   useEffect(() => {
     fetchPosts();
@@ -37,7 +35,7 @@ const useFetchPosts = () => {
       setAllPosts(data);
 
       // 실제 화면에 보여줄 데이터 저장
-      setDisplayedPosts(filteredDisplayedPostsData(limitNumber, data));
+      setDisplayedPosts(filteredDisplayedPostsData(LIMIT_NUMBER, data));
       console.log(data);
     } catch (error) {
       console.error("게시글 데이터를 가져오지 못했습니다.", error);

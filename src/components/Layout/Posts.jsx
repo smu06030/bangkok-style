@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Loading from "../../assets/images/Loading";
 import Button from "../UI/Button";
 import { filteredDisplayedPostsData } from "../../utils/filteredDisplayedPostsData";
+import { LIMIT_NUMBER } from "../../constant/constants";
 
 const PostsWrapper = styled.div`
   text-align: center;
@@ -47,7 +48,7 @@ const Posts = () => {
   const showPosts = displayedPosts.length ? (
     <>
       <Article>{postCard}</Article>
-      <Button onClick={() => setDisplayedPosts(filteredDisplayedPostsData(10, allPosts, displayedPosts))}>
+      <Button onClick={() => setDisplayedPosts(filteredDisplayedPostsData(LIMIT_NUMBER, allPosts, displayedPosts))}>
         더보기
       </Button>
     </>
