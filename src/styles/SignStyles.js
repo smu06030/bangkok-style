@@ -8,7 +8,7 @@ export const SignFrom = styled.form`
 `;
 
 export const SignBtn = styled.button`
-  width: ${({ $signUp }) => ($signUp ? "450px" : "220px")};
+  width: ${({ $large }) => ($large ? "450px" : "220px")};
   font-size: 18px;
   height: 50px;
   cursor: pointer;

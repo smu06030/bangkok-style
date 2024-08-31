@@ -59,7 +59,7 @@ const SignUp = () => {
           placeholder={"닉네임을 입력해주세요."}
           terms={signUpInputs.nickname.trim().length === 0 && "닉네임을 입력해주세요."}
         />
-        <SignBtn $signUp={true} onClick={(e) => onSignUpHandler(e, signUpInputs)}>
+        <SignBtn $large={true} onClick={(e) => onSignUpHandler(e, signUpInputs)}>
           회원가입
         </SignBtn>
         <NavGuide>

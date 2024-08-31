@@ -25,7 +25,9 @@ const PasswordRecovery = () => {
           placeholder={"이메일을 입력해주세요."}
           terms={EMAIL_REGEX.test(emailInput.email) || "이메일 형식으로 입력해주세요."}
         />
-        <SignBtn onClick={(e) => recoveryPassword(e, emailInput)}>비밀번호 찾기</SignBtn>
+        <SignBtn $large={true} onClick={(e) => recoveryPassword(e, emailInput)}>
+          비밀번호 찾기
+        </SignBtn>
         <NavGuide>
           <SignNav onClick={() => navigate("/sign-up")}>회원가입하기</SignNav>
           <SignNav onClick={() => navigate("/sign-in")}>로그인하기</SignNav>
