@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
-const SignInputs = ({ inputs, setInputs, element }) => {
-  const { label, name, type, placeholder, terms } = element;
-
+const SignInput = ({ inputs, setInputs, label, name, type, placeholder, terms }) => {
+  // input들을 제어하는 함수
   const inputOnChange = (event) => {
     const { name, value } = event.target;
     setInputs((prev) => {
@@ -13,6 +12,7 @@ const SignInputs = ({ inputs, setInputs, element }) => {
     <>
       <legend>{label}</legend>
       <input
+        style={inputStyle}
         type={type}
         name={name}
         placeholder={placeholder}
@@ -24,7 +24,9 @@ const SignInputs = ({ inputs, setInputs, element }) => {
   );
 };
 
-export default SignInputs;
+export default SignInput;
+
+const inputStyle = { with: "500px" }
 
 const SignUpAlert = styled.p`
   color: red;

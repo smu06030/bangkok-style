@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import supabase from "../supabaseClient";
-import EntireContext from "../store/Context/EntireContext";
+import EntireContext from "../Context/EntireContext";
 
 const useFetchPosts = () => {
   const { posts, setPosts } = useContext(EntireContext);
