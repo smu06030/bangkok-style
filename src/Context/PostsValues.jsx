@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { postsInitialState, postsReducer } from "../modules/postsReducer";
 
-const PostsContext = () => {
+const PostsValues = () => {
   // 게시물 state
   const [postsState, postsDispatch] = useReducer(postsReducer, postsInitialState);
 
@@ -17,4 +17,4 @@ const PostsContext = () => {
   return { allPosts: postsState.allPosts, displayedPosts: postsState.displayedPosts, setAllPosts, setDisplayedPosts };
 };
 
-export default PostsContext;
+export default PostsValues;

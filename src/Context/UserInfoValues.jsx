@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import { signInitialState, signInReducer } from "../modules/signInReducer";
 
-const UserInfoContext = () => {
+const UserInfoValues = () => {
   // 로그인 state
   const [userInfo, userInfoDispatch] = useReducer(signInReducer, signInitialState);
 
@@ -12,4 +12,4 @@ const UserInfoContext = () => {
   };
 };
 
-export default UserInfoContext;
+export default UserInfoValues;
