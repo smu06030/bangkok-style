@@ -1,10 +1,9 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import "./index.css";
-import EntireProvider from "./store/Context/EntireProvider.jsx";
+import ContextProvider from "./Context/ContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <EntireProvider>
+  <ContextProvider>
     <App />
-  </EntireProvider>
+  </ContextProvider>
 );
