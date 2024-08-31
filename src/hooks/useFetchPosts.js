@@ -5,7 +5,7 @@ import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData"
 import { LIMIT_NUMBER } from "../constant/constants";
 
 const useFetchPosts = () => {
-  const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts} = useContext(EntireContext);
+  const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -26,9 +26,9 @@ const useFetchPosts = () => {
   }, []); //fetchPosts
 
   const fetchPosts = useCallback(async () => {
-    setLoading(true);
     try {
       // 전체 게시글 데이터 가져오기
+      setLoading(true);
       const { data } = await supabase.from("posts").select().order("created_at", { ascending: false });
 
       // 전체 게시글 데이터 저장
@@ -42,13 +42,14 @@ const useFetchPosts = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [allPosts]);
 
   return {
     allPosts,
     displayedPosts,
     setDisplayedPosts,
-    loading
+    loading,
+    userInfo
   };
 };
 

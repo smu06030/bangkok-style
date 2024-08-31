@@ -42,9 +42,9 @@ const LoadingWrapper = styled.div`
 `;
 
 const Posts = () => {
-  const { allPosts, displayedPosts, setDisplayedPosts, loading } = useFetchPosts();
+  const { allPosts, displayedPosts, setDisplayedPosts, loading, userInfo } = useFetchPosts();
 
-  const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} />);
+  const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} isLogin={!!userInfo} />);
   const showPosts = displayedPosts.length ? (
     <>
       <Article>{postCard}</Article>

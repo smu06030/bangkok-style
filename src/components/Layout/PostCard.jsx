@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import dummy from "../../assets/images/dummy.jpg";
 import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
@@ -78,15 +78,21 @@ const PostContent = styled.div`
   ${commonStyles}
 `;
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, isLogin }) => {
   const { id: post_id, img_url, like, title, hash_tag, content, user_id } = post;
   const [isLike, setIsLike] = useState(like);
+  const navigate = useNavigate();
 
   const toggleLike = async () => {
+    if (!isLogin) {
+      alert('로그인이 필요합니다.');
+      return navigate('/sign-in')
+    }
+    
     setIsLike(!isLike);
     await updateLikeStatus(post_id, user_id, isLike);
   };
-
+  
   // 게시글 보여주기
   const postCard = (
     <Links>
