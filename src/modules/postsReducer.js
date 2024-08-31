@@ -1,14 +1,21 @@
 export const postsInitialState = {
-  posts: [],
+  allPosts: [],
+  displayedPosts: [],
 };
 
 export const postsReducer = (state, action) => {
   switch (action.type) {
-    case "SET_DATA":
+    case "ALL_POSTS":
       return {
-        posts: [...action.posts]
+        ...state,
+        allPosts: [...action.allPosts]
       }
-
+    case "DISPLAYED_POSTS":
+      return {
+        ...state,
+        displayedPosts: [...action.displayedPosts]
+      }
+      
     default:
       return state;
   }

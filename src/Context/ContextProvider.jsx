@@ -9,15 +9,22 @@ const ContextProvider = ({ children }) => {
   // 게시물 state
   const [postsState, postsDispatch] = useReducer(postsReducer, postsInitialState);
   // 게시물 setter함수
-  const setPosts = (posts) => {
-    postsDispatch({ type: "SET_DATA", posts });
+
+  const setAllPosts = (allPosts) => {
+    postsDispatch({ type: "ALL_POSTS", allPosts });
+  };
+
+  const setDisplayedPosts = (displayedPosts) => {
+    postsDispatch({ type: "DISPLAYED_POSTS", displayedPosts });
   };
 
   // context provider의 value에 할당할 객체
   const contextValues = {
     userInfo,
-    posts: postsState,
-    setPosts,
+    allPosts: postsState.allPosts,
+    displayedPosts: postsState.displayedPosts,
+    setAllPosts,
+    setDisplayedPosts,
     signIn: (userInfo) => userInfoDispatch({ type: "SIGN_IN", payload: userInfo }),
     signOut: () => userInfoDispatch({ type: "SIGN_OUT" })
   };
