@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSignUpHandler from "../../hooks/useSignUpHandler";
 import SignInput from "../../components/SignInputs";
-import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
+import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +16,7 @@ const SignUp = () => {
       <SignFrom>
         <SignInput
           firstFocus={true}
+          regex={EMAIL_INPUT_REGEX}
           inputs={signUpInputs}
           setInputs={setIdInputs}
           label={"아이디"}
@@ -27,6 +28,7 @@ const SignUp = () => {
           }
         />
         <SignInput
+          regex={PASSWORD_INPUT_REGEX}
           inputs={signUpInputs}
           setInputs={setIdInputs}
           label={"비밀번호"}
@@ -39,6 +41,7 @@ const SignUp = () => {
           }
         />
         <SignInput
+          regex={PASSWORD_INPUT_REGEX}
           inputs={signUpInputs}
           setInputs={setIdInputs}
           label={"비밀번호 확인"}
@@ -54,7 +57,7 @@ const SignUp = () => {
           name={"nickname"}
           type={"text"}
           placeholder={"닉네임을 입력해주세요."}
-          terms={signUpInputs.nickname.trim().length === 0 && "닉네임을 입력하여주세요."}
+          terms={signUpInputs.nickname.trim().length === 0 && "닉네임을 입력해주세요."}
         />
         <SignBtn $signUp={true} onClick={(e) => onSignUpHandler(e, signUpInputs)}>
           회원가입
