@@ -28,6 +28,14 @@ const useSignInHandler = () => {
       alert("존재하지 않는 계정입니다.");
     }
   };
+  
+  // github로그인 함수
+  const signInWithGithub = async (event) => {
+    event.preventDefault();
+    await supabase.auth.signInWithOAuth({
+      provider: "github"
+    });
+  };
 
   // 로그아웃 함수
   const onSignOutHandler = async () => {
@@ -44,7 +52,7 @@ const useSignInHandler = () => {
     }
   };
 
-  return { onSignInHandler, onSignOutHandler };
+  return { onSignInHandler, signInWithGithub, onSignOutHandler };
 };
 
 export default useSignInHandler;

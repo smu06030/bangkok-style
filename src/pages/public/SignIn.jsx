@@ -2,27 +2,14 @@ import { useState } from "react";
 import SignInput from "../../components/SignInputs";
 import { useNavigate } from "react-router-dom";
 import useSignInHandler from "../../hooks/useSignInHandler";
-import supabase from "../../supabaseClient";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import styled from "styled-components";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { onSignInHandler } = useSignInHandler();
+  const { onSignInHandler, signInWithGithub } = useSignInHandler();
   const [signInInputs, setInInputs] = useState({ email: "", password: "" });
-
-  const signInWithGithub = async (event) => {
-    event.preventDefault();
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "github"
-    });
-    if (data) {
-      alert("로그인이 완료되었습니다.");
-    } else {
-      alert("로그인에 실패했습니다.");
-    }
-  };
 
   return (
     <>
