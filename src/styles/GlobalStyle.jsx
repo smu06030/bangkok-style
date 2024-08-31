@@ -15,6 +15,11 @@ h2{
   margin:40px 0 30px;
 }
 
+section ol{
+  display: flex;
+  justify-content: center;
+}
+
 section ol li{
   width: 500px;
   height: 80px;
