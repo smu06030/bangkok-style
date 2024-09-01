@@ -9,12 +9,13 @@ import Like from "../pages/Like";
 import PasswordRecovery from "../pages/public/PasswordRecovery";
 import PrivateRoute from "./PrivateRoute";
 import MyPage from "../pages/private/MyPage";
+import URLS from "../constant/urls";
 
 const Routes = () => {
   // 모든 사용자 접근 가능
   const routes = [
     {
-      path: "/",
+      path: URLS.home,
       element: <Layout />,
       children: [
         {
@@ -22,7 +23,7 @@ const Routes = () => {
           element: <PublicHome />
         },
         {
-          path: "/Like",
+          path: URLS.like,
           element: <Like />
         },
         {
@@ -36,22 +37,22 @@ const Routes = () => {
   // 권한이 없는 사용자에게 접근 제한
   const unAuthorizedRoutes = [
     {
-      path: "/",
+      path: URLS.home,
       element: <PublicRoute />,
       children: [
         {
           element: <Layout />,
           children: [
             {
-              path: "/sign-in",
+              path: URLS.signIn,
               element: <SignIn />
             },
             {
-              path: "/sign-up",
+              path: URLS.signUp,
               element: <SignUp />
             },
             {
-              path: "/password-recovery",
+              path: URLS.passwordRecovery,
               element: <PasswordRecovery />
             }
           ]
@@ -63,14 +64,14 @@ const Routes = () => {
   // 권한이 있는 사용자만 접근
   const authorizedRoutes = [
     {
-      path: "/",
+      path: URLS.home,
       element: <PrivateRoute />,
       children: [
         {
           element: <Layout />,
           children: [
             {
-              path: "/my-page",
+              path: URLS.myPage,
               element: <MyPage />
             }
           ]
@@ -80,7 +81,7 @@ const Routes = () => {
   ];
 
   const notFound = {
-    path: "*",
+    path: URLS.others,
     element: <NotPound />
   };
 

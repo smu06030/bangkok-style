@@ -5,6 +5,7 @@ import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } 
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
+import URLS from "../../constant/urls";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -65,8 +66,8 @@ const SignUp = () => {
           회원가입
         </SignBtn>
         <NavGuide>
-          <SignNav onClick={() => navigate("/password-recovery")}>비밀번호 찾기</SignNav>
-          <SignNav onClick={() => navigate("/sign-in")}>로그인하기</SignNav>
+          <SignNav onClick={() => navigate(URLS.passwordRecovery)}>비밀번호 찾기</SignNav>
+          <SignNav onClick={() => navigate(URLS.signIn)}>로그인하기</SignNav>
         </NavGuide>
       </SignFrom>
     </>
