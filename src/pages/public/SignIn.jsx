@@ -6,6 +6,7 @@ import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import styled from "styled-components";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
 import { Toaster } from "sonner";
+import URLS from "../../constant/urls";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -46,10 +47,10 @@ const SignIn = () => {
           <SignBtn onClick={(e) => signInWithGithub(e)}>github 로그인</SignBtn>
         </BtnBundle>
         <NavGuide>
-          <SignNav onClick={() => navigate("/password-recovery")}>비밀번호 찾기</SignNav>
-          <SignNav onClick={() => navigate("/sign-up")}>회원가입하기</SignNav>
+          <SignNav onClick={() => navigate(URLS.passwordRecovery)}>비밀번호 찾기</SignNav>
+          <SignNav onClick={() => navigate(URLS.signUp)}>회원가입하기</SignNav>
         </NavGuide>
-      </SignFrom>{" "}
+      </SignFrom>
     </>
   );
 };
