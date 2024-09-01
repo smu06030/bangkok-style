@@ -1,9 +1,25 @@
-import React from 'react'
+import styled from "styled-components";
+import Avatar from "../../components/MyPage/Avatar";
+import MyPosts from "../../components/MyPage/MyPosts";
+import Nickname from "../../components/MyPage/NickName";
+
+const InfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+`;
 
 const MyPage = () => {
   return (
-    <div>MyPage</div>
-  )
-}
+    <>
+      <InfoBox>
+        <Avatar />
+        <Nickname />
+      </InfoBox>
+      <MyPosts />
+    </>
+  );
+};
 
-export default MyPage
+export default MyPage;
