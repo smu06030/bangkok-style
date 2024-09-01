@@ -5,6 +5,7 @@ import useSignInHandler from "../../hooks/useSignInHandler";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX } from "../../constant/regularExpression";
 import { Toaster } from "sonner";
+import URLS from "../../constant/urls";
 
 const PasswordRecovery = () => {
   const navigate = useNavigate();
@@ -31,10 +32,10 @@ const PasswordRecovery = () => {
           비밀번호 찾기
         </SignBtn>
         <NavGuide>
-          <SignNav onClick={() => navigate("/sign-up")}>회원가입하기</SignNav>
-          <SignNav onClick={() => navigate("/sign-in")}>로그인하기</SignNav>
+          <SignNav onClick={() => navigate(URLS.signUp)}>회원가입하기</SignNav>
+          <SignNav onClick={() => navigate(URLS.signIn)}>로그인하기</SignNav>
         </NavGuide>
-      </SignFrom>{" "}
+      </SignFrom>
     </>
   );
 };

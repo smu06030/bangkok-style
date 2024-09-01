@@ -18,7 +18,7 @@ const SignInput = ({ inputs, setInputs, label, name, type, placeholder, terms, r
 
   return (
     <SignFieldset>
-      <legend style={{ margin: "0 0 8px" }}>{label}</legend>
+      <label style={{ margin: "0 0 8px" }}>{label}</label>
       <StInput
         ref={renderingFocus}
         type={type}
