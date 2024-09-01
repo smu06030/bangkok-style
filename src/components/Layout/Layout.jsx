@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import ProtectedHeader from "./ProtectedHeader";
 import PublicHeader from "./PublicHeader";
 import { Outlet } from "react-router-dom";
 import Container from "../UI/Container";
 import styled from "styled-components";
-import EntireContext from "../../store/Context/EntireContext";
+import EntireContext from "../../Context/EntireContext";
+import PrivateHeader from "./PrivateHeader";
 
 const Main = styled.main`
   padding: 0 1.5rem;
@@ -12,10 +12,10 @@ const Main = styled.main`
 
 const Layout = () => {
   const { userInfo } = useContext(EntireContext);
-
+  
   return (
     <Container>
-      {userInfo ? <ProtectedHeader /> : <PublicHeader />}
+      {userInfo ? <PrivateHeader /> : <PublicHeader />}
       <Main>
         <Outlet />
       </Main>

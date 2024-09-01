@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import EntireContext from "../store/Context/EntireContext";
+import EntireContext from "../Context/EntireContext";
 import { useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
+import updateLikeStatus from "../services/likeService";
 
 const LikeContainer = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const ImageStyle = styled.img`
 `;
 
 const Like = () => {
-  const { userInfo, updateLikeStatus } = useContext(EntireContext);
+  const { userInfo } = useContext(EntireContext);
   const [likedPosts, setLikedPosts] = useState([]);
   const PAGES = 10;
 
@@ -50,20 +51,32 @@ const Like = () => {
 
   const fetchLikedPosts = async () => {
     try {
-      const { data, error } = await supabase
-        .from("posts")
-        .select()
-        .eq("like", true)
+      const { data: likeData, error: likeError } = await supabase
+        .from("likes")
+        .select("post_id")
         .eq("user_id", userInfo.id)
         .limit(PAGES);
 
-      if (error) {
-        console.error("좋아요 업데이트에 실패했습니다:", error);
+      if (likeError) {
+        console.error("좋아요 정보를 가져오는 데 실패했습니다:", likeError);
         return;
       }
 
-      setLikedPosts(data);
-      console.log("좋아요 상태가 업데이트되었습니다:", data);
+      const postIds = likeData.map((like) => like.post_id);
+
+      if (postIds.length === 0) {
+        setLikedPosts([]);
+        return;
+      }
+
+      const { data: postData, error: postError } = await supabase.from("posts").select("*").in("id", postIds);
+
+      if (postError) {
+        console.error("게시물 정보를 가져오는 데 실패했습니다:", postError);
+        return;
+      }
+
+      setLikedPosts(postData);
     } catch (error) {
       console.error("좋아요 업데이트에 실패했습니다:", error);
     }
@@ -96,7 +109,7 @@ const Like = () => {
           {likedPosts.length > 0 ? (
             likedPosts.map((post) => (
               <CardStyle key={post.id} id={post.id}>
-                <ImageStyle src={post.imageUrl} alt={post.title} />
+                <ImageStyle src={post.img_url} alt={post.title} />
                 <button onClick={() => handleUnlike(post.id)}>좋아요 해제</button>
               </CardStyle>
             ))

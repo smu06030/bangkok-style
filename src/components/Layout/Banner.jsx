@@ -24,7 +24,7 @@ const BannerTitle = styled.h2`
   color: #fff;
   font-size: 3rem;
   font-weight: 500;
-  top: 35%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
