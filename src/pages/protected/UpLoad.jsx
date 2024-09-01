@@ -75,7 +75,12 @@ const UpLoad = () => {
     //이미지 미리보기 URL 생성
     const previewUrl = URL.createObjectURL(file);
     setPreviewUrls(previewUrl);
-    setFashionUrl(previewUrl);
+    // 스토리지에 업로드
+    const filePath = `fashion_${Date.now()}`;
+    const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
+    if (error) return;
+    setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
+    // setFashionUrl(previewUrl);
   }
   //!SECTIONconsole.log("fashionUrl=>", fashionUrl);
 
@@ -100,6 +105,10 @@ const UpLoad = () => {
       setHashtags([...hashtags, inputValue.trim()]); // 새로운 해시태그를 배열에 추가
       setInputValue(""); // 입력 필드 초기화
     }
+  };
+
+  const removeHashTag = (idx) => {
+    setHashtags(hashtags.filter((_, i) => i !== idx));
   };
 
   // 최초 랜더링 시 호출
@@ -161,14 +170,24 @@ const UpLoad = () => {
               <input
                 type="text"
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setInputValue(value.startsWith("#") ? value : "#" + value);
+                }}
                 onKeyPress={handleKeyPress}
                 placeholder="내용을 입력하고 엔터를 누르세요"
               />
               <div>
-                {hashtags.map((tag, index) => (
-                  <span key={index} style={{ marginRight: "8px" }}>
-                    #{tag}
+                {hashtags.map((tag, idx) => (
+                  <span key={idx} style={{ marginRight: "8px" }}>
+                    {tag}
+                    <button
+                      onClick={() => {
+                        removeHashTag(idx);
+                      }}
+                    >
+                      X
+                    </button>
                   </span>
                 ))}
               </div>
