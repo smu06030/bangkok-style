@@ -1,24 +1,26 @@
 import styled from "styled-components";
 import supabase from "../../supabaseClient";
 import { useContext, useEffect, useRef, useState } from "react";
-import EntireContext from "../../store/Context/EntireContext";
 import { useNavigate } from "react-router-dom";
+import EntireContext from "../../Context/EntireContext";
 
 const UpLoad = () => {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  // const [userId, setUserId] = useState("");
-  //const [hashtag, setHashtag] = useState([]);
+
+  const [hashtags, setHashtags] = useState([]); // 해시태그를 저장할 배열 상태
+  const [inputValue, setInputValue] = useState(""); // 입력된 값
+
   const [previewUrls, setPreviewUrls] = useState(""); // 이미지 프리뷰 상태 추가
   const [fashionUrl, setFashionUrl] = useState("");
 
   const fileInputRef = useRef(null);
 
-  const { isSignIn } = useContext(EntireContext);
+  const { userInfo } = useContext(EntireContext);
+  //console.log("userInfo==>", userInfo);
 
-  const loginUserId = isSignIn.id;
-  console.log("userId===>", loginUserId);
+  const loginUserId = userInfo.id;
 
   const navigate = useNavigate();
 
@@ -67,77 +69,39 @@ const UpLoad = () => {
   // 이미지 프리뷰 함수
   async function handleFilePreviewChange(files) {
     const [file] = files;
-
     if (!file) {
       return;
     }
-
-    // 이미지 여러개 등록일 경우
-    // if (!files || files.length === 0) {
-    //   return;
-    // }
-    // const newPreviewUrls = [];
-    // for (const file of files) {
-    //   const previewUrl = URL.createObjectURL(file);
-    //   newPreviewUrls.push(previewUrl);
-    // }
-    // console.log("newPreviewUrls", newPreviewUrls);
-    // setPreviewUrls(newPreviewUrls);
-
     //이미지 미리보기 URL 생성
     const previewUrl = URL.createObjectURL(file);
     setPreviewUrls(previewUrl);
     setFashionUrl(previewUrl);
   }
-  console.log("fashionUrl=>", fashionUrl);
+  //!SECTIONconsole.log("fashionUrl=>", fashionUrl);
 
-  //
   // 업로드 버튼
   const createPost = async (e) => {
-    // const [file] = files;
-    // if (!file) {
-    //   return;
-    // }
-    // const filePath = `fashion_${Date.now()}`;
-    // const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
-    // if (error) return;
-    // setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
-
     e.preventDefault();
     await supabase.from("posts").insert([
       {
         title,
         content,
-        hash_tag: ["#멋쟁이", "#데일리"],
+        hash_tag: hashtags,
         img_url: fashionUrl,
-        user_id: loginUserId,
-        like: false
+        user_id: loginUserId
       }
     ]);
-
-    // 업로드되면 알림뜨고 리다이렉트
-    setTitle("");
-    setContent("");
+    navigate("/");
   };
 
-  // 게시글 생성하기
-  // async function createPost() {
-  //   const { data } = await supabase
-  //     .from("posts")
-  //     .insert({
-  //       // id: "1", // 쿼리스트링으로 가져온 아이디값
-  //       created_at: Date.now(),
-  //       title: prompt("제목을 입력해주세요."), //input 값
-  //       content: prompt("내용을 입력해주세요.") //input 값
-  //       // user_id: "user_id",
-  //       // hash_tag: "hash_tag",
-  //       // img_url: "img_url" // 업로드 된 이미지url 넘길 예정
-  //     })
-  //     .select();
-  //   setPosts((prev) => [...prev, ...data]);
-  // }
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && inputValue.trim() !== "") {
+      // Enter 키를 눌렀을 때, 입력된 값이 비어있지 않다면
+      setHashtags([...hashtags, inputValue.trim()]); // 새로운 해시태그를 배열에 추가
+      setInputValue(""); // 입력 필드 초기화
+    }
+  };
 
-  //
   // 최초 랜더링 시 호출
   useEffect(() => {
     checkFashion();
@@ -146,18 +110,11 @@ const UpLoad = () => {
 
   return (
     <>
-      {isSignIn ? (
+      {userInfo ? (
         <div>
           <UpLoadContainer>
             <ImagesDiv>
-              <input
-                onChange={(e) => handleFilePreviewChange(e.target.files)}
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                multiple
-              />
-              <img
+              <Img
                 className="rounded-full cursor-pointer w-[45px] h-[45px]"
                 width={45}
                 height={45}
@@ -165,9 +122,17 @@ const UpLoad = () => {
                 alt="myFashion"
                 onClick={() => fileInputRef.current.click()}
               />
-            </ImagesDiv>
-            <InputDiv>
               <input
+                onChange={(e) => handleFilePreviewChange(e.target.files)}
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                style={{ display: "none" }}
+              />
+            </ImagesDiv>
+            <div>
+              <p>제목</p>
+              <InputTitle
                 type="text"
                 placeholder="제목을 입력해주세요."
                 value={title}
@@ -175,19 +140,39 @@ const UpLoad = () => {
                   setTitle(e.target.value);
                 }}
               />
-              <textarea
+            </div>
+
+            <div>
+              <p>내용</p>
+              <InputTextarea
                 placeholder="내용을 입력해주세요."
                 value={content}
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
               />
-            </InputDiv>
-            <ButtonDiv>
+            </div>
+            <BtnDiv>
               <Button onClick={updatePost}>수정</Button>
               <Button onClick={createPost}>업로드</Button>
-            </ButtonDiv>
-            <div>태그영역</div>
+            </BtnDiv>
+            <div>
+              <p>해시태그</p>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="내용을 입력하고 엔터를 누르세요"
+              />
+              <div>
+                {hashtags.map((tag, index) => (
+                  <span key={index} style={{ marginRight: "8px" }}>
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </UpLoadContainer>
         </div>
       ) : (
@@ -207,17 +192,36 @@ export default UpLoad;
 
 const UpLoadContainer = styled.div`
   border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
 `;
 
 const ImagesDiv = styled.div`
   border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
 
+const Img = styled.img`
+  margin: 10px;
+  height: 200px;
+  width: 200px;
+`;
 const InputDiv = styled.div`
   border: 1px solid gray;
 `;
+const InputTitle = styled.input``;
 
-const ButtonDiv = styled.div`
+const InputTextarea = styled.textarea`
+  width: 100%;
+`;
+
+const BtnDiv = styled.div`
   border: 1px solid gray;
 `;
 
