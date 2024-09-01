@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import EntireContext from "../store/Context/EntireContext";
+import EntireContext from "../Context/EntireContext";
 
-const ProtectedRoute = () => {
+const PrivateRoute = () => {
   const { userInfo } = useContext(EntireContext);
 
   return !userInfo ? <Navigate to="/sign-in" replace /> : <Outlet />;
 };
 
-export default ProtectedRoute;
+export default PrivateRoute;
