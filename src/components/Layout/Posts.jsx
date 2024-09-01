@@ -18,7 +18,7 @@ const ArticleHeader = styled.h2`
   text-align: center;
 `;
 
-export const Article = styled.article`
+const Article = styled.article`
   /* position: relative;
   display: flex;
   flex-direction: row;
