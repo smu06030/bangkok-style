@@ -28,7 +28,7 @@ const Routes = () => {
           element: <Like />
         },
         {
-          path: "/modifyUpLoad",
+          path: "/modify",
           element: <ModifyUpLoad />
         }
       ]

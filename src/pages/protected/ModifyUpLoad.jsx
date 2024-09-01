@@ -1,24 +1,42 @@
-import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import supabase from "../../supabaseClient";
-import { useContext, useEffect, useRef, useState } from "react";
-import EntireContext from "../../Context/EntireContext";
+import { useEffect, useRef, useState } from "react";
+import {
+  BtnDiv,
+  Button,
+  ButtonX,
+  HashInput,
+  ImagesDiv,
+  Img,
+  InputTextarea,
+  InputTitle,
+  P,
+  Span,
+  UpLoadContainer
+} from "../../styles/UpLoadStyle";
 
 const ModifyUpLoad = () => {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [hashtags, setHashtags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const [previewUrls, setPreviewUrls] = useState("");
   const [fashionUrl, setFashionUrl] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [hashtags, setHashtags] = useState([]);
-  const fileInputRef = useRef(null);
 
+  const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+  // const { userInfo } = useContext(EntireContext);
+  // const loginUserId = userInfo.id;
+
+  //임시
   const loginUserId = "18c32b4d-8bf9-4bd0-a557-4350ed6717b3";
   console.log("loginUserId", loginUserId);
 
+  //쿼리스트링으로 받아온 id
   const location = useLocation();
-  const postId = location.search.substr(8);
+  // console.log("location", location.search);
+  const postId = location.search.substr(2);
   console.log("postId==>", postId);
 
   //포스터 가져오기
@@ -28,25 +46,25 @@ const ModifyUpLoad = () => {
       console.error("Error fetching post:", error);
       return null;
     }
-    console.log("data", data);
-    console.log("data", data[0]);
     const { title, content, img_url, hash_tag } = data[0];
-    console.log("title==>", title);
-    console.log("content==>", content);
-    console.log("img_url==>", img_url);
-    console.log("hash_tag==>", hash_tag);
 
-    setTitle(title);
-    setContent(content);
-    setPreviewUrls(img_url);
-    setHashtags(hash_tag);
+    console.log("posts1===>", posts[0]);
+    console.log("title1==>", title);
+    console.log("content1==>", content);
+    console.log("img_url1==>", previewUrls);
+    console.log("hash_tag1==>", hashtags);
+
+    setPreviewUrls(img_url || "");
+    setTitle(title || "");
+    setContent(content || "");
+    setHashtags(hash_tag || []);
   };
 
-  console.log("posts===>", posts[0]);
-  console.log("title==>", title);
-  console.log("content==>", content);
-  console.log("img_url==>", previewUrls);
-  console.log("hash_tag==>", hashtags);
+  console.log("posts2===>", posts[0]);
+  console.log("title2==>", title);
+  console.log("content2==>", content);
+  console.log("img_url2==>", previewUrls);
+  console.log("hash_tag2==>", hashtags);
 
   // 이미지 프리뷰 함수
   async function handleFilePreviewChange(files) {
@@ -55,25 +73,14 @@ const ModifyUpLoad = () => {
       return;
     }
     //이미지 미리보기 URL 생성
-    // const previewUrl = URL.createObjectURL(file);
-    // setPreviewUrls(previewUrl);
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewUrls(previewUrl);
     // 스토리지에 업로드
     const filePath = `fashion_${Date.now()}`;
     const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
     if (error) return;
     setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
   }
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && inputValue.trim() !== "") {
-      setHashtags([...hashtags, inputValue.trim()]);
-      setInputValue("");
-    }
-  };
-
-  const removeHashTag = (idx) => {
-    setHashtags(hashtags.filter((_, i) => i !== idx));
-  };
 
   // 게시글 수정하기
   const updatePost = async () => {
@@ -95,6 +102,17 @@ const ModifyUpLoad = () => {
     alert("게시물이 성공적으로 수정되었습니다!");
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && inputValue.trim() !== "") {
+      setHashtags([...hashtags, inputValue.trim()]);
+      setInputValue("");
+    }
+  };
+
+  const removeHashTag = (idx) => {
+    setHashtags(hashtags.filter((_, i) => i !== idx));
+  };
+
   useEffect(() => {
     getPosts(postId);
   }, []);
@@ -110,6 +128,7 @@ const ModifyUpLoad = () => {
             src={previewUrls}
             alt="myFashion"
             onClick={() => fileInputRef.current.click()}
+            style={{ cursor: "pointer" }}
           />
           <input
             onChange={(e) => handleFilePreviewChange(e.target.files)}
@@ -119,8 +138,8 @@ const ModifyUpLoad = () => {
             style={{ display: "none" }}
           />
         </ImagesDiv>
-        <div>
-          <p>제목</p>
+        <div style={{ marginTop: "20px" }}>
+          <P>제목</P>
           <InputTitle
             type="text"
             placeholder="제목을 입력해주세요."
@@ -131,8 +150,8 @@ const ModifyUpLoad = () => {
           />
         </div>
 
-        <div>
-          <p>내용</p>
+        <div style={{ marginTop: "20px" }}>
+          <P>내용</P>
           <InputTextarea
             placeholder="내용을 입력해주세요."
             value={content}
@@ -141,13 +160,9 @@ const ModifyUpLoad = () => {
             }}
           />
         </div>
-        <BtnDiv>
-          <Button onClick={updatePost}>수정</Button>
-          <Button>업로드</Button>
-        </BtnDiv>
-        <div>
-          <p>해시태그</p>
-          <input
+        <div style={{ marginTop: "20px" }}>
+          <P>해시태그</P>
+          <HashInput
             type="text"
             value={hashtags}
             onChange={(e) => {
@@ -160,22 +175,26 @@ const ModifyUpLoad = () => {
           <div>
             {hashtags && hashtags.length > 0 ? (
               hashtags.map((tag, idx) => (
-                <span key={idx} style={{ marginRight: "8px" }}>
+                <Span key={idx} style={{ marginRight: "8px" }}>
                   {tag}
-                  <button
+                  <ButtonX
                     onClick={() => {
                       removeHashTag(idx);
                     }}
                   >
                     X
-                  </button>
-                </span>
+                  </ButtonX>
+                </Span>
               ))
             ) : (
-              <p>해시태그가 없습니다</p>
+              <></>
             )}
           </div>
         </div>
+        <BtnDiv>
+          <Button onClick={updatePost}>수정</Button>
+          {/* <Button>업로드</Button> */}
+        </BtnDiv>
       </UpLoadContainer>
     </>
   );
@@ -183,39 +202,39 @@ const ModifyUpLoad = () => {
 
 export default ModifyUpLoad;
 
-const UpLoadContainer = styled.div`
-  border: 1px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 50px;
-`;
+// const UpLoadContainer = styled.div`
+//   border: 1px solid gray;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   margin-top: 50px;
+// `;
 
-const ImagesDiv = styled.div`
-  border: 1px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
+// const ImagesDiv = styled.div`
+//   border: 1px solid gray;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+// `;
 
-const Img = styled.img`
-  margin: 10px;
-  height: 200px;
-  width: 200px;
-`;
-const InputDiv = styled.div`
-  border: 1px solid gray;
-`;
-const InputTitle = styled.input``;
+// const Img = styled.img`
+//   margin: 10px;
+//   height: 200px;
+//   width: 200px;
+// `;
+// const InputDiv = styled.div`
+//   border: 1px solid gray;
+// `;
+// const InputTitle = styled.input``;
 
-const InputTextarea = styled.textarea`
-  width: 100%;
-`;
+// const InputTextarea = styled.textarea`
+//   width: 100%;
+// `;
 
-const BtnDiv = styled.div`
-  border: 1px solid gray;
-`;
+// const BtnDiv = styled.div`
+//   border: 1px solid gray;
+// `;
 
-const Button = styled.button``;
+// const Button = styled.button``;

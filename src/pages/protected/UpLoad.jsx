@@ -17,7 +17,7 @@ import {
 } from "../../styles/UpLoadStyle";
 
 const UpLoad = () => {
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hashtags, setHashtags] = useState([]);
@@ -55,6 +55,16 @@ const UpLoad = () => {
   // 업로드 버튼
   const createPost = async (e) => {
     e.preventDefault();
+
+    // if (title.length === 0) {
+    //   setError("제목을 입력해주세요.");
+    //   return;
+    // } else if (content.length === 0) {
+    //   setError("내용을 입력해주세요");
+    //   return;
+    // } else {
+    //   setError("");
+    // }
     await supabase.from("posts").insert([
       {
         title,
@@ -95,6 +105,7 @@ const UpLoad = () => {
                 src={previewUrls}
                 alt="myFashion"
                 onClick={() => fileInputRef.current.click()}
+                style={{ cursor: "pointer" }}
               />
               <input
                 onChange={(e) => handleFilePreviewChange(e.target.files)}

@@ -33,6 +33,12 @@ export const InputTitle = styled.input`
   background-color: #eeeeee;
   height: 40px;
   padding: 0px 10px;
+  /* &:invalid{
+    border-color: red; 
+  } */
+  /* &:invalid{
+    border-color: red; 
+  } */
 `;
 
 export const InputTextarea = styled.textarea`
@@ -80,4 +86,8 @@ export const Button = styled.button`
   background-color: #eeeeee;
   position: relative;
   left: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: #c0c0c0;
+  }
 `;
