@@ -1,19 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import EntireContext from "../../store/Context/EntireContext";
 import supabase from "../../supabaseClient";
+import styled from "styled-components";
+
+const NicknameContainer = styled.div`
+  display: flex;
+  margin: 15px 0 0 18px;
+`;
+
+const EditInput = styled.input`
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  height: 20px;
+`;
+
+const EditBtn = styled.button`
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+`;
+
+const NicknameText = styled.p`
+  font-size: 20px;
+`;
 
 const Nickname = () => {
   const [nickname, setNickname] = useState("");
   const [updateNickname, setUpdateNickname] = useState("");
+  const [edited, setEdited] = useState(false);
+  const { userInfo } = useContext(EntireContext);
 
   useEffect(() => {
     checkNickname();
   }, []);
 
   const checkNickname = async () => {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    setNickname(user.user_metadata.nickname.updateNickname);
+    setNickname(userInfo.user_metadata.nickname);
   };
 
   const handleNicknameChange = (e) => {
@@ -21,18 +44,36 @@ const Nickname = () => {
   };
 
   const handleNicknameUpdate = async () => {
-    const { error: updateError } = await supabase.auth.updateUser({
-      data: { nickname: { updateNickname } }
+    const { data } = await supabase.auth.updateUser({
+      data: { nickname: updateNickname }
     });
-    setNickname(updateNickname);
+    setNickname(data.user.user_metadata.nickname);
+    setUpdateNickname("");
+    setEdited(false);
+  };
+
+  const handleNicknameEdit = () => {
+    setEdited(true);
   };
 
   return (
-    <>
-      <h2>{nickname}</h2>
-      <input type="text" placeholder="변경 닉네임" value={updateNickname} onChange={handleNicknameChange} />
-      <button onClick={handleNicknameUpdate}>수정</button>
-    </>
+    <NicknameContainer>
+      {edited ? (
+        <EditInput type="text" placeholder="닉네임 입력" value={updateNickname} onChange={handleNicknameChange} />
+      ) : (
+        <NicknameText>{nickname}</NicknameText>
+      )}
+
+      {edited ? (
+        <EditBtn type="button" onClick={handleNicknameUpdate}>
+          ✔
+        </EditBtn>
+      ) : (
+        <EditBtn type="button" onClick={handleNicknameEdit}>
+          ✐
+        </EditBtn>
+      )}
+    </NicknameContainer>
   );
 };
 

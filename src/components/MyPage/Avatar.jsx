@@ -1,27 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
+import EntireContext from "../../store/Context/EntireContext";
 
 const ProfileImg = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   border-radius: 70%;
   overflow: hidden;
+  cursor: pointer;
 `;
 
 const Avatar = () => {
   const [profileUrl, setProfileUrl] = useState("");
+  const { userInfo } = useContext(EntireContext);
   const fileInputRef = useRef(null);
 
-  const checkProfile = async () => {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
+  useEffect(() => {
+    checkProfile();
+  }, []);
 
-    if (user.user_metadata.fileName) {
+  const checkProfile = async () => {
+    if (userInfo.user_metadata.fileName) {
       const {
         data: { publicUrl }
-      } = await supabase.storage.from("avatars").getPublicUrl(user.user_metadata.fileName);
+      } = await supabase.storage.from("avatars").getPublicUrl(userInfo.user_metadata.fileName);
       setProfileUrl(publicUrl);
     } else {
       const {
@@ -42,16 +45,14 @@ const Avatar = () => {
     const fileName = `${file.name}-${Math.random()}`;
 
     const { data, error } = await supabase.storage.from("avatars").upload(fileName, file);
+    console.log(data);
+    console.log(error);
     const newProfileUrl = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/avatars/${fileName}`;
     setProfileUrl(newProfileUrl);
     const { error: updateError } = await supabase.auth.updateUser({
       data: { fileName: fileName }
     });
   };
-
-  useEffect(() => {
-    checkProfile();
-  }, []);
 
   return (
     <>
