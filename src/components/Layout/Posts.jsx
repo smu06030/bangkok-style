@@ -2,7 +2,6 @@ import React from "react";
 import useFetchPosts from "../../hooks/useFetchPosts";
 import PostCard from "./PostCard";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import Loading from "../../assets/images/Loading";
 import Button from "../UI/Button";
 import { filteredDisplayedPostsData } from "../../utils/filteredDisplayedPostsData";
