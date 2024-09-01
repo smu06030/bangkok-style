@@ -3,33 +3,29 @@ import styled from "styled-components";
 import EntireContext from "../Context/EntireContext";
 import { useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
-import updateLikeStatus from "../services/likeService";
+import URLS from "../constant/urls";
+import PostCard from "../components/Layout/PostCard";
 
 const LikeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 `;
 
 const TitleStyle = styled.div`
-  font-size: 30px;
-  margin-bottom: 50px;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  text-align: center;
 `;
 
-const CardStyle = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+const CardWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   padding: 0;
-  justify-content: center;
+  gap: 1rem;
 `;
 
-const ImageStyle = styled.img`
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  object-fit: cover;
+const NoLikesMessage = styled.p`
+  grid-column: 1 / -1; /* 메시지를 그리드 전체에 걸치게 설정 */
+  justify-self: center;
 `;
 
 const Like = () => {
@@ -40,7 +36,7 @@ const Like = () => {
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    navigate("/sign-in");
+    navigate(URLS.signIn);
   };
 
   useEffect(() => {
@@ -49,6 +45,7 @@ const Like = () => {
     }
   }, [userInfo, PAGES]);
 
+  //supabase에서 likes 테이블 데이터값 가져오기
   const fetchLikedPosts = async () => {
     try {
       const { data: likeData, error: likeError } = await supabase
@@ -56,11 +53,6 @@ const Like = () => {
         .select("post_id")
         .eq("user_id", userInfo.id)
         .limit(PAGES);
-
-      if (likeError) {
-        console.error("좋아요 정보를 가져오는 데 실패했습니다:", likeError);
-        return;
-      }
 
       const postIds = likeData.map((like) => like.post_id);
 
@@ -71,28 +63,25 @@ const Like = () => {
 
       const { data: postData, error: postError } = await supabase.from("posts").select("*").in("id", postIds);
 
-      if (postError) {
-        console.error("게시물 정보를 가져오는 데 실패했습니다:", postError);
-        return;
-      }
+      //좋아요 상태 업데이트 로직
+      const likedPostsWithStatus = postData.map((post) => ({
+        ...post,
+        isLiked: true
+      }));
 
-      setLikedPosts(postData);
+      setLikedPosts(likedPostsWithStatus);
     } catch (error) {
       console.error("좋아요 업데이트에 실패했습니다:", error);
     }
   };
 
-  const handleUnlike = async (post_id) => {
-    try {
-      await updateLikeStatus(post_id, userInfo.id, true);
-      setLikedPosts((p) => p.filter((post) => post.id !== post_id));
-    } catch (error) {
-      console.error("좋아요 해제에 실패했습니다 :", error);
-    }
+  // 좋아요 해제 로직
+  const handleUnlike = (post_id) => {
+    setLikedPosts((p) => p.filter((post) => post.id !== post_id));
   };
 
   return (
-    <LikeContainer>
+    <>
       {!userInfo ? (
         <div>
           <TitleStyle>
@@ -102,23 +91,20 @@ const Like = () => {
           <button onClick={handleSignIn}>로그인하기</button>
         </div>
       ) : (
-        <div>
-          <TitleStyle>
-            <h1>좋아요</h1>
-          </TitleStyle>
-          {likedPosts.length > 0 ? (
-            likedPosts.map((post) => (
-              <CardStyle key={post.id} id={post.id}>
-                <ImageStyle src={post.img_url} alt={post.title} />
-                <button onClick={() => handleUnlike(post.id)}>좋아요 해제</button>
-              </CardStyle>
-            ))
-          ) : (
-            <p>좋아요 한 사진이 없습니다.</p>
-          )}
-        </div>
+        <LikeContainer>
+          <TitleStyle>좋아요</TitleStyle>
+          <CardWrapper>
+            {likedPosts.length > 0 ? (
+              likedPosts.map((post) => (
+                <PostCard key={post.id} post={post} userInfo={userInfo} onUnlike={handleUnlike} />
+              ))
+            ) : (
+              <NoLikesMessage>좋아요 한 사진이 없습니다.</NoLikesMessage>
+            )}
+          </CardWrapper>
+        </LikeContainer>
       )}
-    </LikeContainer>
+    </>
   );
 };
 

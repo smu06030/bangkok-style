@@ -78,7 +78,7 @@ const PostContent = styled.div`
   ${commonStyles}
 `;
 
-const PostCard = ({ post, userInfo }) => {
+const PostCard = ({ post, userInfo, onUnlike }) => {
   const { id: post_id, img_url, isLiked, title, hash_tag, content } = post;
   const [isLike, setIsLike] = useState(isLiked);
   const navigate = useNavigate();
@@ -91,6 +91,11 @@ const PostCard = ({ post, userInfo }) => {
 
     setIsLike(!isLike);
     await updateLikeStatus(post_id, userInfo.id, isLike);
+
+    // 좋아요 해제 시 onUnlike 콜백 호출
+    if (isLike && onUnlike) {
+      onUnlike(post_id);
+    }
   };
 
   // 게시글 보여주기
@@ -98,7 +103,7 @@ const PostCard = ({ post, userInfo }) => {
     <Links>
       <PostWrapper>
         <PostImageWrapper>
-          <PostImage src={dummy} />
+          <PostImage src={img_url} alt={title} />
         </PostImageWrapper>
         <PostTitle>
           <Title>{title}</Title>
