@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
-import EntireContext from "../../store/Context/EntireContext";
+import EntireContext from "../../Context/EntireContext";
 
 const ProfileImg = styled.img`
   width: 150px;

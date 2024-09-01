@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
-import EntireContext from "../../store/Context/EntireContext";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
+import EntireContext from "../../Context/EntireContext";
 
 const Container = styled.div`
   padding: 0 100px;

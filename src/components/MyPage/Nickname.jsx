@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import EntireContext from "../../store/Context/EntireContext";
+import EntireContext from "../../Context/EntireContext";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
 
