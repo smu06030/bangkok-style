@@ -103,7 +103,7 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
     <Links>
       <PostWrapper>
         <PostImageWrapper>
-          <PostImage src={img_url} alt={title} />
+          <PostImage src={dummy} />
         </PostImageWrapper>
         <PostTitle>
           <Title>{title}</Title>
