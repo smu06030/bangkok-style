@@ -8,6 +8,7 @@ const ButtonWrapper = styled.button`
   padding: 0.5rem 1.5rem;
   margin: 1rem 0;
   border-radius: 0.5rem;
+  border: 0;
   transition: all 0.3s;
   cursor: pointer;
 

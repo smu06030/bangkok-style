@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import banner from "../../assets/images/banner.png";
 import Search from "./../../assets/images/Search";
@@ -59,11 +59,12 @@ const BannerSearchInput = styled.input`
 `;
 
 const Banner = () => {
-
+  const [searchTerm, setSearchTerm] = useState('');
+  
   const handleSubmit = (e) => {
     e.preventDefault();
   }
-
+  
   return (
     <BannerWrapper>
       <BannerImage src={banner} alt="배너" />
@@ -72,7 +73,7 @@ const Banner = () => {
         <button> 
           <Search width="24" height="24" />
         </button>
-        <BannerSearchInput type="text" placeholder="스타일을 검색해보세요." />
+        <BannerSearchInput type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="스타일을 검색해보세요." />
       </BannerSearchForm>
     </BannerWrapper>
   );
