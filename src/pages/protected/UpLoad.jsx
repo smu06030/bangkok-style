@@ -8,11 +8,9 @@ const UpLoad = () => {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
-  const [hashtags, setHashtags] = useState([]); // 해시태그를 저장할 배열 상태
-  const [inputValue, setInputValue] = useState(""); // 입력된 값
-
-  const [previewUrls, setPreviewUrls] = useState(""); // 이미지 프리뷰 상태 추가
+  const [hashtags, setHashtags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [previewUrls, setPreviewUrls] = useState("");
   const [fashionUrl, setFashionUrl] = useState("");
 
   const fileInputRef = useRef(null);
@@ -24,13 +22,6 @@ const UpLoad = () => {
 
   const navigate = useNavigate();
 
-  //=========================================================
-  // 메인페이지 +버튼 클릭 시
-  // 메인페이지 -> 업로드페이지(작성되지 않은 상태 업로드가능)
-  // 마이페이지 게시글 클릭 시
-  // 마이페이지 -> 업로드페이지(작성된 상태 수정가능)
-  //=========================================================
-
   // 게시글 가져오기
   // async function getPosts() {
   //   const { data } = await supabase.from("posts").select();
@@ -38,7 +29,7 @@ const UpLoad = () => {
   //   setPosts(data);
   // }
 
-  // 게시글 수정하기
+  // 게시글 수정하기 (구현 중)
   async function updatePost(id) {
     const { data } = await supabase
       .from("posts")
@@ -53,10 +44,8 @@ const UpLoad = () => {
       })
       .eq("id", id)
       .select();
-
     const [updatedPost] = data;
     const updatedList = posts.map((post) => (post.id === updatedPost.id ? updatedPost : post));
-
     setPosts(updatedList);
   }
 
@@ -80,9 +69,8 @@ const UpLoad = () => {
     const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
     if (error) return;
     setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
-    // setFashionUrl(previewUrl);
   }
-  //!SECTIONconsole.log("fashionUrl=>", fashionUrl);
+  //console.log("fashionUrl=>", fashionUrl);
 
   // 업로드 버튼
   const createPost = async (e) => {
@@ -101,9 +89,8 @@ const UpLoad = () => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && inputValue.trim() !== "") {
-      // Enter 키를 눌렀을 때, 입력된 값이 비어있지 않다면
-      setHashtags([...hashtags, inputValue.trim()]); // 새로운 해시태그를 배열에 추가
-      setInputValue(""); // 입력 필드 초기화
+      setHashtags([...hashtags, inputValue.trim()]);
+      setInputValue("");
     }
   };
 
@@ -111,10 +98,8 @@ const UpLoad = () => {
     setHashtags(hashtags.filter((_, i) => i !== idx));
   };
 
-  // 최초 랜더링 시 호출
   useEffect(() => {
     checkFashion();
-    // getPosts();
   }, []);
 
   return (
