@@ -12,12 +12,11 @@ const useFetchPosts = () => {
   const userId = !!userInfo ? userInfo.id : null;
 
   const fetchPosts = useCallback(async () => {
-    if(!userId) return;
     try {
       setLoading(true);
       const response = await getAllData(userId)
-      const data = formattedLikeData(response, userId)
-      
+      const data = formattedLikeData(response)
+
       // 전체 게시글 데이터 저장
       setAllPosts(data);
 

@@ -310,7 +310,7 @@
 
 "@esbuild/win32-x64@0.21.5":
   version "0.21.5"
-  resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz#acad351d582d157bb145535db2a6ff53dd514b5c"
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz"
   integrity sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==
 
 "@eslint-community/eslint-utils@^4.2.0":
@@ -504,7 +504,7 @@
 
 "@rollup/rollup-win32-x64-msvc@4.21.1":
   version "4.21.1"
-  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.21.1.tgz#4d3ec02dbf280c20bfeac7e50cd5669b66f9108f"
+  resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.21.1.tgz"
   integrity sha512-xGiIH95H1zU7naUyTKEyOA/I0aexNMUdO9qRv0bLKN3qu25bBdrxZHqA3PTJ24YNN/GdMzG4xkDcd/GvjuhfLg==
 
 "@supabase/auth-js@2.65.0":
@@ -794,7 +794,7 @@ balanced-match@^1.0.0:
   version "0.0.0"
   dependencies:
     "@supabase/supabase-js" "^2.45.2"
-    bangkok-style "file:../../../../Library/Caches/Yarn/v6/npm-bangkok-style-0.0.0-cab5665a-d090-44b1-bff4-5b9b2e1688aa-1725094206074/node_modules/bangkok-style"
+    bangkok-style "file:../../../../../../AppData/Local/Yarn/Cache/v6/npm-bangkok-style-0.0.0-57f808f4-e199-4b4d-8bbc-5e526dba211c-1725168632276/node_modules/bangkok-style"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-router-dom "^6.26.1"
@@ -2151,7 +2151,7 @@ side-channel@^1.0.4, side-channel@^1.0.6:
 
 sonner@^1.5.0:
   version "1.5.0"
-  resolved "https://registry.npmjs.org/sonner/-/sonner-1.5.0.tgz"
+  resolved "https://registry.yarnpkg.com/sonner/-/sonner-1.5.0.tgz#af359f817063318415326b33aab54c5d17c747b7"
   integrity sha512-FBjhG/gnnbN6FY0jaNnqZOMmB73R+5IiyYAw8yBj7L54ER7HB3fOSE5OFiQiE2iXWxeXKvg6fIP4LtVppHEdJA==
 
 source-map-js@^1.2.0:
