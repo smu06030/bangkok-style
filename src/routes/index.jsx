@@ -7,8 +7,10 @@ import PublicHome from "../pages/public/Home";
 import MyPage from "../pages/protected/MyPage";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
-import UpLoad from "../pages/protected/Upload";
+
 import Like from "../pages/Like";
+import UpLoad from "../pages/protected/UpLoad";
+import ModifyUpLoad from "../pages/protected/ModifyUpLoad";
 
 const Routes = () => {
   // 모든 사용자 접근 가능
@@ -24,6 +26,10 @@ const Routes = () => {
         {
           path: "/Like",
           element: <Like />
+        },
+        {
+          path: "/modifyUpLoad",
+          element: <ModifyUpLoad />
         }
       ]
     }

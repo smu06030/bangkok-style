@@ -1,8 +1,20 @@
-import styled from "styled-components";
 import supabase from "../../supabaseClient";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EntireContext from "../../Context/EntireContext";
+import {
+  BtnDiv,
+  Button,
+  ButtonX,
+  HashInput,
+  ImagesDiv,
+  Img,
+  InputTextarea,
+  InputTitle,
+  P,
+  Span,
+  UpLoadContainer
+} from "../../styles/UpLoadStyle";
 
 const UpLoad = () => {
   const [posts, setPosts] = useState([]);
@@ -13,41 +25,10 @@ const UpLoad = () => {
   const [previewUrls, setPreviewUrls] = useState("");
   const [fashionUrl, setFashionUrl] = useState("");
 
-  const fileInputRef = useRef(null);
-
-  const { userInfo } = useContext(EntireContext);
-  //console.log("userInfo==>", userInfo);
-
-  const loginUserId = userInfo.id;
-
   const navigate = useNavigate();
-
-  // 게시글 가져오기
-  // async function getPosts() {
-  //   const { data } = await supabase.from("posts").select();
-  //   // (미구현)
-  //   setPosts(data);
-  // }
-
-  // 게시글 수정하기 (구현 중)
-  async function updatePost(id) {
-    const { data } = await supabase
-      .from("posts")
-      .update({
-        id: "입력?", //
-        created_at: Date.now(),
-        title: prompt("수정할 제목을 입력해주세요."),
-        content: prompt("수정할 내용을 입력해주세요."),
-        user_id: loginUserId,
-        hash_tag: ["#멋쟁이", "#데일리"],
-        img_url: prompt("수정할 이미지")
-      })
-      .eq("id", id)
-      .select();
-    const [updatedPost] = data;
-    const updatedList = posts.map((post) => (post.id === updatedPost.id ? updatedPost : post));
-    setPosts(updatedList);
-  }
+  const fileInputRef = useRef(null);
+  const { userInfo } = useContext(EntireContext);
+  const loginUserId = userInfo.id;
 
   // 기본이미지 가져오기
   function checkFashion() {
@@ -70,7 +51,6 @@ const UpLoad = () => {
     if (error) return;
     setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
   }
-  //console.log("fashionUrl=>", fashionUrl);
 
   // 업로드 버튼
   const createPost = async (e) => {
@@ -124,8 +104,8 @@ const UpLoad = () => {
                 style={{ display: "none" }}
               />
             </ImagesDiv>
-            <div>
-              <p>제목</p>
+            <div style={{ marginTop: "20px" }}>
+              <P>제목</P>
               <InputTitle
                 type="text"
                 placeholder="제목을 입력해주세요."
@@ -136,8 +116,8 @@ const UpLoad = () => {
               />
             </div>
 
-            <div>
-              <p>내용</p>
+            <div style={{ marginTop: "20px" }}>
+              <P>내용</P>
               <InputTextarea
                 placeholder="내용을 입력해주세요."
                 value={content}
@@ -146,13 +126,9 @@ const UpLoad = () => {
                 }}
               />
             </div>
-            <BtnDiv>
-              <Button onClick={updatePost}>수정</Button>
-              <Button onClick={createPost}>업로드</Button>
-            </BtnDiv>
-            <div>
-              <p>해시태그</p>
-              <input
+            <div style={{ marginTop: "20px" }}>
+              <P>해시태그</P>
+              <HashInput
                 type="text"
                 value={inputValue}
                 onChange={(e) => {
@@ -164,19 +140,23 @@ const UpLoad = () => {
               />
               <div>
                 {hashtags.map((tag, idx) => (
-                  <span key={idx} style={{ marginRight: "8px" }}>
+                  <Span key={idx} style={{ marginRight: "8px" }}>
                     {tag}
-                    <button
+                    <ButtonX
                       onClick={() => {
                         removeHashTag(idx);
                       }}
                     >
                       X
-                    </button>
-                  </span>
+                    </ButtonX>
+                  </Span>
                 ))}
               </div>
             </div>
+            <BtnDiv>
+              {/* <Button onClick={updatePost}>수정</Button> */}
+              <Button onClick={createPost}>업로드</Button>
+            </BtnDiv>
           </UpLoadContainer>
         </div>
       ) : (
@@ -193,40 +173,3 @@ const UpLoad = () => {
 };
 
 export default UpLoad;
-
-const UpLoadContainer = styled.div`
-  border: 1px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-top: 50px;
-`;
-
-const ImagesDiv = styled.div`
-  border: 1px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const Img = styled.img`
-  margin: 10px;
-  height: 200px;
-  width: 200px;
-`;
-const InputDiv = styled.div`
-  border: 1px solid gray;
-`;
-const InputTitle = styled.input``;
-
-const InputTextarea = styled.textarea`
-  width: 100%;
-`;
-
-const BtnDiv = styled.div`
-  border: 1px solid gray;
-`;
-
-const Button = styled.button``;

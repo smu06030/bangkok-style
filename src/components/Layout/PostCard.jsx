@@ -88,7 +88,7 @@ const PostCard = ({ post }) => {
     <Links>
       <PostWrapper>
         <PostImageWrapper>
-          <PostImage src={dummy} />
+          <PostImage src={img_url} />
         </PostImageWrapper>
         <PostTitle>
           <Title>{title}</Title>
