@@ -3,19 +3,30 @@ import useFetchPosts from "../../hooks/useFetchPosts";
 import PostCard from "./PostCard";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Loading from "../../assets/images/Loading";
+
+const PostsWrapper = styled.div`
+  text-align: center;
+`;
 
 const ArticleHeader = styled.h2`
-  margin-top: 2rem;
+  margin: 2rem 0;
   font-size: 1.5rem;
   text-align: center;
 `;
 
 const Article = styled.article`
-  position: relative;
+  /* position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 0;
 `;
 
 const Links = styled(Link)`
@@ -70,15 +81,18 @@ const PostContent = styled.div`
 `;
 
 const Posts = () => {
-  const { posts } = useFetchPosts();
+  const { posts, loading } = useFetchPosts();
 
   const postCard = posts.posts.map((post) => <PostCard key={post.id} post={post} />);
+  const showLoading = loading && <Loading />;
+  const showPosts = posts.posts.length ? <Article>{postCard}</Article> : <h2>게시글이 없습니다.</h2>;
 
   return (
-    <>
+    <PostsWrapper>
       <ArticleHeader>방콕 스타일</ArticleHeader>
-      <Article>{postCard}</Article>
-    </>
+      {showLoading}
+      {showPosts}
+    </PostsWrapper>
   );
 };
 

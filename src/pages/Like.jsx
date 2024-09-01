@@ -32,7 +32,7 @@ const ImageStyle = styled.img`
 `;
 
 const Like = () => {
-  const { userInfo } = useContext(EntireContext);
+  const { userInfo, updateLikeStatus } = useContext(EntireContext);
   const [likedPosts, setLikedPosts] = useState([]);
   const PAGES = 10;
 
@@ -43,23 +43,39 @@ const Like = () => {
   };
 
   useEffect(() => {
-    fetchLikedPosts(); // 함수 이름 변경
-  }, [PAGES]);
+    if (userInfo) {
+      fetchLikedPosts();
+    }
+  }, [userInfo, PAGES]);
 
   const fetchLikedPosts = async () => {
-    const { data, error } = await supabase
-      .from("posts")
-      .select()
-      .eq("like", true) // 'like' 값이 true인 데이터만 가져오기
-      .limit(PAGES);
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select()
+        .eq("like", true)
+        .eq("user_id", userInfo.id)
+        .limit(PAGES);
 
-    if (error) {
-      console.error("Error fetching liked posts:", error);
-      return;
+      if (error) {
+        console.error("좋아요 업데이트에 실패했습니다:", error);
+        return;
+      }
+
+      setLikedPosts(data);
+      console.log("좋아요 상태가 업데이트되었습니다:", data);
+    } catch (error) {
+      console.error("좋아요 업데이트에 실패했습니다:", error);
     }
+  };
 
-    setLikedPosts(data);
-    console.log(data);
+  const handleUnlike = async (post_id) => {
+    try {
+      await updateLikeStatus(post_id, userInfo.id, true);
+      setLikedPosts((p) => p.filter((post) => post.id !== post_id));
+    } catch (error) {
+      console.error("좋아요 해제에 실패했습니다 :", error);
+    }
   };
 
   return (
@@ -80,8 +96,8 @@ const Like = () => {
           {likedPosts.length > 0 ? (
             likedPosts.map((post) => (
               <CardStyle key={post.id} id={post.id}>
-                <ImageStyle img src={post.imageUrl} alt={post.title} />
-                <button onClick={(event) => setLikedPosts(event)}>좋아요 해제</button>
+                <ImageStyle src={post.imageUrl} alt={post.title} />
+                <button onClick={() => handleUnlike(post.id)}>좋아요 해제</button>
               </CardStyle>
             ))
           ) : (
@@ -94,12 +110,3 @@ const Like = () => {
 };
 
 export default Like;
-
-/* 
-  1. 인증 상태 확인 o
-  2. 비로그인 시, 로그인 하라는 컴포넌트 띄우고 이동 o
-  3. 로그인 시, '좋아요' 한 사진 데이터 가져오기
-  4. 사진 '좋아요' 버튼 클릭 시, '좋아요' 해제 및 좋아요 페이지에서 삭제 
-  4. '좋아요' 한 사진들 클릭 시 디테일 페이지로 이동
-  5. 메인 페이지에서 사진에 '좋아요' 버튼 띄우고 '좋아요' 버튼 클릭 시 해당 데이터 좋아요 페이지로 이동
-*/
