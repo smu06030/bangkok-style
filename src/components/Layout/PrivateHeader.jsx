@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Upload from "../../assets/images/Upload";
 import MyUser from "../../assets/images/MyUser";
-import Like from "../../assets/images/Like";
+import { Like } from "../../assets/images/Likes";
 import useSignInHandler from "../../hooks/useSignInHandler";
+import { Toaster } from "sonner";
 
 const HeaderWrapper = styled.header`
   padding: 1.5rem;
@@ -42,10 +43,11 @@ const Logout = styled(Link)`
   ${linkStyles}
 `;
 
-const ProtectedHeader = () => {
+const PrivateHeader = () => {
   const { onSignOutHandler } = useSignInHandler();
   return (
     <HeaderWrapper>
+      <Toaster position="top-center" richColors />
       <Logo to="/">방콕 스타일</Logo>
 
       <HeaderIcons>
@@ -64,4 +66,4 @@ const ProtectedHeader = () => {
   );
 };
 
-export default ProtectedHeader;
+export default PrivateHeader;
