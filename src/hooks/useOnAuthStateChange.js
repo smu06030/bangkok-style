@@ -2,7 +2,7 @@ import EntireContext from "../Context/EntireContext";
 import { useContext, useEffect } from "react";
 import supabase from "../supabaseClient";
 
-// 로그인 상태 동기화
+// 유저정보를 context에 저장하는 함수
 const useOnAuthStateChange = () => {
   const { signIn } = useContext(EntireContext);
   useEffect(() => {
