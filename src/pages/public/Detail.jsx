@@ -43,8 +43,8 @@ const Detail = () => {
     return <div>Loading...</div>; // 데이터가 없을 때 로딩 화면
   }
 
-  const handleClick = (id) => {
-    navigate(`/upload?id=${id}`);
+  const handleClick = (postId) => {
+    navigate(`/modify?id=${postId}`);
   };
 
   return (
