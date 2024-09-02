@@ -1,21 +1,21 @@
 import { useContext, useEffect, useState } from "react";
 import EntireContext from "../Context/EntireContext";
-import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData";
+import { filteredDisplayedPostsData } from "../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../constant/constants";
 import getAllData from "../services/getAllDataService";
 import formattedLikeData from "../utils/formattedLikeData";
 
 const useFetchPosts = () => {
-  const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
+  const { setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
+  // 유저 정보 확인
   const userId = !!userInfo ? userInfo.id : null;
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      // 로그인 유무 확인
 
-      const response = await getAllData(userId);
-      const data = formattedLikeData(response, userId);
+  const fetchPosts = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await getAllData();
+      const data = formattedLikeData(response);
 
       // 전체 게시글 데이터 저장
       setAllPosts(data);
@@ -27,14 +27,13 @@ const useFetchPosts = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
+
   useEffect(() => {
     fetchPosts();
-  }, [userInfo]);
+  }, [fetchPosts]);
+
   return {
-    allPosts,
-    displayedPosts,
-    setDisplayedPosts,
     loading,
     userInfo
   };
