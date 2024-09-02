@@ -59,7 +59,8 @@ const useSignInHandler = () => {
   };
 
   // 로그아웃 함수
-  const onSignOutHandler = () => {
+  const onSignOutHandler = (event) => {
+    event.preventDefault();
     toast.warning("로그아웃 하시겠습니까?", {
       action: {
         label: "로그아웃",
@@ -76,7 +77,7 @@ const useSignInHandler = () => {
     });
   };
 
-  // 비밀번호 찾기 함수
+  // 비밀번호 초기화 함수
   const recoveryPassword = async (event, enteredInfo) => {
     event.preventDefault();
     if (!enteredInfo.email.trim()) {
@@ -88,11 +89,19 @@ const useSignInHandler = () => {
       toast.error("잘못된 이메일입니다.");
       return;
     }
-    const { data } = await supabase.auth.resetPasswordForEmail(enteredInfo.email);
-    if (data) {
-      toast.success("메일을 전송하였습니다. 메일을 확인해주세요.");
-      return;
-    }
+
+    toast.warning("비밀번호를 초기화하시겠습니까?", {
+      action: {
+        label: "초기화",
+        onClick: async () => {
+          const { data } = await supabase.auth.resetPasswordForEmail(enteredInfo.email);
+          if (data) {
+            toast.success("메일을 전송하였습니다. 이메일을 확인해주세요.");
+            return;
+          }
+        }
+      }
+    });
   };
 
   return { onSignInHandler, signInWithGithub, onSignOutHandler, recoveryPassword };

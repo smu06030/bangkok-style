@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useSignInHandler from "../../hooks/useSignInHandler";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../components/UI/SignStyles";
-import { EMAIL_INPUT_REGEX, EMAIL_REGEX } from "../../constant/regularExpression";
+import { EMAIL_REGEX } from "../../constant/regularExpression";
 import { Toaster } from "sonner";
 import URLS from "../../constant/urls";
 import SignInput from "../../components/UI/SignInput";
+import styled from "styled-components";
 
-const PasswordRecovery = () => {
+const PasswordReset = () => {
   const navigate = useNavigate();
   const { recoveryPassword } = useSignInHandler();
   const [emailInput, setEmailInput] = useState({ email: "" });
@@ -16,10 +17,10 @@ const PasswordRecovery = () => {
     <>
       <Toaster position="top-center" richColors />
       <h2>비밀번호 찾기</h2>
+      <ResetAlert>비밀번호 찾기 시 비밀번호가 초기화됩니다.</ResetAlert>
       <SignFrom>
         <SignInput
           firstFocus={true}
-          regex={EMAIL_INPUT_REGEX}
           inputs={emailInput}
           setInputs={setEmailInput}
           label={"이메일"}
@@ -40,4 +41,12 @@ const PasswordRecovery = () => {
   );
 };
 
-export default PasswordRecovery;
+export default PasswordReset;
+
+const ResetAlert = styled.p`
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  margin: 10px;
+  color: red;
+`;
