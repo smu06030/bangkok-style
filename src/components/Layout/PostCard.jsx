@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import dummy from "../../assets/images/dummy.jpg";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
-import updateLikeStatus from "../../utils/updateLikeStatus";
+import updateLikeStatus from "../../services/likeService";
+import URLS from "../../constant/urls";
+
+const commonStyles = `
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+`;
 
 const Links = styled(Link)`
   color: #000;
@@ -14,6 +24,7 @@ const PostWrapper = styled.div`
   /* width: 350px; */
   width: 100%;
   padding: 0 0 8px 0;
+  text-align: left;
 
   &:hover {
     border-radius: 0.3rem;
@@ -45,6 +56,7 @@ const PostTitle = styled.div`
 
 const Title = styled.span`
   font-size: 1.125rem;
+  ${commonStyles}
 `;
 
 const LikeIcon = styled.span`
@@ -53,39 +65,42 @@ const LikeIcon = styled.span`
 `;
 
 const PostHashTag = styled.div`
-  text-align: left;
   font-size: 0.875rem;
   padding: 0 6px 6px;
-  margin-top: -6px;
-  color: rgba(0, 0, 0, 0.5);
+  margin-top: -4px;
+  color: rgba(18, 93, 255, 0.9);
 `;
 
 const PostContent = styled.div`
-  width: 100%;
-  text-align: left;
   margin-top: 0.5rem;
   font-size: 0.875rem;
   padding: 2px 6px 2px;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: wrap;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+  ${commonStyles}
 `;
 
-const PostCard = ({ post }) => {
-  const { id: post_id, img_url, like, title, hash_tag, content, user_id } = post;
-  const [isLike, setIsLike] = useState(like);
+const PostCard = ({ post, userInfo, onUnlike }) => {
+  const { id: post_id, img_url, isLiked, title, hash_tag, content } = post;
+  const [isLike, setIsLike] = useState(isLiked);
+  const navigate = useNavigate();
 
   const toggleLike = async () => {
+    if (!userInfo) {
+      alert("로그인이 필요합니다.");
+      return navigate("/sign-in");
+    }
+
     setIsLike(!isLike);
-    await updateLikeStatus(post_id, user_id, isLike);
+    await updateLikeStatus(post_id, userInfo.id, isLike);
+
+    // 좋아요 해제 시 onUnlike 콜백 호출
+    if (isLike && onUnlike) {
+      onUnlike(post_id);
+    }
   };
 
   // 게시글 보여주기
   const postCard = (
-    <Links>
+    <Links to={`${URLS.detail}?id=${post.id}`}>
       <PostWrapper>
         <PostImageWrapper>
           <PostImage src={img_url} />

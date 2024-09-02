@@ -1,23 +1,27 @@
 import { useState } from "react";
 import useSignUpHandler from "../../hooks/useSignUpHandler";
-import SignInput from "../../components/SignInputs";
-import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
-import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
+import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
+import { NavGuide, SignBtn, SignFrom, SignNav } from "../../components/UI/SignStyles";
 import { useNavigate } from "react-router-dom";
+import { Toaster } from "sonner";
+import URLS from "../../constant/urls";
+import SignInput from "../../components/UI/SignInput";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { onSignUpHandler } = useSignUpHandler();
-  const [signUpInputs, setIdInputs] = useState({ email: "", password: "", verifyPassword: "", nickname: "" });
+  const [signUpInputs, setSignUpInputs] = useState({ email: "", password: "", verifyPassword: "", nickname: "" });
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       <h2>회원가입</h2>
       <SignFrom>
         <SignInput
           firstFocus={true}
+          regex={EMAIL_INPUT_REGEX}
           inputs={signUpInputs}
-          setInputs={setIdInputs}
+          setInputs={setSignUpInputs}
           label={"아이디"}
           name={"email"}
           type={"text"}
@@ -27,8 +31,9 @@ const SignUp = () => {
           }
         />
         <SignInput
+          regex={PASSWORD_INPUT_REGEX}
           inputs={signUpInputs}
-          setInputs={setIdInputs}
+          setInputs={setSignUpInputs}
           label={"비밀번호"}
           name={"password"}
           type={"password"}
@@ -39,8 +44,9 @@ const SignUp = () => {
           }
         />
         <SignInput
+          regex={PASSWORD_INPUT_REGEX}
           inputs={signUpInputs}
-          setInputs={setIdInputs}
+          setInputs={setSignUpInputs}
           label={"비밀번호 확인"}
           name={"verifyPassword"}
           type={"password"}
@@ -49,19 +55,19 @@ const SignUp = () => {
         />
         <SignInput
           inputs={signUpInputs}
-          setInputs={setIdInputs}
+          setInputs={setSignUpInputs}
           label={"닉네임"}
           name={"nickname"}
           type={"text"}
           placeholder={"닉네임을 입력해주세요."}
-          terms={signUpInputs.nickname.trim().length === 0 && "닉네임을 입력하여주세요."}
+          terms={signUpInputs.nickname.trim().length === 0 && "닉네임을 입력해주세요."}
         />
-        <SignBtn $signUp={true} onClick={(e) => onSignUpHandler(e, signUpInputs)}>
+        <SignBtn $large={true} onClick={(e) => onSignUpHandler(e, signUpInputs)}>
           회원가입
         </SignBtn>
         <NavGuide>
-          <p>이미 계정이 있으신가요?</p>
-          <SignNav onClick={() => navigate("/sign-in")}>로그인하기</SignNav>
+          <SignNav onClick={() => navigate(URLS.passwordRecovery)}>비밀번호 찾기</SignNav>
+          <SignNav onClick={() => navigate(URLS.signIn)}>로그인하기</SignNav>
         </NavGuide>
       </SignFrom>
     </>

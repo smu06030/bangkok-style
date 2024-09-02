@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import banner from "../../assets/images/banner.png";
 import Search from "./../../assets/images/Search";
+import useDebounce from "../../hooks/useDebounce";
+import EntireContext from "../../Context/EntireContext";
+import { filteredDisplayedPostsData, filteredSearchTermData } from "../../utils/filteredPostsData";
+import { LIMIT_NUMBER } from "../../constant/constants";
 
 const BannerImage = styled.img`
   width: calc(100% + 48px);
@@ -24,7 +28,7 @@ const BannerTitle = styled.h2`
   color: #fff;
   font-size: 3rem;
   font-weight: 500;
-  top: 35%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -59,20 +63,43 @@ const BannerSearchInput = styled.input`
 `;
 
 const Banner = () => {
+  const { allPosts, filteredPosts, setDisplayedPosts, setFilteredPosts, setDebounceValue } = useContext(EntireContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const debounceSearchTerm = useDebounce(searchTerm.trim());
+
+  useEffect(() => {
+    const filterPost = allPosts.filter(
+      (post) => post.title.includes(debounceSearchTerm) || post.content.includes(debounceSearchTerm)
+    );
+
+    setDebounceValue(debounceSearchTerm);
+    setFilteredPosts(filterPost);
+  }, [debounceSearchTerm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  }
+
+    if (debounceSearchTerm === "") {
+      setDisplayedPosts(filteredDisplayedPostsData(LIMIT_NUMBER, allPosts));
+    } else {
+      setDisplayedPosts(filteredSearchTermData(LIMIT_NUMBER, filteredPosts));
+    }
+  };
 
   return (
     <BannerWrapper>
       <BannerImage src={banner} alt="배너" />
       <BannerTitle>OOTD</BannerTitle>
-      <BannerSearchForm onSubmit ={handleSubmit}>
-        <button> 
+      <BannerSearchForm onSubmit={handleSubmit}>
+        <button>
           <Search width="24" height="24" />
         </button>
-        <BannerSearchInput type="text" placeholder="스타일을 검색해보세요." />
+        <BannerSearchInput
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="스타일을 검색해보세요."
+        />
       </BannerSearchForm>
     </BannerWrapper>
   );
