@@ -1,11 +1,11 @@
 import { useState } from "react";
-import SignInput from "../../components/SignInputs";
 import { useNavigate } from "react-router-dom";
 import useSignInHandler from "../../hooks/useSignInHandler";
-import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
+import { NavGuide, SignBtn, SignFrom, SignNav } from "../../components/UI/SignStyles";
 import { EMAIL_INPUT_REGEX, EMAIL_REGEX } from "../../constant/regularExpression";
 import { Toaster } from "sonner";
 import URLS from "../../constant/urls";
+import SignInput from "../../components/UI/SignInput";
 
 const PasswordRecovery = () => {
   const navigate = useNavigate();

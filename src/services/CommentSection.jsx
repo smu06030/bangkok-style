@@ -42,13 +42,13 @@ const CommentSection = ({ post_id, setComments }) => {
       return;
     }
     if (inputVal.trim()) {
-      const { data, error } = await supabase.from("comments").insert({
-        post_id: post_id,
-        user_id: userInfo.id,
-        content: inputVal,
-        nick_name: userInfo.user_metadata.nickname
-      });
-
+      const { data, error } = await supabase
+        .from("comments")
+        .insert([
+          { post_id: post_id, user_id: userInfo.id, content: inputVal, nick_name: userInfo.user_metadata.nickname }
+        ])
+        .select();
+      
       if (error) {
         console.error("댓글 추가 오류 ->", error);
         return;
