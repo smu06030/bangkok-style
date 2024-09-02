@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
+import URLS from "../../constant/urls";
 
 const commonStyles = `
   line-height: 1.5;
@@ -99,7 +100,7 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
 
   // 게시글 보여주기
   const postCard = (
-    <Links>
+    <Links to={`${URLS.detail}?id=${post.id}`}>
       <PostWrapper>
         <PostImageWrapper>
           <PostImage src={img_url} />
