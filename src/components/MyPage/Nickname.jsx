@@ -39,7 +39,7 @@ const Nickname = () => {
     setNickname(userInfo.user_metadata.nickname);
   };
 
-  const handleNicknameChange = (e) => {
+  const onChangeNickname = (e) => {
     setUpdateNickname(e.target.value);
   };
 
@@ -59,7 +59,7 @@ const Nickname = () => {
   return (
     <NicknameContainer>
       {edited ? (
-        <EditInput type="text" placeholder="닉네임 입력" value={updateNickname} onChange={handleNicknameChange} />
+        <EditInput type="text" placeholder="닉네임 입력" value={updateNickname} onChange={onChangeNickname} />
       ) : (
         <NicknameText>{nickname}</NicknameText>
       )}
