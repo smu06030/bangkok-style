@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import EntireContext from "../Context/EntireContext";
 import { filteredDisplayedPostsData } from "../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../constant/constants";

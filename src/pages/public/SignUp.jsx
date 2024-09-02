@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useSignUpHandler from "../../hooks/useSignUpHandler";
-import { EMAIL_INPUT_REGEX, EMAIL_REGEX, PASSWORD_INPUT_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
+import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
 import { NavGuide, SignBtn, SignFrom, SignNav } from "../../components/UI/SignStyles";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
@@ -19,7 +19,6 @@ const SignUp = () => {
       <SignFrom>
         <SignInput
           firstFocus={true}
-          regex={EMAIL_INPUT_REGEX}
           inputs={signUpInputs}
           setInputs={setSignUpInputs}
           label={"아이디"}
@@ -31,7 +30,6 @@ const SignUp = () => {
           }
         />
         <SignInput
-          regex={PASSWORD_INPUT_REGEX}
           inputs={signUpInputs}
           setInputs={setSignUpInputs}
           label={"비밀번호"}
@@ -44,7 +42,6 @@ const SignUp = () => {
           }
         />
         <SignInput
-          regex={PASSWORD_INPUT_REGEX}
           inputs={signUpInputs}
           setInputs={setSignUpInputs}
           label={"비밀번호 확인"}

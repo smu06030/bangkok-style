@@ -7,8 +7,7 @@ const useOnAuthStateChange = () => {
   const { signIn } = useContext(EntireContext);
 
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((action, session) => {
-      console.log("action", action);
+    const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
       session && signIn(session.user);
     });
 
