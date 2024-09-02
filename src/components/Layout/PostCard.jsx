@@ -83,7 +83,9 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
   const [isLike, setIsLike] = useState(isLiked);
   const navigate = useNavigate();
 
-  const toggleLike = async () => {
+  const toggleLike = async (e) => {
+    e.stopPropagation();
+    console.log("ddd");
     if (!userInfo) {
       alert("로그인이 필요합니다.");
       return navigate("/sign-in");
@@ -97,10 +99,17 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
       onUnlike(post_id);
     }
   };
+  const moveToDetailPage = (postId) => {
+    navigate(`${URLS.detail}?id=${postId}`);
+  };
 
   // 게시글 보여주기
   const postCard = (
-    <Links to={`${URLS.detail}?id=${post.id}`}>
+    <div
+      onClick={() => {
+        moveToDetailPage(post.id);
+      }}
+    >
       <PostWrapper>
         <PostImageWrapper>
           <PostImage src={img_url} />
@@ -114,7 +123,7 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
         <PostHashTag>{hash_tag}</PostHashTag>
         <PostContent>{content}</PostContent>
       </PostWrapper>
-    </Links>
+    </div>
   );
 
   return <>{postCard}</>;

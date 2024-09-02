@@ -1,36 +1,23 @@
 import styled from "styled-components";
 import useFetchPosts from "../../hooks/useFetchPosts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
 import supabase from "../../supabaseClient";
+import EntireContext from "../../Context/EntireContext";
 
 const Detail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const post_id = queryParams.get("id");
-  const { allPosts, isLiked, userInfo } = useFetchPosts();
+  const { userInfo } = useFetchPosts();
+  const { allPosts } = useContext(EntireContext);
   const [post, setPost] = useState(null);
-  const [isLike, setIsLike] = useState(isLiked);
-  const [userEmail, setUserEmail] = useState(null);
-
-  useEffect(() => {
-    const fetchUserEmail = async () => {
-      const { data, error } = await supabase.auth.getUser();
-      if (error) {
-        console.log("유저 이메일 불러오기 에러", error);
-        return;
-      }
-      if (data.user) {
-        setUserEmail(data.user.email);
-      }
-    };
-    fetchUserEmail();
-  });
+  const [isLike, setIsLike] = useState(false);
 
   // postId가 바뀔 때 post정보 가져오기
   useEffect(() => {
