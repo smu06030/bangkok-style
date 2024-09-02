@@ -14,7 +14,24 @@ const PostsValues = () => {
     postsDispatch({ type: "DISPLAYED_POSTS", displayedPosts });
   };
 
-  return { allPosts: postsState.allPosts, displayedPosts: postsState.displayedPosts, setAllPosts, setDisplayedPosts };
+  const setFilteredPosts = (filteredPosts) => {
+    postsDispatch({ type: "FILTERED_POSTS", filteredPosts });
+  };
+
+  const setDebounceValue = (debounceValue) => {
+    postsDispatch({ type: "DEBOUNCE_VALUE", debounceValue });
+  };
+
+  return {
+    allPosts: postsState.allPosts,
+    displayedPosts: postsState.displayedPosts,
+    filteredPosts: postsState.filteredPosts,
+    debounceValue: postsState.debounceValue,
+    setAllPosts,
+    setDisplayedPosts,
+    setFilteredPosts,
+    setDebounceValue,
+  };
 };
 
 export default PostsValues;
