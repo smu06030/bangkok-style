@@ -34,7 +34,7 @@ const useSignInHandler = () => {
       email: enteredInfo.email,
       password: enteredInfo.password
     });
-    
+
     if (!data.user) {
       toast.error("존재하지 않는 계정입니다.");
     }
