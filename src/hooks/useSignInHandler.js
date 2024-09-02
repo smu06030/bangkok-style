@@ -53,7 +53,8 @@ const useSignInHandler = () => {
   };
 
   // 로그아웃 함수
-  const onSignOutHandler = () => {
+  const onSignOutHandler = (event) => {
+    event.preventDefault();
     toast.warning("로그아웃 하시겠습니까?", {
       action: {
         label: "로그아웃",

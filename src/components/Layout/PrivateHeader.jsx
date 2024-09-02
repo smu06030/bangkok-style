@@ -5,6 +5,7 @@ import MyUser from "../../assets/images/MyUser";
 import { Like } from "../../assets/images/Likes";
 import useSignInHandler from "../../hooks/useSignInHandler";
 import { Toaster } from "sonner";
+import URLS from "../../constant/urls";
 
 const HeaderWrapper = styled.header`
   padding: 1.5rem;
@@ -48,19 +49,19 @@ const PrivateHeader = () => {
   return (
     <HeaderWrapper>
       <Toaster position="top-center" richColors />
-      <Logo to="/">방콕 스타일</Logo>
+      <Logo to={URLS.home}>방콕 스타일</Logo>
 
       <HeaderIcons>
-        <Link to="/upload">
+        <Link to={URLS.upload}>
           <Upload width="24" height="24" />
         </Link>
-        <Link to="/like">
+        <Link to={URLS.like}>
           <Like width="24" height="24" />
         </Link>
-        <Link to="/my-page">
+        <Link to={URLS.myPage}>
           <MyUser width="24" height="24" />
         </Link>
-        <Logout onClick={onSignOutHandler}>로그아웃</Logout>
+        <Logout onClick={(e)=>onSignOutHandler(e)}>로그아웃</Logout>
       </HeaderIcons>
     </HeaderWrapper>
   );
