@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import dummy from "../../assets/images/dummy.jpg";
 import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
@@ -104,7 +103,7 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
     <Links to={`${URLS.detail}?id=${post.id}`}>
       <PostWrapper>
         <PostImageWrapper>
-          <PostImage src={dummy} />
+          <PostImage src={img_url} />
         </PostImageWrapper>
         <PostTitle>
           <Title>{title}</Title>

@@ -1,7 +1,7 @@
-const formattedLikeData = (response, userId) => {
+const formattedLikeData = (response) => {
   return response.data.map(post => ({
     ...post,
-    isLiked: userId ? post.likes.some(like => like.user_id === userId) : false
+    isLiked: post.likes ? post.likes.some(like => typeof like.post_id === 'number') : false
   }))
 }
 
