@@ -83,7 +83,7 @@ const Routes = () => {
               element: <MyPage />
             },
             {
-              path: "/upload",
+              path: URLS.upload,
               element: <UpLoad />
             }
           ]

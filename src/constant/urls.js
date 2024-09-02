@@ -8,6 +8,7 @@ const URLS = {
   others: "*",
   detail: "/detail",
   modify: "/modify",
+  upload: "/upload"
 };
 
 export default URLS;
