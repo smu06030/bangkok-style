@@ -1,11 +1,13 @@
-// CommentSection.js
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import EntireContext from "../Context/EntireContext";
 import supabase from "../supabaseClient";
-import { Form } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
+import useFetchPosts from "../hooks/useFetchPosts";
+import Button from "../components/UI/Button";
 
 const CommentSection = ({ post_id, setComments }) => {
+  const navigate = useNavigate();
   const [inputVal, setInputVal] = useState("");
   const [comments, setLocalComments] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -32,17 +34,20 @@ const CommentSection = ({ post_id, setComments }) => {
   }, [post_id, setComments]);
 
   // 댓글 추가하기
-  const handleAddComment = async (e) => {
+  const handleAddComment = async (e, userInfo) => {
     e.preventDefault();
     if (!userInfo) {
       alert("로그인이 필요합니다.");
+      navigate("/sign-in");
       return;
     }
     if (inputVal.trim()) {
-      const { data, error } = await supabase
-        .from("comments")
-        .insert([{ post_id: post_id, user_id: userInfo.id, content: inputVal }])
-        .single();
+      const { data, error } = await supabase.from("comments").insert({
+        post_id: post_id,
+        user_id: userInfo.id,
+        content: inputVal,
+        nick_name: userInfo.user_metadata.nickname
+      });
 
       if (error) {
         console.error("댓글 추가 오류 ->", error);
@@ -54,7 +59,13 @@ const CommentSection = ({ post_id, setComments }) => {
     }
   };
 
+  // 댓글 삭제
   const handleDeleteComment = async (comment_id) => {
+    if (!userInfo) {
+      alert("로그인이 필요합니다.");
+      navigate("/sign-in");
+      return;
+    }
     const { error } = await supabase.from("comments").delete().eq("id", comment_id);
     if (error) {
       console.log("댓글 삭제 오류 ->", error);
@@ -64,7 +75,13 @@ const CommentSection = ({ post_id, setComments }) => {
     setComments((prev) => prev.filter((p) => p.id !== comment_id));
   };
 
+  // 댓글 수정
   const handleEditComment = async () => {
+    if (!userInfo) {
+      alert("로그인이 필요합니다.");
+      navigate("/sign-in");
+      return;
+    }
     if (newContent.trim()) {
       const { data, error } = await supabase
         .from("comments")
@@ -92,7 +109,7 @@ const CommentSection = ({ post_id, setComments }) => {
 
   return (
     <>
-      <CommentForm onSubmit={handleAddComment}>
+      <CommentForm onSubmit={(e) => handleAddComment(e, userInfo)}>
         <CommentInput
           placeholder="댓글을 입력해주세요"
           value={inputVal}
@@ -101,17 +118,21 @@ const CommentSection = ({ post_id, setComments }) => {
         <input type="submit" value="게시" style={{ cursor: "pointer" }} />
       </CommentForm>
       <div key={post_id} style={{ marginTop: "10px", marginBottom: "10px" }}>
-        {latestComment.content}
+        <CommentBox>{latestComment.content}</CommentBox>
       </div>
-      <Buttons onClick={toggleModal}>{`댓글 ${comments.length}개 모두 보기`}</Buttons>
+      <Button onClick={toggleModal}>{`댓글 ${comments.length}개 모두 보기`}</Button>
       {isOpenModal ? (
         <ModalContainer>
           <ModalContents>
             {comments.map((comment) => (
               <CommentDiv key={comment.id}>
+                <p>{comment.nickname}</p>
                 {/* <p>{comment.nickname}</p> */}
-                <p>{comment.content}</p>
-                {
+                <ModalComments>
+                  <p>{comment.content}</p>
+                  <p>{comment.created_at}</p>
+                </ModalComments>
+                {userInfo ? (
                   <CommentButtons>
                     <Buttons
                       onClick={() => {
@@ -123,7 +144,7 @@ const CommentSection = ({ post_id, setComments }) => {
                     </Buttons>
                     <Buttons onClick={() => handleDeleteComment(comment.id)}>삭제</Buttons>
                   </CommentButtons>
-                }
+                ) : null}
               </CommentDiv>
             ))}
             <div>
@@ -134,11 +155,13 @@ const CommentSection = ({ post_id, setComments }) => {
                     handleEditComment();
                   }}
                 >
-                  <input value={newContent} onChange={(e) => setNewContent(e.target.value)} />
-                  <Buttons type="submit">저장</Buttons>
-                  <Buttons type="button" onClick={() => setEditCommentId(null)}>
-                    취소
-                  </Buttons>
+                  <ModalInputForm>
+                    <input value={newContent} onChange={(e) => setNewContent(e.target.value)} />
+                    <Buttons type="submit">저장</Buttons>
+                    <Buttons type="button" onClick={() => setEditCommentId(null)}>
+                      취소
+                    </Buttons>
+                  </ModalInputForm>
                 </Form>
               )}
 
@@ -157,6 +180,20 @@ export default CommentSection;
 const CommentForm = styled.form`
   display: flex;
   gap: 10px;
+  input[type="submit"] {
+    cursor: pointer;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #6d9fff;
+    }
+  }
 `;
 
 const CommentInput = styled.input`
@@ -175,6 +212,8 @@ const CommentDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1em;
+  border: 1px solid gray;
+  padding: 1em;
 `;
 
 const CommentButtons = styled.div`
@@ -183,7 +222,14 @@ const CommentButtons = styled.div`
 `;
 
 const Buttons = styled.button`
+  background-color: #1e293b;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
   cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const ModalContainer = styled.div`
@@ -207,10 +253,43 @@ const ModalContents = styled.div`
   padding: 1em;
   border-radius: 8px;
   background: white;
-  button {
-    margin-bottom: 1em;
-  }
+  overflow-y: auto;
+  position: relative;
+
   p {
     margin-bottom: 1em;
+  }
+`;
+
+const CommentBox = styled.p`
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  white-space: normal;
+  width: calc(20ch + 1em);
+  margin: 0;
+`;
+
+const ModalComments = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+`;
+
+const ModalInputForm = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1em;
+  margin-bottom: 1em;
+  input {
+    padding: 10px;
+    outline: none;
+    flex: 1;
+    margin-right: auto;
   }
 `;

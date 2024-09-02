@@ -1,11 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useLocation, useNavigate } from "react-router-dom";
 import useFetchPosts from "../../hooks/useFetchPosts";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import updateLikeStatus from "../../services/likeService";
 import { Like, LikeActive } from "../../assets/images/Likes";
+import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
+import Button from "../../components/UI/Button";
+import supabase from "../../supabaseClient";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -15,6 +16,21 @@ const Detail = () => {
   const { allPosts, isLiked, userInfo } = useFetchPosts();
   const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(isLiked);
+  const [userEmail, setUserEmail] = useState(null);
+
+  useEffect(() => {
+    const fetchUserEmail = async () => {
+      const { data, error } = await supabase.auth.getUser();
+      if (error) {
+        console.log("유저 이메일 불러오기 에러", error);
+        return;
+      }
+      if (data.user) {
+        setUserEmail(data.user.email);
+      }
+    };
+    fetchUserEmail();
+  });
 
   // postId가 바뀔 때 post정보 가져오기
   useEffect(() => {
@@ -51,7 +67,6 @@ const Detail = () => {
       <span>id: {post.id}</span>
       <OuterDiv>
         <PostDiv>
-          <button onClick={() => handleClick(post.id)}>수정</button>
           <span>user_id: {post.user_id}</span>
           <PostImg src={post.img_url} alt={post.id} />
           <span style={{ marginTop: "5px" }}>
@@ -59,13 +74,14 @@ const Detail = () => {
               {!isLike ? <Like width="24" height="24" /> : <LikeActive width="24" height="24" />}
             </span>
           </span>
-          <span>{post.hash_tag}</span>
+          <span style={{ color: "#6d9fff" }}>{post.hash_tag}</span>
           <PostTitle>{post.title}</PostTitle>
-          <span>{post.content}</span>
+          <span style={{ width: "400px" }}>{post.content}</span>
           <CommentSection
             post_id={post_id}
             setComments={(comments) => setPost((prevPost) => ({ ...prevPost, comments }))}
           />
+          <Button onClick={() => handleClick(post.id)}>수정</Button>
         </PostDiv>
       </OuterDiv>
     </>
@@ -79,10 +95,13 @@ const OuterDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 30%;
-  margin: 1em auto;
+  max-width: 40%;
+  margin: 50px auto;
   span {
     margin-bottom: 10px;
+  }
+  @media (max-height: 720px) {
+    margin: 10px auto;
   }
 `;
 
@@ -90,12 +109,15 @@ const PostDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto;
-  height: 80vh; /* Adjusted height to fit within viewport */
-  max-width: 100%; /* Ensures width does not exceed viewport */
+  height: auto;
+  max-width: 100%;
   border: 1px solid lightgray;
   padding: 1em;
   border-radius: 1rem;
-  overflow: hidden; /* Hides overflowing content */
+  overflow: hidden;
+  @media (max-height: 720px) {
+    height: auto;
+  }
 `;
 
 const PostTitle = styled.h3`
@@ -104,7 +126,11 @@ const PostTitle = styled.h3`
 `;
 
 const PostImg = styled.img`
-  width: 100%; /* Ensures the image does not exceed the container width */
-  height: auto; /* Maintains aspect ratio */
-  margin: auto;
+  width: 100%;
+  max-height: 400px;
+  margin: 0px auto;
+  @media (max-height: 720px) {
+    width: 300px;
+    height: 300px;
+  }
 `;

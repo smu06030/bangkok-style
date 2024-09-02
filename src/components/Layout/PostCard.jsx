@@ -4,6 +4,7 @@ import dummy from "../../assets/images/dummy.jpg";
 import styled from "styled-components";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
+import URLS from "../../constant/urls";
 
 const commonStyles = `
   line-height: 1.5;
@@ -82,20 +83,20 @@ const PostCard = ({ post, userInfo }) => {
   const { id: post_id, img_url, isLiked, title, hash_tag, content } = post;
   const [isLike, setIsLike] = useState(isLiked);
   const navigate = useNavigate();
-  
+
   const toggleLike = async () => {
     if (!userInfo) {
-      alert('로그인이 필요합니다.');
-      return navigate('/sign-in')
+      alert("로그인이 필요합니다.");
+      return navigate("/sign-in");
     }
-    
+
     setIsLike(!isLike);
     await updateLikeStatus(post_id, userInfo.id, isLike);
   };
-  
+
   // 게시글 보여주기
   const postCard = (
-    <Links to={`/detail?id=${post.id}`}>
+    <Links to={`${URLS.detail}?id=${post.id}`}>
       <PostWrapper>
         <PostImageWrapper>
           <PostImage src={dummy} />

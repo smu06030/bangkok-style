@@ -5,7 +5,8 @@ const URLS = {
   signUp: "/sign-up",
   passwordRecovery: "/password-recovery",
   myPage: "/my-page",
-  others: "*"
+  others: "*",
+  detail: "/detail"
 };
 
 export default URLS;
