@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import EntireContext from "../Context/EntireContext";
 import { filteredDisplayedPostsData } from "../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../constant/constants";
@@ -14,8 +14,8 @@ const useFetchPosts = () => {
   const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await getAllData()
-      const data = formattedLikeData(response)
+      const response = await getAllData();
+      const data = formattedLikeData(response);
 
       // 전체 게시글 데이터 저장
       setAllPosts(data);
@@ -35,7 +35,7 @@ const useFetchPosts = () => {
 
   return {
     loading,
-    userInfo,
+    userInfo
   };
 };
 
