@@ -3,6 +3,7 @@ import Avatar from "../../components/MyPage/Avatar";
 import MyPosts from "../../components/MyPage/MyPosts";
 import Nickname from "../../components/MyPage/NickName";
 import ChangePassword from "../../components/MyPage/ChangePassword";
+import { Toaster } from "sonner";
 
 const InfoBox = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const InfoBox = styled.div`
 const MyPage = () => {
   return (
     <>
+      <Toaster position="top-center" richColors />
       <InfoBox>
         <Avatar />
         <Nickname />
