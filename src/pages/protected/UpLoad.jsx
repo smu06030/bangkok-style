@@ -30,6 +30,9 @@ const UpLoad = () => {
   const fileInputRef = useRef(null);
   const { userInfo } = useContext(EntireContext);
   const loginUserId = userInfo.id;
+  console.log("userInfo", userInfo.identities[0].identity_data.nickname);
+  const nickName = userInfo.identities[0].identity_data.nickname;
+  console.log("nickName", nickName);
 
   // 기본이미지 가져오기
   function checkFashion() {
@@ -64,13 +67,15 @@ const UpLoad = () => {
       toast.error("댓글을 입력해주세요");
       return;
     } else {
+      toast.success("게시글이 등록되었습니다.");
       await supabase.from("posts").insert([
         {
           title,
           content,
           hash_tag: hashtags,
           img_url: fashionUrl,
-          user_id: loginUserId
+          user_id: loginUserId,
+          nick_name: nickName
         }
       ]);
     }

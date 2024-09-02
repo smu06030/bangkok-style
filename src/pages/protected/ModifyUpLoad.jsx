@@ -66,7 +66,7 @@ const ModifyUpLoad = () => {
     fetchData();
   }, [postId]); //[]로 했어서 가끔 이상했나..?
 
-  // 이미지 프리뷰 함수
+  //NOTE - 이미지 프리뷰 & 이미지 스토리지 업로드 함수
   async function handleFilePreviewChange(files) {
     const [file] = files;
     if (!file) {
@@ -76,18 +76,20 @@ const ModifyUpLoad = () => {
     const previewUrl = URL.createObjectURL(file);
     setPreviewUrls(previewUrl);
 
-    //NOTE - 스토리지에 업로드
     const filePath = `fashion_${Date.now()}`;
     const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
     if (error) return;
     setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
   }
 
+  //NOTE - 해시태그 입력하고 엔터누를때 작동하는 함수
   const handleKeyPress = (event) => {
     console.log("handleKeyPress이후 inputValue ==>", inputValue); //#수정
     console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트']
+
+    //엔터키 누름 && 해시태그 값 있을 때
     if (event.key === "Enter" && inputValue.trim() !== "") {
-      // setHashtags([...hashtags, inputValue]);
+      //
       console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트'] 인 이유 =>함수(setHashtags, setInputValue 등)가 비동기적으로 작동하기때문에
       setHashtags((prevHashtags) => [...prevHashtags, inputValue]); // 이렇게 수정해야??
       console.log("handleKeyPress  함수형 업데이트 이후 hashtags ==>", hashtags); // 안되넹ㅋ
@@ -95,12 +97,14 @@ const ModifyUpLoad = () => {
       setInputValue("");
     }
   };
+  console.log("handleKeyPress  함수형 업데이트 이후 hashtags2 ==>", hashtags); // 된다 뭐지.. ㅠ
 
+  //NOTE - 입력한 해시태그 지우는 함수
   const removeHashTag = (idx) => {
     setHashtags(hashtags.filter((_, i) => i !== idx));
   };
 
-  // 게시글 수정하기
+  //NOTE - 게시글 수정하는 함수
   const updatePost = async () => {
     const { data, error } = await supabase
       .from("posts")
