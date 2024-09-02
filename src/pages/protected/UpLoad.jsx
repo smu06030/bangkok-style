@@ -2,6 +2,7 @@ import supabase from "../../supabaseClient";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EntireContext from "../../Context/EntireContext";
+import { Toaster, toast } from "sonner";
 import {
   BtnDiv,
   Button,
@@ -56,24 +57,23 @@ const UpLoad = () => {
   const createPost = async (e) => {
     e.preventDefault();
 
-    // if (title.length === 0) {
-    //   setError("제목을 입력해주세요.");
-    //   return;
-    // } else if (content.length === 0) {
-    //   setError("내용을 입력해주세요");
-    //   return;
-    // } else {
-    //   setError("");
-    // }
-    await supabase.from("posts").insert([
-      {
-        title,
-        content,
-        hash_tag: hashtags,
-        img_url: fashionUrl,
-        user_id: loginUserId
-      }
-    ]);
+    if (title.length === 0) {
+      toast.error("제목을 입력해주세요");
+      return;
+    } else if (content.length === 0) {
+      toast.error("댓글을 입력해주세요");
+      return;
+    } else {
+      await supabase.from("posts").insert([
+        {
+          title,
+          content,
+          hash_tag: hashtags,
+          img_url: fashionUrl,
+          user_id: loginUserId
+        }
+      ]);
+    }
     navigate("/");
   };
 
@@ -94,6 +94,7 @@ const UpLoad = () => {
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       {userInfo ? (
         <div>
           <UpLoadContainer>

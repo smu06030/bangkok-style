@@ -26,18 +26,18 @@ const ModifyUpLoad = () => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+
   // const { userInfo } = useContext(EntireContext);
-  // const loginUserId = userInfo.id;
+  // console.log("userInfo", userInfo);
+  // console.log("userInfo.id", userInfo.id);
+  // const loginUserId = userInfo.id
 
   //임시
-  const loginUserId = "18c32b4d-8bf9-4bd0-a557-4350ed6717b3";
-  console.log("loginUserId", loginUserId);
+  // const loginUserId = "18c32b4d-8bf9-4bd0-a557-4350ed6717b3";
 
   //쿼리스트링으로 받아온 id
   const location = useLocation();
-  // console.log("location", location.search);
-  const postId = location.search.substr(2);
-  console.log("postId==>", postId);
+  const postId = location.search.substr(8);
 
   //포스터 가져오기
   const getPosts = async (postId) => {
@@ -46,25 +46,25 @@ const ModifyUpLoad = () => {
       console.error("Error fetching post:", error);
       return null;
     }
-    const { title, content, img_url, hash_tag } = data[0];
-
-    console.log("posts1===>", posts[0]);
-    console.log("title1==>", title);
-    console.log("content1==>", content);
-    console.log("img_url1==>", previewUrls);
-    console.log("hash_tag1==>", hashtags);
-
-    setPreviewUrls(img_url || "");
-    setTitle(title || "");
-    setContent(content || "");
-    setHashtags(hash_tag || []);
+    setPosts(data);
+    return data;
   };
 
-  console.log("posts2===>", posts[0]);
-  console.log("title2==>", title);
-  console.log("content2==>", content);
-  console.log("img_url2==>", previewUrls);
-  console.log("hash_tag2==>", hashtags);
+  // 포스터 가져온 후 담기!
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedPosts = await getPosts(postId);
+      if (fetchedPosts && fetchedPosts.length > 0) {
+        const post = fetchedPosts[0];
+        console.log("post 가져옴 상태에 넣기 전 ==>", post);
+        setTitle(post.title || "");
+        setContent(post.content || "");
+        setPreviewUrls(post.img_url || "");
+        setHashtags(post.hash_tag || "");
+      }
+    };
+    fetchData();
+  }, [postId]); //[]로 했어서 가끔 이상했나..?
 
   // 이미지 프리뷰 함수
   async function handleFilePreviewChange(files) {
@@ -75,12 +75,30 @@ const ModifyUpLoad = () => {
     //이미지 미리보기 URL 생성
     const previewUrl = URL.createObjectURL(file);
     setPreviewUrls(previewUrl);
-    // 스토리지에 업로드
+
+    //NOTE - 스토리지에 업로드
     const filePath = `fashion_${Date.now()}`;
     const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
     if (error) return;
     setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
   }
+
+  const handleKeyPress = (event) => {
+    console.log("handleKeyPress이후 inputValue ==>", inputValue); //#수정
+    console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트']
+    if (event.key === "Enter" && inputValue.trim() !== "") {
+      // setHashtags([...hashtags, inputValue]);
+      console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트'] 인 이유 =>함수(setHashtags, setInputValue 등)가 비동기적으로 작동하기때문에
+      setHashtags((prevHashtags) => [...prevHashtags, inputValue]); // 이렇게 수정해야??
+      console.log("handleKeyPress  함수형 업데이트 이후 hashtags ==>", hashtags);
+
+      setInputValue("");
+    }
+  };
+
+  const removeHashTag = (idx) => {
+    setHashtags(hashtags.filter((_, i) => i !== idx));
+  };
 
   // 게시글 수정하기
   const updatePost = async () => {
@@ -100,22 +118,8 @@ const ModifyUpLoad = () => {
     }
     console.log("Post updated successfully:", data);
     alert("게시물이 성공적으로 수정되었습니다!");
+    navigate("/");
   };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && inputValue.trim() !== "") {
-      setHashtags([...hashtags, inputValue.trim()]);
-      setInputValue("");
-    }
-  };
-
-  const removeHashTag = (idx) => {
-    setHashtags(hashtags.filter((_, i) => i !== idx));
-  };
-
-  useEffect(() => {
-    getPosts(postId);
-  }, []);
 
   return (
     <>
@@ -164,7 +168,7 @@ const ModifyUpLoad = () => {
           <P>해시태그</P>
           <HashInput
             type="text"
-            value={hashtags}
+            value={inputValue}
             onChange={(e) => {
               const value = e.target.value;
               setInputValue(value.startsWith("#") ? value : "#" + value);
@@ -173,7 +177,7 @@ const ModifyUpLoad = () => {
             placeholder="내용을 입력하고 엔터를 누르세요"
           />
           <div>
-            {hashtags && hashtags.length > 0 ? (
+            {hashtags.length > 0 &&
               hashtags.map((tag, idx) => (
                 <Span key={idx} style={{ marginRight: "8px" }}>
                   {tag}
@@ -185,10 +189,10 @@ const ModifyUpLoad = () => {
                     X
                   </ButtonX>
                 </Span>
-              ))
-            ) : (
+              ))}
+            {/* ) : (
               <></>
-            )}
+            )} */}
           </div>
         </div>
         <BtnDiv>
@@ -201,40 +205,3 @@ const ModifyUpLoad = () => {
 };
 
 export default ModifyUpLoad;
-
-// const UpLoadContainer = styled.div`
-//   border: 1px solid gray;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   margin-top: 50px;
-// `;
-
-// const ImagesDiv = styled.div`
-//   border: 1px solid gray;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-// `;
-
-// const Img = styled.img`
-//   margin: 10px;
-//   height: 200px;
-//   width: 200px;
-// `;
-// const InputDiv = styled.div`
-//   border: 1px solid gray;
-// `;
-// const InputTitle = styled.input``;
-
-// const InputTextarea = styled.textarea`
-//   width: 100%;
-// `;
-
-// const BtnDiv = styled.div`
-//   border: 1px solid gray;
-// `;
-
-// const Button = styled.button``;
