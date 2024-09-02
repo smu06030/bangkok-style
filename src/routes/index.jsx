@@ -3,10 +3,13 @@ import PublicRoute from "./PublicRoute";
 import SignIn from "../pages/public/SignIn";
 import SignUp from "../pages/public/SignUp";
 import PublicHome from "../pages/public/Home";
+import Detail from "../pages/public/Detail";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
-import UpLoad from "../pages/protected/Upload";
+
 import Like from "../pages/Like";
+import UpLoad from "../pages/protected/UpLoad";
+import ModifyUpLoad from "../pages/protected/ModifyUpLoad";
 import PasswordRecovery from "../pages/public/PasswordRecovery";
 import PrivateRoute from "./PrivateRoute";
 import MyPage from "../pages/private/MyPage";
@@ -26,6 +29,14 @@ const Routes = () => {
         {
           path: URLS.like,
           element: <Like />
+        },
+        {
+          path: URLS.detail,
+          element: <Detail />
+        },
+        {
+          path: URLS.modify,
+          element: <ModifyUpLoad />
         }
       ]
     }
@@ -72,7 +83,7 @@ const Routes = () => {
               element: <MyPage />
             },
             {
-              path: "/upload",
+              path: URLS.upload,
               element: <UpLoad />
             }
           ]

@@ -1113,7 +1113,11 @@ balanced-match@^1.0.0:
   version "0.0.0"
   dependencies:
     "@supabase/supabase-js" "^2.45.2"
+<<<<<<< HEAD
+    bangkok-style "file:../../../../../AppData/Local/Yarn/Cache/v6/npm-bangkok-style-0.0.0-b0a1ebe7-b32a-4e76-96ec-f73978e0bdba-1725256827979/node_modules/bangkok-style"
+=======
     bangkok-style "file:../../../../../../AppData/Local/Yarn/Cache/v6/npm-bangkok-style-0.0.0-57f808f4-e199-4b4d-8bbc-5e526dba211c-1725168632276/node_modules/bangkok-style"
+>>>>>>> 29b462642552cf28e89a7a54e98c3914940bf9c3
     react "^18.3.1"
     react-dom "^18.3.1"
     react-router-dom "^6.26.1"
@@ -1891,6 +1895,11 @@ imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.npmjs.org/imurmurhash/-/imurmurhash-0.1.4.tgz"
   integrity sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==
+
+install@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.13.0.tgz#6af6e9da9dd0987de2ab420f78e60d9c17260776"
+  integrity sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==
 
 internal-slot@^1.0.7:
   version "1.0.7"
@@ -2679,6 +2688,8 @@ sonner@^1.5.0:
   resolved "https://registry.yarnpkg.com/sonner/-/sonner-1.5.0.tgz#af359f817063318415326b33aab54c5d17c747b7"
   integrity sha512-FBjhG/gnnbN6FY0jaNnqZOMmB73R+5IiyYAw8yBj7L54ER7HB3fOSE5OFiQiE2iXWxeXKvg6fIP4LtVppHEdJA==
 
+<<<<<<< HEAD
+=======
 sooner@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/sooner/-/sooner-1.1.4.tgz#1c0d390163ab9368b688590feda46ccee6b414dd"
@@ -2687,6 +2698,7 @@ sooner@^1.1.4:
     "@ava/babel-preset-stage-4" "^1.0.0"
     "@ava/babel-preset-transform-test-files" "^3.0.0"
 
+>>>>>>> 29b462642552cf28e89a7a54e98c3914940bf9c3
 source-map-js@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.0.tgz"
