@@ -6,7 +6,6 @@ import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
-import supabase from "../../supabaseClient";
 import EntireContext from "../../Context/EntireContext";
 
 const Detail = () => {
@@ -18,7 +17,6 @@ const Detail = () => {
   const { allPosts } = useContext(EntireContext);
   const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
 
   // postId가 바뀔 때 post정보 가져오기
   useEffect(() => {
@@ -51,11 +49,12 @@ const Detail = () => {
     navigate(`/upload?id=${id}`);
   };
 
+  console.log(post);
   return (
     <>
       <OuterDiv>
         <PostDiv>
-          <span>user_id: {post.user_id}</span>
+          <span>작성자 : {post.nick_name}</span>
           <PostImg src={post.img_url} alt={post.id} />
           <span style={{ marginTop: "5px" }}>
             <span onClick={toggleLike}>
