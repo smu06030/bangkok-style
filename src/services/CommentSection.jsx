@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import EntireContext from "../Context/EntireContext";
 import supabase from "../supabaseClient";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, useLocation, useNavigate } from "react-router-dom";
 import useFetchPosts from "../hooks/useFetchPosts";
 import Button from "../components/UI/Button";
 
 const CommentSection = ({ post_id, setComments }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [inputVal, setInputVal] = useState("");
   const [comments, setLocalComments] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -38,7 +39,7 @@ const CommentSection = ({ post_id, setComments }) => {
     e.preventDefault();
     if (!userInfo) {
       alert("로그인이 필요합니다.");
-      navigate("/sign-in");
+      navigate("/sign-in", { state: { backToDetail: `${location.pathname}${location.search}` } });
       return;
     }
     if (inputVal.trim()) {

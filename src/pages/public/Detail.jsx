@@ -26,8 +26,6 @@ const Detail = () => {
       setIsLike(selectedPost.isLiked || false);
     }
   }, [post_id, allPosts]);
-  console.log("post", post);
-  console.log("userInfo", userInfo);
 
   // 좋아요 상태
   const toggleLike = async () => {
@@ -49,12 +47,11 @@ const Detail = () => {
     navigate(`/upload?id=${id}`);
   };
 
-  console.log(post);
   return (
     <>
       <OuterDiv>
         <PostDiv>
-          <span>작성자 : {post.nick_name}</span>
+          <span>작성자 : {post.nickname}</span>
           <PostImg src={post.img_url} alt={post.id} />
           <span style={{ marginTop: "5px" }}>
             <span onClick={toggleLike}>
@@ -83,7 +80,7 @@ const OuterDiv = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 40%;
-  margin: 50px auto;
+  margin: 20px auto;
   span {
     margin-bottom: 10px;
   }
@@ -117,7 +114,7 @@ const PostImg = styled.img`
   max-height: 400px;
   margin: 0px auto;
   @media (max-height: 720px) {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 350px;
   }
 `;
