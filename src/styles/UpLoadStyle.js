@@ -17,7 +17,7 @@ export const ImagesDiv = styled.div`
 export const Img = styled.img`
   margin: 10px;
   height: 250px;
-  width: 250px;
+  width: 300px;
 `;
 
 export const P = styled.p`
@@ -31,7 +31,7 @@ export const InputTitle = styled.input`
   border-radius: 5px;
   border-style: none;
   background-color: #eeeeee;
-  height: 40px;
+  height: 50px;
   padding: 0px 10px;
   /* &:invalid{
     border-color: red; 

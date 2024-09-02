@@ -64,7 +64,7 @@ const UpLoad = () => {
       toast.error("제목을 입력해주세요");
       return;
     } else if (content.length === 0) {
-      toast.error("댓글을 입력해주세요");
+      toast.error("내용을 입력해주세요");
       return;
     } else {
       toast.success("게시글이 등록되었습니다.");
@@ -121,7 +121,7 @@ const UpLoad = () => {
                 style={{ display: "none" }}
               />
             </ImagesDiv>
-            <div style={{ marginTop: "20px" }}>
+            <div style={{ marginTop: "10px" }}>
               <P>제목</P>
               <InputTitle
                 type="text"
