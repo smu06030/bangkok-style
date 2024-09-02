@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
-import EntireContext from "../../store/Context/EntireContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import useFetchPosts from "../../hooks/useFetchPosts";
+import updateLikeStatus from "../../services/likeService";
+import { Like, LikeActive } from "../../assets/images/Likes";
 
 const Detail = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const postId = queryParams.get("id");
