@@ -14,7 +14,7 @@ const useFetchPosts = () => {
   const fetchPosts = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await getAllData(userId)
+      const response = await getAllData()
       const data = formattedLikeData(response)
 
       // 전체 게시글 데이터 저장

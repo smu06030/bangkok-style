@@ -1,6 +1,6 @@
 import supabase from "../supabaseClient";
 
-const getAllData = async (userId) => {
+const getAllData = async () => {
   try{
     // const selectFields = userId ? "*, likes(post_id)" : "*";
     
