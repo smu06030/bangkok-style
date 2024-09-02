@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import useFetchPosts from "../../hooks/useFetchPosts";
 import PostCard from "./PostCard";
 import styled from "styled-components";
 import Loading from "../../assets/images/Loading";
 import Button from "../UI/Button";
-import { filteredDisplayedPostsData } from "../../utils/filteredDisplayedPostsData";
+import { filteredDisplayedPostsData, filteredSearchTeamsData } from "../../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../../constant/constants";
+import EntireContext from "../../Context/EntireContext";
 
 const PostsWrapper = styled.div`
   text-align: center;
@@ -42,19 +43,33 @@ const LoadingWrapper = styled.div`
 `;
 
 const Posts = () => {
-  const { allPosts, displayedPosts, setDisplayedPosts, loading, userInfo } = useFetchPosts();
+  const { loading, userInfo } = useFetchPosts();
+  const { allPosts, displayedPosts, debounceValue, filteredPosts, setDisplayedPosts } = useContext(EntireContext);
+
+  // 더보기 클릭
+  const handleLoadMore = () => {
+    const postDisplay = debounceValue
+      ? filteredSearchTeamsData(LIMIT_NUMBER, filteredPosts, displayedPosts)
+      : filteredDisplayedPostsData(LIMIT_NUMBER, allPosts, displayedPosts);
+
+    setDisplayedPosts(postDisplay);
+  };
+
+  // 더보기 버튼 활성화 여부
+  const showLoadMore = debounceValue
+    ? displayedPosts.length < filteredPosts.length
+    : displayedPosts.length < allPosts.length;
+
   const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} userInfo={userInfo} />);
   const showPosts = displayedPosts.length ? (
     <>
       <Article>{postCard}</Article>
-      <Button onClick={() => setDisplayedPosts(filteredDisplayedPostsData(LIMIT_NUMBER, allPosts, displayedPosts))}>
-        더보기
-      </Button>
+      {showLoadMore && <Button onClick={handleLoadMore}>더보기</Button>}
     </>
   ) : (
     <h3>게시글이 없습니다.</h3>
   );
-  
+
   if (loading) {
     return (
       <LoadingWrapper>

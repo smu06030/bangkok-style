@@ -82,7 +82,6 @@ const PostCard = ({ post, userInfo }) => {
   const { id: post_id, img_url, isLiked, title, hash_tag, content } = post;
   const [isLike, setIsLike] = useState(isLiked);
   const navigate = useNavigate();
-  // console.log("받아온 값: ",isLiked, "state 상태: ", isLike)
   
   const toggleLike = async () => {
     if (!userInfo) {

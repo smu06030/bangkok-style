@@ -5,6 +5,7 @@ import SignUp from "../pages/public/SignUp";
 import PublicHome from "../pages/public/Home";
 import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
+import UpLoad from "../pages/protected/Upload";
 import Like from "../pages/Like";
 import PasswordRecovery from "../pages/public/PasswordRecovery";
 import PrivateRoute from "./PrivateRoute";
@@ -69,6 +70,10 @@ const Routes = () => {
             {
               path: URLS.myPage,
               element: <MyPage />
+            },
+            {
+              path: "/upload",
+              element: <UpLoad />
             }
           ]
         }

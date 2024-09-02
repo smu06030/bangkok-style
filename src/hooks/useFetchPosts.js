@@ -1,12 +1,12 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import EntireContext from "../Context/EntireContext";
-import { filteredDisplayedPostsData } from "../utils/filteredDisplayedPostsData";
+import { filteredDisplayedPostsData } from "../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../constant/constants";
 import getAllData from "../services/getAllDataService";
 import formattedLikeData from "../utils/formattedLikeData";
 
 const useFetchPosts = () => {
-  const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
+  const { setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
   // 유저 정보 확인
   const userId = !!userInfo ? userInfo.id : null;
@@ -34,9 +34,6 @@ const useFetchPosts = () => {
   }, [fetchPosts]);
 
   return {
-    allPosts,
-    displayedPosts,
-    setDisplayedPosts,
     loading,
     userInfo,
   };
