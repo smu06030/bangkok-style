@@ -55,7 +55,7 @@ const Posts = () => {
   ) : (
     <h3>게시글이 없습니다.</h3>
   );
-  
+
   if (loading) {
     return (
       <LoadingWrapper>

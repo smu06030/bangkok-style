@@ -2,63 +2,87 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import EntireContext from "../Context/EntireContext";
 import { useNavigate } from "react-router-dom";
-import SignIn from "./public/SignIn";
+import supabase from "../supabaseClient";
+import URLS from "../constant/urls";
+import PostCard from "../components/Layout/PostCard";
 
 const LikeContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 `;
 
 const TitleStyle = styled.div`
-  font-size: 30px;
-  margin-bottom: 50px;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  text-align: center;
 `;
 
-const CardStyle = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+const CardWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   padding: 0;
-  justify-content: center;
+  gap: 1rem;
 `;
 
-const ImageStyle = styled.img`
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  object-fit: cover;
+const NoLikesMessage = styled.p`
+  grid-column: 1 / -1; /* 메시지를 그리드 전체에 걸치게 설정 */
+  justify-self: center;
 `;
 
 const Like = () => {
-  const { usrInfo } = useContext(EntireContext);
+  const { userInfo } = useContext(EntireContext);
+  const [likedPosts, setLikedPosts] = useState([]);
+  const PAGES = 10;
+
   const navigate = useNavigate();
 
   const handleSignIn = () => {
-    navigate("/sign-in");
+    navigate(URLS.signIn);
   };
 
-  const [likedPhotos, setLikedPhotos] = useState([]);
-
   useEffect(() => {
-    // 좋아요 한 사진 데이터를 불러오는 로직
-    const fetchLikedPhotos = async () => {
-      const savedPhotos = await getLikedPhotosFromDB(); // DB에서 데이터 가져오기
-      setLikedPhotos(savedPhotos);
-    };
+    if (userInfo) {
+      fetchLikedPosts();
+    }
+  }, [userInfo, PAGES]);
 
-    fetchLikedPhotos();
-  }, []);
+  //supabase에서 likes 테이블 데이터값 가져오기
+  const fetchLikedPosts = async () => {
+    try {
+      const { data: likeData, error: likeError } = await supabase
+        .from("likes")
+        .select("post_id")
+        .eq("user_id", userInfo.id)
+        .limit(PAGES);
 
-  const handleUnlike = (event, photoID) => {
-    saveButtonEvent(event);
-    setLikedPhotos((prevPhotos) => prevPhotos.filter((id) => id !== photoID));
+      const postIds = likeData.map((like) => like.post_id);
+
+      if (postIds.length === 0) {
+        setLikedPosts([]);
+        return;
+      }
+
+      const { data: postData, error: postError } = await supabase.from("posts").select("*").in("id", postIds);
+
+      //좋아요 상태 업데이트 로직
+      const likedPostsWithStatus = postData.map((post) => ({
+        ...post,
+        isLiked: true
+      }));
+
+      setLikedPosts(likedPostsWithStatus);
+    } catch (error) {
+      console.error("좋아요 업데이트에 실패했습니다:", error);
+    }
+  };
+
+  // 좋아요 해제 로직
+  const handleUnlike = (post_id) => {
+    setLikedPosts((p) => p.filter((post) => post.id !== post_id));
   };
 
   return (
-    <LikeContainer>
-      {!usrInfo ? (
+    <>
+      {!userInfo ? (
         <div>
           <TitleStyle>
             <h1>좋아요</h1>
@@ -67,35 +91,21 @@ const Like = () => {
           <button onClick={handleSignIn}>로그인하기</button>
         </div>
       ) : (
-        <div>
-          <TitleStyle>
-            <h1>좋아요</h1>
-          </TitleStyle>
-          {likedPhotos.length > 0 ? (
-            likedPhotos.map((photoID, index) => (
-              <CardStyle>
-                <div key={index} id={photoID}>
-                  <ImageStyle img src={`https://example.com/${photoID}.jpg`} alt={`Photo ${index + 1}`} />
-                  <button onClick={(event) => handleUnlike(event, photoID)}>좋아요 해제</button>
-                </div>
-              </CardStyle>
-            ))
-          ) : (
-            <p>좋아요 한 사진이 없습니다.</p>
-          )}
-        </div>
+        <LikeContainer>
+          <TitleStyle>좋아요</TitleStyle>
+          <CardWrapper>
+            {likedPosts.length > 0 ? (
+              likedPosts.map((post) => (
+                <PostCard key={post.id} post={post} userInfo={userInfo} onUnlike={handleUnlike} />
+              ))
+            ) : (
+              <NoLikesMessage>좋아요 한 사진이 없습니다.</NoLikesMessage>
+            )}
+          </CardWrapper>
+        </LikeContainer>
       )}
-    </LikeContainer>
+    </>
   );
 };
 
 export default Like;
-
-/* 
-  1. 인증 상태 확인 
-  2. 비로그인 시, 로그인 하라는 컴포넌트 띄우기 
-  3. 로그인 시, '좋아요' 한 사진들 띄우기 
-  4. 사진 '좋아요' 버튼 클릭 시, '좋아요' 해제 및 좋아요 페이지에서 삭제 
-  4. '좋아요' 한 사진들 클릭 시 디테일 페이지로 이동
-  5. 메인 페이지에서 사진에 '좋아요' 버튼 띄우고 '좋아요' 버튼 클릭 시 해당 데이터 좋아요 페이지로 이동
-*/
