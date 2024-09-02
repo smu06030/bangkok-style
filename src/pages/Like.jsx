@@ -31,25 +31,29 @@ const Like = () => {
   const { userInfo } = useContext(EntireContext);
   const [likedPosts, setLikedPosts] = useState([]);
   const navigate = useNavigate();
+
   const PAGES = 10;
 
   const handleSignIn = () => navigate(URLS.signIn);
 
-  //supabase에서 likes 테이블 데이터값 가져오기
+  // '좋아요'한 게시물을 가져오기
   const fetchLikedPosts = useCallback(async () => {
-    if (!userInfo) return; // 유저가 없으면 함수 종료
+    if (!userInfo) return; // 비로그인으로 좋아요 시, 페이지 나가기
 
     try {
+      // supabase likes 테이블에서 '좋아요'한 게시물의 ID 가져오기
       const { data: likeData } = await supabase.from("likes").select("post_id").eq("user_id", userInfo.id).limit(PAGES);
 
-      const postIds = likeData.map((like) => like.post_id);
+      const postIds = likeData.map((like) => like.post_id); // 가져온 ID 배열로 저장
       if (postIds.length === 0) {
-        setLikedPosts([]);
+        setLikedPosts([]); // '좋아요'한 게시물이 없으면 빈 배열 저장
         return;
       }
 
+      // supabase posts 테이블에서 '좋아요'한 게시물의 상세 정보 가져오기
       const { data: postData } = await supabase.from("posts").select("*").in("id", postIds);
 
+      // 메인 페이지에서 '좋아요' 한 데이터 가져올 때 '좋아요' true 표시
       const likedPostsWithStatus = postData.map((post) => ({
         ...post,
         isLiked: true
@@ -59,16 +63,19 @@ const Like = () => {
     } catch (error) {
       console.error("좋아요 업데이트에 실패했습니다:", error);
     }
-  }, [userInfo]); // userInfo가 변경될 때만 fetchLikedPosts가 변경됨
+  }, [userInfo]); // 계정 인증 상태가 변경될 때 마다 새로운 데이터 가져오기
 
+  // 페이지가 처음 열리거나, 계정 인증 상태가 변경될 때 '좋아요'한 게시물 가져오기
   useEffect(() => {
     fetchLikedPosts();
   }, [fetchLikedPosts]);
 
+  // 좋아요 해제 로직
   const handleUnlike = (post_id) => {
     setLikedPosts((prevPosts) => prevPosts.filter((post) => post.id !== post_id));
   };
 
+  //조건부 렌더링
   const renderContent = () => {
     if (!userInfo) {
       return (
