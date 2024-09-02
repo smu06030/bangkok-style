@@ -8,17 +8,12 @@ import formattedLikeData from "../utils/formattedLikeData";
 const useFetchPosts = () => {
   const { allPosts, displayedPosts, setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
   const [loading, setLoading] = useState(false);
-
-  
-  useEffect(() => {
-    fetchPosts();
-  }, [userInfo]);
-
+  const userId = !!userInfo ? userInfo.id : null;
   const fetchPosts = async () => {
     setLoading(true);
     try {
       // 로그인 유무 확인
-      const userId = !!userInfo ? userInfo.id : null;
+
       const response = await getAllData(userId);
       const data = formattedLikeData(response, userId);
 
@@ -33,7 +28,9 @@ const useFetchPosts = () => {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    fetchPosts();
+  }, [userInfo]);
   return {
     allPosts,
     displayedPosts,
