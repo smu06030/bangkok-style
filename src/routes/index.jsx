@@ -11,7 +11,6 @@ import PasswordRecovery from "../pages/public/PasswordRecovery";
 import PrivateRoute from "./PrivateRoute";
 import MyPage from "../pages/private/MyPage";
 import URLS from "../constant/urls";
-import Detail from "../pages/public/Detail";
 
 const Routes = () => {
   // 모든 사용자 접근 가능
@@ -27,10 +26,6 @@ const Routes = () => {
         {
           path: URLS.like,
           element: <Like />
-        },
-        {
-          path: URLS.detail,
-          element: <Detail />
         }
       ]
     }
