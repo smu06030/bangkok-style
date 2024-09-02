@@ -7,7 +7,7 @@ export const filteredDisplayedPostsData = (limitNumber, allPosts, displayedPosts
 };
 
 // 검색 된 게시글에서 limitNumber 만큼 더 가져오기
-export const filteredSearchTeamsData = (limitNumber, filteredPosts, displayedPosts = []) => {
+export const filteredSearchTermData = (limitNumber, filteredPosts, displayedPosts = []) => {
   const limit = displayedPosts.length + limitNumber;
   const posts = filteredPosts.filter((_, index) => index + 1 <= limit);
   

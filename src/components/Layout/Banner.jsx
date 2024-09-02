@@ -4,7 +4,7 @@ import banner from "../../assets/images/banner.png";
 import Search from "./../../assets/images/Search";
 import useDebounce from "../../hooks/useDebounce";
 import EntireContext from "../../Context/EntireContext";
-import { filteredDisplayedPostsData, filteredSearchTeamsData } from "../../utils/filteredPostsData";
+import { filteredDisplayedPostsData, filteredSearchTermData } from "../../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../../constant/constants";
 
 const BannerImage = styled.img`
@@ -82,7 +82,7 @@ const Banner = () => {
     if (debounceSearchTerm === "") {
       setDisplayedPosts(filteredDisplayedPostsData(LIMIT_NUMBER, allPosts));
     } else {
-      setDisplayedPosts(filteredSearchTeamsData(LIMIT_NUMBER, filteredPosts));
+      setDisplayedPosts(filteredSearchTermData(LIMIT_NUMBER, filteredPosts));
     }
   };
 

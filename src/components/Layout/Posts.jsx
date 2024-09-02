@@ -4,7 +4,7 @@ import PostCard from "./PostCard";
 import styled from "styled-components";
 import Loading from "../../assets/images/Loading";
 import Button from "../UI/Button";
-import { filteredDisplayedPostsData, filteredSearchTeamsData } from "../../utils/filteredPostsData";
+import { filteredDisplayedPostsData, filteredSearchTermData } from "../../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../../constant/constants";
 import EntireContext from "../../Context/EntireContext";
 
@@ -49,7 +49,7 @@ const Posts = () => {
   // 더보기 클릭
   const handleLoadMore = () => {
     const postDisplay = debounceValue
-      ? filteredSearchTeamsData(LIMIT_NUMBER, filteredPosts, displayedPosts)
+      ? filteredSearchTermData(LIMIT_NUMBER, filteredPosts, displayedPosts)
       : filteredDisplayedPostsData(LIMIT_NUMBER, allPosts, displayedPosts);
 
     setDisplayedPosts(postDisplay);
