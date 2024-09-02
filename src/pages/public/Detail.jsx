@@ -51,7 +51,7 @@ const Detail = () => {
     <>
       <OuterDiv>
         <PostDiv>
-          <span>작성자 : {post.nickname}</span>
+          <span>작성자 : {post.nick_name}</span>
           <PostImg src={post.img_url} alt={post.id} />
           <span style={{ marginTop: "5px" }}>
             <span onClick={toggleLike}>
