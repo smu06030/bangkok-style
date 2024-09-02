@@ -90,7 +90,7 @@ const ModifyUpLoad = () => {
       // setHashtags([...hashtags, inputValue]);
       console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트'] 인 이유 =>함수(setHashtags, setInputValue 등)가 비동기적으로 작동하기때문에
       setHashtags((prevHashtags) => [...prevHashtags, inputValue]); // 이렇게 수정해야??
-      console.log("handleKeyPress  함수형 업데이트 이후 hashtags ==>", hashtags);
+      console.log("handleKeyPress  함수형 업데이트 이후 hashtags ==>", hashtags); // 안되넹ㅋ
 
       setInputValue("");
     }
