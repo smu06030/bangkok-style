@@ -18,6 +18,7 @@ const Detail = () => {
   const { allPosts } = useContext(EntireContext);
   const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   // postId가 바뀔 때 post정보 가져오기
   useEffect(() => {
@@ -27,6 +28,8 @@ const Detail = () => {
       setIsLike(selectedPost.isLiked || false);
     }
   }, [post_id, allPosts]);
+  console.log("post", post);
+  console.log("userInfo", userInfo);
 
   // 좋아요 상태
   const toggleLike = async () => {
@@ -37,7 +40,6 @@ const Detail = () => {
     }
     const newLikeStatus = !isLike;
     setIsLike(newLikeStatus);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     await updateLikeStatus(post.id, userInfo.id, !newLikeStatus);
   };
 
@@ -51,7 +53,6 @@ const Detail = () => {
 
   return (
     <>
-      <span>id: {post.id}</span>
       <OuterDiv>
         <PostDiv>
           <span>user_id: {post.user_id}</span>

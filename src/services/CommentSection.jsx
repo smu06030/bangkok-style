@@ -45,10 +45,10 @@ const CommentSection = ({ post_id, setComments }) => {
       const { data, error } = await supabase
         .from("comments")
         .insert([
-          { post_id: post_id, user_id: userInfo.id, content: inputVal, nick_name: userInfo.user_metadata.nickname }
+          { post_id: post_id, user_id: userInfo.id, content: inputVal, nickname: userInfo.user_metadata.nickname }
         ])
         .select();
-      
+
       if (error) {
         console.error("댓글 추가 오류 ->", error);
         return;
@@ -105,8 +105,6 @@ const CommentSection = ({ post_id, setComments }) => {
     setIsOpenModal(!isOpenModal);
   };
 
-  // 닉네임
-
   return (
     <>
       <CommentForm onSubmit={(e) => handleAddComment(e, userInfo)}>
@@ -118,7 +116,13 @@ const CommentSection = ({ post_id, setComments }) => {
         <input type="submit" value="게시" style={{ cursor: "pointer" }} />
       </CommentForm>
       <div key={post_id} style={{ marginTop: "10px", marginBottom: "10px" }}>
-        <CommentBox>{latestComment.content}</CommentBox>
+        <CommentBox>
+          {latestComment.content ? (
+            <span>
+              {latestComment.nickname} : {latestComment.content}
+            </span>
+          ) : null}
+        </CommentBox>
       </div>
       <Button onClick={toggleModal}>{`댓글 ${comments.length}개 모두 보기`}</Button>
       {isOpenModal ? (
@@ -126,9 +130,9 @@ const CommentSection = ({ post_id, setComments }) => {
           <ModalContents>
             {comments.map((comment) => (
               <CommentDiv key={comment.id}>
-                <p>{comment.nickname}</p>
                 {/* <p>{comment.nickname}</p> */}
                 <ModalComments>
+                  <p>{comment.nickname} :</p>
                   <p>{comment.content}</p>
                   <p>{comment.created_at}</p>
                 </ModalComments>
