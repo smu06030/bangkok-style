@@ -16,8 +16,9 @@ export const ImagesDiv = styled.div`
 
 export const Img = styled.img`
   margin: 10px;
-  height: 250px;
-  width: 300px;
+  height: 220px;
+  width: 320px;
+  border-radius: 5px;
 `;
 
 export const P = styled.p`
@@ -48,6 +49,7 @@ export const InputTextarea = styled.textarea`
   background-color: #eeeeee;
   height: 80px;
   padding: 10px;
+  resize: none;
 `;
 
 export const HashInput = styled.input`
@@ -64,6 +66,7 @@ export const Span = styled.span`
   background-color: #eeeeee;
   border-radius: 5px;
   padding: 7px 15px;
+  margin-bottom: 10px;
 `;
 
 export const ButtonX = styled.button`
