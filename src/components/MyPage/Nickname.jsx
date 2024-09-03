@@ -4,9 +4,9 @@ import supabase from "../../supabaseClient";
 import styled from "styled-components";
 import { toast } from "sonner";
 
-const NicknameContainer = styled.div`
+const NicknameContainer = styled.form`
   display: flex;
-  margin: 15px 0 0 18px;
+  margin: 35px 0 10px 20px;
 `;
 
 const EditInput = styled.input`
@@ -41,7 +41,8 @@ const Nickname = () => {
     setUpdateNickname(e.target.value);
   };
 
-  const handleNicknameUpdate = async () => {
+  const handleNicknameUpdate = async (e) => {
+    e.preventDefault();
     if (!updateNickname.trim()) {
       toast.error("닉네임을 입력해주세요.");
       return;
@@ -54,7 +55,8 @@ const Nickname = () => {
     setEdited(false);
   };
 
-  const handleNicknameEdit = () => {
+  const handleNicknameEdit = (e) => {
+    e.preventDefault();
     setEdited(true);
   };
 
@@ -67,13 +69,9 @@ const Nickname = () => {
       )}
 
       {edited ? (
-        <EditBtn type="button" onClick={handleNicknameUpdate}>
-          ✔️
-        </EditBtn>
+        <EditBtn onClick={(e) => handleNicknameUpdate(e)}>✔️</EditBtn>
       ) : (
-        <EditBtn type="button" onClick={handleNicknameEdit}>
-          ✐
-        </EditBtn>
+        <EditBtn onClick={(e) => handleNicknameEdit(e)}>✐</EditBtn>
       )}
     </NicknameContainer>
   );
