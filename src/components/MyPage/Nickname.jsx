@@ -48,9 +48,13 @@ const Nickname = () => {
       return;
     }
 
-    const { data } = await supabase.auth.updateUser({
+    await supabase.auth.updateUser({
       data: { nickname: updateNickname }
     });
+
+    await supabase.from("posts").update({ nickname: updateNickname }).eq("user_id", userInfo.id);
+    await supabase.from("comments").update({ nickname: updateNickname }).eq("user_id", userInfo.id);
+
     setUpdateNickname("");
     setEdited(false);
   };
