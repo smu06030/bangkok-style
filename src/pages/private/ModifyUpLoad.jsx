@@ -110,7 +110,7 @@ const ModifyUpLoad = () => {
       toast.success("게시글이 수정되었습니다.");
       setTimeout(function () {
         navigate("/");
-      }, 2000);
+      });
     }
   };
 
@@ -135,7 +135,7 @@ const ModifyUpLoad = () => {
         toast.success("게시글이 삭제되었습니다.");
         setTimeout(function () {
           navigate("/");
-        }, 2000);
+        });
       }
     }
   };

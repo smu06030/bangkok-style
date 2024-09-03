@@ -5,11 +5,11 @@ import { Form, useLocation, useNavigate } from "react-router-dom";
 import Button from "../components/UI/Button";
 import { useCustomSelector } from "../hooks/useSelector";
 
-const CommentSection = ({ post_id, setComments }) => {
+const CommentSection = ({ post_id }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [inputVal, setInputVal] = useState("");
-  const [comments, setLocalComments] = useState([]);
+  const [comments, setComments] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [newContent, setNewContent] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
@@ -26,11 +26,10 @@ const CommentSection = ({ post_id, setComments }) => {
       if (commentsError) {
         throw commentsError;
       }
-      setLocalComments(commentsData);
       setComments(commentsData);
     };
     fetchComments();
-  }, [post_id, setComments]);
+  }, [post_id, comments]);
 
   // 댓글 추가하기
   const handleAddComment = async (e, userInfo) => {
@@ -55,7 +54,7 @@ const CommentSection = ({ post_id, setComments }) => {
         console.error("댓글 추가 오류 ->", error);
         return;
       }
-      setLocalComments((prev) => [...prev, data]);
+
       setComments((prev) => [...prev, data]);
       setInputVal("");
     }
@@ -73,7 +72,6 @@ const CommentSection = ({ post_id, setComments }) => {
       console.log("댓글 삭제 오류 ->", error);
       return;
     }
-    setLocalComments((prev) => prev.filter((p) => p.id !== comment_id));
     setComments((prev) => prev.filter((p) => p.id !== comment_id));
   };
 
@@ -91,7 +89,6 @@ const CommentSection = ({ post_id, setComments }) => {
         console.log("댓글 수정 오류 ->", error);
         return;
       }
-      setLocalComments((prev) => prev.map((p) => (p.id === editCommentId ? { ...p, content: newContent } : p)));
       setComments((prev) => prev.map((p) => (p.id === editCommentId ? { ...p, content: newContent } : p)));
       setEditCommentId(null);
       setNewContent("");
