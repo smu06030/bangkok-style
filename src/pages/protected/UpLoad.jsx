@@ -181,7 +181,9 @@ const UpLoad = () => {
             </div>
             <BtnDiv>
               {/* <Button onClick={updatePost}>수정</Button> */}
-              <Button onClick={createPost}>업로드</Button>
+              <Button onClick={createPost} style={{ backgroundColor: "#0056b3", color: "white" }}>
+                업로드
+              </Button>
             </BtnDiv>
           </UpLoadContainer>
         </div>
