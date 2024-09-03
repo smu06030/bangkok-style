@@ -52,7 +52,7 @@ const ModifyUpLoad = () => {
       const fetchedPosts = await getPosts(postId); //?
       if (fetchedPosts && fetchedPosts.length > 0) {
         const post = fetchedPosts[0];
-        console.log("post 가져옴 상태에 넣기 전 ==>", post);
+        //
         //!SECTION
         setTitle(post.title || "");
         setContent(post.content || "");
@@ -96,9 +96,6 @@ const ModifyUpLoad = () => {
 
   //NOTE - 게시글 수정하는 함수
   const updatePost = async () => {
-    console.log("수정버튼클릭");
-    console.log("fashionUrl==>", fashionUrl);
-
     try {
       await supabase
         .from("posts")
@@ -116,6 +113,32 @@ const ModifyUpLoad = () => {
       setTimeout(function () {
         navigate("/");
       }, 2000);
+    }
+  };
+
+  //NOTE - 게시글 삭제하는 함수
+  const deletePost = async () => {
+    // 삭제버튼 클릭 시 경고창
+    const confirm = window.confirm("게시글이 삭제됩니다. 삭제하시겠습니까?");
+    if (confirm) {
+      try {
+        await supabase
+          .from("posts")
+          .delete({
+            title: title,
+            content: content,
+            img_url: fashionUrl,
+            hash_tag: hashtags
+          })
+          .eq("id", postId); // postId로 특정 게시물 식별
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      } finally {
+        toast.success("게시글이 삭제되었습니다.");
+        setTimeout(function () {
+          navigate("/");
+        }, 2000);
+      }
     }
   };
 
@@ -194,7 +217,12 @@ const ModifyUpLoad = () => {
           </div>
         </div>
         <BtnDiv>
-          <Button onClick={updatePost}>수정</Button>
+          <Button onClick={deletePost} style={{ backgroundColor: "#e40000", color: "white" }}>
+            삭제
+          </Button>
+          <Button onClick={updatePost} style={{ backgroundColor: "#1e293b", color: "white" }}>
+            수정
+          </Button>
           {/* <Button>업로드</Button> */}
         </BtnDiv>
       </UpLoadContainer>
