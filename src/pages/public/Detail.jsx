@@ -1,7 +1,7 @@
 import styled from "styled-components";
 // import useFetchPosts from "../../hooks/useFetchPosts";
 import { useLocation, useNavigate } from "react-router-dom";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
@@ -14,7 +14,7 @@ const Detail = () => {
   const queryParams = new URLSearchParams(location.search);
   const post_id = queryParams.get("id");
   const userInfo = useCustomSelector((state) => state.userInfo);
-   const {allPosts} = useCustomSelector((state) => state.posts);
+  const { allPosts } = useCustomSelector((state) => state.posts);
   const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(false);
 

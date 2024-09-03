@@ -4,7 +4,6 @@ import { useCustomSelector } from "../hooks/useSelector";
 
 const PublicRoute = () => {
   const userInfo = useCustomSelector((state) => state.userInfo);
-  console.log("userInfo", userInfo);
 
   return userInfo ? <Navigate to={URLS.home} replace /> : <Outlet />;
 };

@@ -8,6 +8,7 @@ const UserInfoContextProvider = ({ children }) => {
   // 로그인 state
   const [userInfo, userInfoDispatch] = useReducer(signInReducer, signInitialState);
 
+  // 로그인 setter함수
   const signIn = useCallback((userInfo) => {
     userInfoDispatch({ type: "SIGN_IN", payload: userInfo });
   }, []);
