@@ -46,7 +46,6 @@ const Detail = () => {
   const handleClick = (postId) => {
     navigate(`/modify?id=${postId}`);
   };
-  console.log(post);
   return (
     <>
       <OuterDiv>
@@ -65,7 +64,9 @@ const Detail = () => {
             post_id={post_id}
             setComments={(comments) => setPost((prevPost) => ({ ...prevPost, comments }))}
           />
-          <Button onClick={() => handleClick(post.id)}>수정</Button>
+          <div onClick={() => handleClick(post.id)}>
+            {userInfo && userInfo.id === post.user_id ? <Button>수정</Button> : null}
+          </div>
         </PostDiv>
       </OuterDiv>
     </>
