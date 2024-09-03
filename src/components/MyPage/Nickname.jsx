@@ -1,7 +1,8 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import EntireContext from "../../Context/EntireContext";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
+import { toast } from "sonner";
 
 const NicknameContainer = styled.div`
   display: flex;
@@ -30,28 +31,25 @@ const NicknameText = styled.p`
 `;
 
 const Nickname = () => {
-  const [nickname, setNickname] = useState("");
   const [updateNickname, setUpdateNickname] = useState("");
   const [edited, setEdited] = useState(false);
   const { userInfo } = useContext(EntireContext);
-
-  useEffect(() => {
-    checkNickname();
-  }, []);
-
-  const checkNickname = async () => {
-    setNickname(userInfo.user_metadata.nickname);
-  };
+  const nickname = userInfo.user_metadata.nickname;
+  const userName = userInfo.user_metadata.user_name;
 
   const onChangeNickname = (e) => {
     setUpdateNickname(e.target.value);
   };
 
   const handleNicknameUpdate = async () => {
+    if (!updateNickname.trim()) {
+      toast.error("닉네임을 입력해주세요.");
+      return;
+    }
+
     const { data } = await supabase.auth.updateUser({
       data: { nickname: updateNickname }
     });
-    setNickname(data.user.user_metadata.nickname);
     setUpdateNickname("");
     setEdited(false);
   };
@@ -65,7 +63,7 @@ const Nickname = () => {
       {edited ? (
         <EditInput type="text" placeholder="닉네임 입력" value={updateNickname} onChange={onChangeNickname} />
       ) : (
-        <NicknameText>{nickname}</NicknameText>
+        <NicknameText>{nickname ?? userName}</NicknameText>
       )}
 
       {edited ? (

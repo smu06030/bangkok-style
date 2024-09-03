@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
-const SignInput = ({ inputs, setInputs, label, name, type, placeholder, terms, firstFocus }) => {
-  // input을 제어하는 함수
+const SignInput = ({ inputs, setInputs, label, name, type, placeholder, terms, regex, firstFocus }) => {
+  // input들을 제어하는 함수
   const inputOnChange = (event) => {
     const { name, value } = event.target;
     setInputs((prev) => {
-      return { ...prev, [name]: name === "nickname" ? value : value.trim() };
+      return { ...prev, [name]: name === "nickname" ? value : value.replace(regex, "").trim() };
     });
   };
 

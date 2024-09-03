@@ -6,7 +6,9 @@ const URLS = {
   passwordRecovery: "/password-recovery",
   myPage: "/my-page",
   others: "*",
-  detail: "/detail"
+  detail: "/detail",
+  modify: "/modify",
+  upload: "/upload"
 };
 
 export default URLS;
