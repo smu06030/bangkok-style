@@ -20,7 +20,9 @@ const Avatar = () => {
     checkProfile();
   }, []);
 
+  // 프로필 가져오기
   const checkProfile = async () => {
+    // 유저정보에 fileName 이 존재하면 업데이트한 파일을, 없을 경우 기본프로필 보여주기
     if (userInfo.user_metadata.fileName) {
       const {
         data: { publicUrl }
@@ -34,30 +36,30 @@ const Avatar = () => {
     }
   };
 
+  // 프로필 변경
   const handleFileInputChange = async (e) => {
+    // input에서 타입이 file인 것 가져오기
     const files = e.target.files;
+    // files는 타입이 항상 배열형태 -> 구조분해할당
     const [file] = files;
 
     if (!file) {
       return;
     }
+    // fileName 지정 (new Date.getTime으로 파일명 한글/영어 관계없도록, supabase 한글지원x)
+    const fileName = `${new Date().getTime()}`;
 
-    const fileName = `${file.name}-${Math.random()}`;
-
-    const { data, error } = await supabase.storage.from("avatars").upload(fileName, file);
-    console.log(data);
-    console.log(error);
+    await supabase.storage.from("avatars").upload(fileName, file);
     const newProfileUrl = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/avatars/${fileName}`;
     setProfileUrl(newProfileUrl);
-    const { error: updateError } = await supabase.auth.updateUser({
-      data: { fileName: fileName }
-    });
+
+    await supabase.auth.updateUser({ data: { fileName: fileName } });
   };
 
   return (
     <>
       <input onChange={handleFileInputChange} type="file" ref={fileInputRef} hidden />
-      <ProfileImg width={45} height={45} src={profileUrl} alt="profile" onClick={() => fileInputRef.current.click()} />
+      <ProfileImg src={profileUrl} alt="profile" onClick={() => fileInputRef.current.click()} />
     </>
   );
 };

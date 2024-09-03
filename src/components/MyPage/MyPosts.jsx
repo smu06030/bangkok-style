@@ -50,7 +50,7 @@ const EditBtn = styled.button`
 `;
 
 const MyPosts = () => {
-  const [myPostList, setPostList] = useState([]);
+  const [myPostList, setMyPostList] = useState([]);
   const { userInfo } = useContext(EntireContext);
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ const MyPosts = () => {
     const fetchPosts = async () => {
       const response = await supabase.from("posts").select("*");
       const mypost = response.data.filter((p) => p.user_id === userInfo.id);
-      setPostList(mypost);
+      setMyPostList(mypost);
     };
     fetchPosts();
   }, []);
@@ -74,7 +74,7 @@ const MyPosts = () => {
 
   return (
     <Container>
-      {myPostList ? (
+      {myPostList.length > 0 ? (
         myPostList.map((post) => (
           <Card
             key={post.id}
@@ -97,7 +97,7 @@ const MyPosts = () => {
           </Card>
         ))
       ) : (
-        <p>등록된 글이 없습니다.</p>
+        <p>등록된 게시물이 없습니다.</p>
       )}
     </Container>
   );

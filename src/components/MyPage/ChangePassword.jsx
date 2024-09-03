@@ -120,7 +120,7 @@ const ChangePassword = () => {
       setModal(!modal);
       handleSetInit();
     } else {
-      toast.error("비밀번호가 일치하지 않습니다.");
+      toast.error("올바른 비밀번호 형식이 아닙니다. 다시 입력해주세요.");
       handleSetInit();
     }
   };
@@ -139,7 +139,7 @@ const ChangePassword = () => {
 
   return (
     <>
-      {userProvider === "email" ? (
+      {userProvider === "email" && (
         <>
           <ModalOpenBtn type="button" onClick={handleClickModal}>
             회원정보 수정
@@ -161,8 +161,9 @@ const ChangePassword = () => {
                     placeholder="비밀번호"
                   />
                   <ConfirmMessage>
-                    {(newPassword.length > 0 && PASSWORD_REGEX.test(newPassword)) ||
-                      "비밀번호는 숫자, 영어, 특수문자를 포함한 8자 이상 15자 이하입니다."}
+                    {newPassword.length > 0 &&
+                      (PASSWORD_REGEX.test(newPassword) ||
+                        "비밀번호는 숫자, 영어, 특수문자를 포함한 8자 이상 15자 이하입니다.")}
                   </ConfirmMessage>
                   <label htmlFor="check-password">▸ 비밀번호 확인</label>
                   <PasswordInput
@@ -173,11 +174,7 @@ const ChangePassword = () => {
                     placeholder="비밀번호 확인"
                   />
                   <ConfirmMessage>
-                    {newPassword === checkPassword
-                      ? checkPassword
-                        ? "비밀번호가 일치합니다."
-                        : ""
-                      : "비밀번호가 일치하지 않습니다."}
+                    {checkPassword.length > 0 && (newPassword === checkPassword || "비밀번호가 일치하지 않습니다.")}
                   </ConfirmMessage>
                 </ModalContents>
                 <ConfirmBtn onClick={handleClickModal}>취소</ConfirmBtn>
@@ -188,8 +185,6 @@ const ChangePassword = () => {
             </Modal>
           )}
         </>
-      ) : (
-        <></>
       )}
     </>
   );
