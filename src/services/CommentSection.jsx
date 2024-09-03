@@ -26,7 +26,6 @@ const CommentSection = ({ post_id, setComments }) => {
       if (commentsError) {
         throw commentsError;
       }
-
       setLocalComments(commentsData);
       setComments(commentsData);
     };
@@ -135,7 +134,7 @@ const CommentSection = ({ post_id, setComments }) => {
                   <p>{comment.content}</p>
                   <p>{comment.created_at}</p>
                 </ModalComments>
-                {userInfo ? (
+                {userInfo && userInfo.id === comment.user_id ? (
                   <CommentButtons>
                     <Buttons
                       onClick={() => {
