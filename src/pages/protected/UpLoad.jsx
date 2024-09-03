@@ -30,6 +30,12 @@ const UpLoad = () => {
   const fileInputRef = useRef(null);
   const { userInfo } = useContext(EntireContext);
   const loginUserId = userInfo.id;
+
+  //   context가 여러개로 나뉘어 불편함을 해소하고자 useSelector를 만들었습니다.
+  // const userInfo = useCustomSelector((state) => state.가져오고자하는 state);
+  // const {signIn} = useCustomDispatch((dispatch) => dispatch.가져오고자하는 dispatch);
+  // 처럼 사용하시면 됩니다.
+
   console.log("userInfo", userInfo.identities[0].identity_data.nickname);
   const nickName = userInfo.identities[0].identity_data.nickname;
   console.log("nickName", nickName);
