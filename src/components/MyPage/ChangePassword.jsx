@@ -11,7 +11,7 @@ const ModalOpenBtn = styled.button`
   text-decoration-line: underline;
   color: #9f9f9f;
   cursor: pointer;
-  margin: 30px;
+  margin: 20px;
   &:hover {
     color: #555555;
   }
