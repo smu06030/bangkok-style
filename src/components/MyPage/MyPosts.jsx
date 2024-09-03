@@ -10,6 +10,7 @@ const Container = styled.div`
   display: grid;
   gap: 30px;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  text-align: center;
 `;
 
 const Card = styled.div`
@@ -47,6 +48,10 @@ const EditBtn = styled.button`
   &:hover {
     background-color: #d2d2d2;
   }
+`;
+
+const ContentsNone = styled.p`
+  grid-column: 1 / -1;
 `;
 
 const MyPosts = () => {
@@ -97,7 +102,7 @@ const MyPosts = () => {
           </Card>
         ))
       ) : (
-        <p>등록된 게시물이 없습니다.</p>
+        <ContentsNone>등록된 게시물이 없습니다.</ContentsNone>
       )}
     </Container>
   );
