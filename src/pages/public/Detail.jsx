@@ -7,6 +7,7 @@ import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
 import EntireContext from "../../Context/EntireContext";
+import supabase from "../../supabaseClient";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -17,15 +18,22 @@ const Detail = () => {
   const { allPosts } = useContext(EntireContext);
   const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(false);
-
+  const findPost = allPosts.find((post) => post.id === Number(post_id));
   // postId가 바뀔 때 post정보 가져오기
   useEffect(() => {
-    const selectedPost = allPosts.find((post) => post.id === Number(post_id));
-    if (selectedPost) {
-      setPost(selectedPost);
-      setIsLike(selectedPost.isLiked);
+    // const fetchData = async () => {
+    //   const {
+    //     data: { user }
+    //   } = await supabase.auth.getUser();
+    // };
+
+    if (findPost) {
+      setPost(findPost);
+      setIsLike(findPost.isLiked);
     }
-  }, [post_id, allPosts]);
+  }, [findPost]);
+
+  console.log("aaaaaaaaaaaaaaa", userInfo);
 
   // 좋아요 상태
   const toggleLike = async () => {
@@ -46,6 +54,8 @@ const Detail = () => {
   const handleClick = (postId) => {
     navigate(`/modify?postId=${postId}`);
   };
+  console.log("닉네임변경 ----->", userInfo);
+  console.log("post---->", post);
   return (
     <>
       <OuterDiv>
