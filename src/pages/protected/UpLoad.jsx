@@ -75,7 +75,7 @@ const UpLoad = () => {
           hash_tag: hashtags,
           img_url: fashionUrl,
           user_id: loginUserId,
-          nick_name: nickName
+          nickname: nickName
         }
       ]);
     }

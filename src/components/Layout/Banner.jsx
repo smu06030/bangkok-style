@@ -71,11 +71,10 @@ const Banner = () => {
     const filterPost = allPosts.filter(
       (post) => post.title.includes(debounceSearchTerm) || post.content.includes(debounceSearchTerm)
     );
-
     setDebounceValue(debounceSearchTerm);
     setFilteredPosts(filterPost);
   }, [debounceSearchTerm]);
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 

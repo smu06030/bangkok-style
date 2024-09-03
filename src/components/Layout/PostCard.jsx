@@ -85,7 +85,7 @@ const PostCard = ({ post, userInfo, onUnlike }) => {
 
   const toggleLike = async (e) => {
     e.stopPropagation();
-    console.log("ddd");
+    
     if (!userInfo) {
       alert("로그인이 필요합니다.");
       return navigate("/sign-in");
