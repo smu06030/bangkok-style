@@ -3,7 +3,6 @@ import styled from "styled-components";
 import EntireContext from "../Context/EntireContext";
 import supabase from "../supabaseClient";
 import { Form, useLocation, useNavigate } from "react-router-dom";
-import useFetchPosts from "../hooks/useFetchPosts";
 import Button from "../components/UI/Button";
 
 const CommentSection = ({ post_id, setComments }) => {
@@ -52,7 +51,7 @@ const CommentSection = ({ post_id, setComments }) => {
           nickname: userInfo.user_metadata.nickname
         })
         .select();
-      console.log("dataaaaaaaaaaa", data);
+
       if (error) {
         console.error("댓글 추가 오류 ->", error);
         return;
@@ -180,7 +179,6 @@ const CommentSection = ({ post_id, setComments }) => {
 
 export default CommentSection;
 
-// Styled Components
 const CommentForm = styled.form`
   display: flex;
   gap: 10px;
