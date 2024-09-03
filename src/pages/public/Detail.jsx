@@ -23,7 +23,7 @@ const Detail = () => {
     const selectedPost = allPosts.find((post) => post.id === Number(post_id));
     if (selectedPost) {
       setPost(selectedPost);
-      setIsLike(selectedPost.isLiked || false);
+      setIsLike(selectedPost.isLiked);
     }
   }, [post_id, allPosts]);
 
@@ -44,14 +44,13 @@ const Detail = () => {
   }
 
   const handleClick = (postId) => {
-    navigate(`/modify?id=${postId}`);
+    navigate(`/modify?postId=${postId}`);
   };
-
   return (
     <>
       <OuterDiv>
         <PostDiv>
-          <span>작성자 : {post.nick_name}</span>
+          <span>작성자 : {post.nickname}</span>
           <PostImg src={post.img_url} alt={post.id} />
           <span style={{ marginTop: "5px" }}>
             <span onClick={toggleLike}>
@@ -65,7 +64,9 @@ const Detail = () => {
             post_id={post_id}
             setComments={(comments) => setPost((prevPost) => ({ ...prevPost, comments }))}
           />
-          <Button onClick={() => handleClick(post.id)}>수정</Button>
+          <div onClick={() => handleClick(post.id)}>
+            {userInfo && userInfo.id === post.user_id ? <Button>수정</Button> : null}
+          </div>
         </PostDiv>
       </OuterDiv>
     </>
