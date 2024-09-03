@@ -25,6 +25,7 @@ const PostWrapper = styled.div`
   width: 100%;
   padding: 0 0 8px 0;
   text-align: left;
+  cursor: pointer;
 
   &:hover {
     border-radius: 0.3rem;
