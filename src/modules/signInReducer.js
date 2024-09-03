@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { UserInfoDispatchContext, UserInfoStateContext } from "../Context/UserInfoContextProvider";
+
 export const signInitialState = null;
 
 export const signInReducer = (state = signInitialState, action) => {
@@ -11,4 +14,12 @@ export const signInReducer = (state = signInitialState, action) => {
     default:
       return state;
   }
+};
+
+export const useUserInfoState = () => {
+  return useContext(UserInfoStateContext);
+};
+
+export const useUserInfoDispatch = () => {
+  return useContext(UserInfoDispatchContext);
 };

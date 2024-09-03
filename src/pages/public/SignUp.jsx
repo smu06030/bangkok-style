@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSignUpHandler from "../../hooks/useSignUpHandler";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../../constant/regularExpression";
-import { NavGuide, SignBtn, SignFrom, SignNav } from "../../components/UI/SignStyles";
+import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import URLS from "../../constant/urls";

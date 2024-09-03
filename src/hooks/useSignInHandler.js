@@ -1,14 +1,13 @@
 import supabase from "../supabaseClient";
-import { useContext } from "react";
-import EntireContext from "../Context/EntireContext";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../constant/regularExpression";
 import { toast } from "sonner";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useCustomDispatch } from "./useSelector";
 
 const useSignInHandler = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signOut } = useContext(EntireContext);
+  const { signOut } = useCustomDispatch((dispatch) => dispatch.userInfo);
 
   // 로그인 함수
   const onSignInHandler = async (event, enteredInfo) => {

@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import EntireContext from "../Context/EntireContext";
 import supabase from "../supabaseClient";
 import { Form, useLocation, useNavigate } from "react-router-dom";
 import Button from "../components/UI/Button";
+import { useCustomSelector } from "../hooks/useSelector";
 
 const CommentSection = ({ post_id, setComments }) => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const CommentSection = ({ post_id, setComments }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [newContent, setNewContent] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
 
   // 댓글 가져오기
   useEffect(() => {

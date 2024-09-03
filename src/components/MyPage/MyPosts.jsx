@@ -1,9 +1,9 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
-import EntireContext from "../../Context/EntireContext";
 import { useNavigate } from "react-router-dom";
 import URLS from "../../constant/urls";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const Container = styled.div`
   padding: 50px 100px;
@@ -51,8 +51,8 @@ const EditBtn = styled.button`
 
 const MyPosts = () => {
   const [myPostList, setMyPostList] = useState([]);
-  const { userInfo } = useContext(EntireContext);
   const navigate = useNavigate();
+  const userInfo = useCustomSelector((state) => state.userInfo);
 
   useEffect(() => {
     const fetchPosts = async () => {

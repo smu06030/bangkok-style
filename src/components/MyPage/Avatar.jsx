@@ -1,7 +1,7 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
-import EntireContext from "../../Context/EntireContext";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const ProfileImg = styled.img`
   width: 150px;
@@ -13,7 +13,7 @@ const ProfileImg = styled.img`
 
 const Avatar = () => {
   const [profileUrl, setProfileUrl] = useState("");
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
   const fileInputRef = useRef(null);
 
   useEffect(() => {

@@ -1,10 +1,10 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import EntireContext from "../Context/EntireContext";
 import { useNavigate } from "react-router-dom";
 import supabase from "../supabaseClient";
 import URLS from "../constant/urls";
 import PostCard from "../components/Layout/PostCard";
+import { useCustomSelector } from "../hooks/useSelector";
 
 const LikeContainer = styled.div`
   text-align: center;
@@ -28,7 +28,7 @@ const NoLikesMessage = styled.p`
 `;
 
 const Like = () => {
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
   const [likedPosts, setLikedPosts] = useState([]);
   const navigate = useNavigate();
 
