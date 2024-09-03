@@ -1,20 +1,20 @@
 import styled from "styled-components";
-import useFetchPosts from "../../hooks/useFetchPosts";
+// import useFetchPosts from "../../hooks/useFetchPosts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
-import EntireContext from "../../Context/EntireContext";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const Detail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const post_id = queryParams.get("id");
-  const { userInfo } = useFetchPosts();
-  const { allPosts } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
+  const { allPosts } = useCustomSelector((state) => state.posts);
   const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(false);
 

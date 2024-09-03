@@ -2,7 +2,7 @@ import { useState } from "react";
 import SignInput from "../../components/UI/SignInput";
 import { useNavigate } from "react-router-dom";
 import useSignInHandler from "../../hooks/useSignInHandler";
-import { NavGuide, SignBtn, SignFrom, SignNav } from "../../components/UI/SignStyles";
+import { NavGuide, SignBtn, SignFrom, SignNav } from "../../styles/SignStyles";
 import styled from "styled-components";
 import {  EMAIL_REGEX,  PASSWORD_REGEX } from "../../constant/regularExpression";
 import { Toaster } from "sonner";

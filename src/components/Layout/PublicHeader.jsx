@@ -1,5 +1,4 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const HeaderWrapper = styled.header`
@@ -29,12 +28,10 @@ const Login = styled(Link)`
 `;
 
 const PublicHeader = () => {
-  const location = useLocation();
-
   return (
     <HeaderWrapper>
       <Logo to="/">방콕 스타일</Logo>
-      {location.pathname === "/" && <Login to="/sign-in">로그인</Login>}
+      <Login to="/sign-in">로그인</Login>
     </HeaderWrapper>
   );
 };

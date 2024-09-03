@@ -1,12 +1,14 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import EntireContext from "../Context/EntireContext";
+import { useCallback, useEffect, useState } from "react";
 import { filteredDisplayedPostsData } from "../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../constant/constants";
 import getAllData from "../services/getAllDataService";
 import formattedLikeData from "../utils/formattedLikeData";
+import { useCustomSelector } from "./useSelector";
+import { useCustomDispatch } from "./../hooks/useSelector";
 
 const useFetchPosts = () => {
-  const { setDisplayedPosts, setAllPosts, userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
+  const { setDisplayedPosts, setAllPosts } = useCustomDispatch((dispatch) => dispatch.posts);
   const [loading, setLoading] = useState(false);
   // 유저 정보 확인
   const userId = !!userInfo ? userInfo.id : null;
@@ -16,6 +18,7 @@ const useFetchPosts = () => {
       setLoading(true);
       const response = await getAllData();
       const data = formattedLikeData(response);
+      console.log("data", data);
 
       // 전체 게시글 데이터 저장
       setAllPosts(data);
