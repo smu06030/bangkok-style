@@ -9,9 +9,13 @@ const NicknameContainer = styled.div`
 `;
 
 const EditInput = styled.input`
-  border: 1px solid #c0c0c0;
-  border-radius: 5px;
   height: 20px;
+  border-width: 0 0 1px;
+  &:focus {
+    outline: none;
+  }
+  text-align: center;
+  font-size: 15px;
 `;
 
 const EditBtn = styled.button`
@@ -66,7 +70,7 @@ const Nickname = () => {
 
       {edited ? (
         <EditBtn type="button" onClick={handleNicknameUpdate}>
-          ✔
+          ✔️
         </EditBtn>
       ) : (
         <EditBtn type="button" onClick={handleNicknameEdit}>
