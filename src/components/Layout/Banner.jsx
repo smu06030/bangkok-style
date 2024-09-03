@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import banner from "../../assets/images/banner.png";
 import Search from "./../../assets/images/Search";
 import useDebounce from "../../hooks/useDebounce";
-import EntireContext from "../../Context/EntireContext";
 import { filteredDisplayedPostsData, filteredSearchTermData } from "../../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../../constant/constants";
+import { useCustomDispatch, useCustomSelector } from "../../hooks/useSelector";
 
 const BannerImage = styled.img`
   width: calc(100% + 48px);
@@ -63,7 +63,8 @@ const BannerSearchInput = styled.input`
 `;
 
 const Banner = () => {
-  const { allPosts, filteredPosts, setDisplayedPosts, setFilteredPosts, setDebounceValue } = useContext(EntireContext);
+  const { allPosts, filteredPosts } = useCustomSelector((state) => state.posts);
+  const { setDebounceValue, setDisplayedPosts, setFilteredPosts } = useCustomDispatch((dispatch) => dispatch.posts);
   const [searchTerm, setSearchTerm] = useState("");
   const debounceSearchTerm = useDebounce(searchTerm.trim());
 
@@ -74,7 +75,7 @@ const Banner = () => {
     setDebounceValue(debounceSearchTerm);
     setFilteredPosts(filterPost);
   }, [debounceSearchTerm]);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
 

@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import EntireContext from "../Context/EntireContext";
 import URLS from "../constant/urls";
+import { useCustomSelector } from "../hooks/useSelector";
 
 const PublicRoute = () => {
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
+  console.log("userInfo", userInfo);
 
   return userInfo ? <Navigate to={URLS.home} replace /> : <Outlet />;
 };

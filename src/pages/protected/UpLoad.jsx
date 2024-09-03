@@ -1,7 +1,6 @@
 import supabase from "../../supabaseClient";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EntireContext from "../../Context/EntireContext";
 import { Toaster, toast } from "sonner";
 import {
   BtnDiv,
@@ -16,6 +15,7 @@ import {
   Span,
   UpLoadContainer
 } from "../../styles/UpLoadStyle";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const UpLoad = () => {
   // const [posts, setPosts] = useState([]);
@@ -28,7 +28,7 @@ const UpLoad = () => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
   const loginUserId = userInfo.id;
   console.log("userInfo", userInfo.identities[0].identity_data.nickname);
   const nickName = userInfo.identities[0].identity_data.nickname;
