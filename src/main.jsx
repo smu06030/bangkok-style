@@ -1,9 +1,12 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import ContextProvider from "./Context/ContextProvider.jsx";
+import UserInfoContextProvider from "./Context/UserInfoContextProvider.jsx";
+import PostsContextProvider from "./Context/PostsContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <ContextProvider>
-    <App />
-  </ContextProvider>
+  <PostsContextProvider>
+    <UserInfoContextProvider>
+      <App />
+    </UserInfoContextProvider>
+  </PostsContextProvider>
 );

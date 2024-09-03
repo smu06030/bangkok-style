@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { PostDispatchContext, PostStateContext } from "../Context/PostsContextProvider";
+
 export const postsInitialState = {
   allPosts: [],
   displayedPosts: [],
@@ -6,7 +9,6 @@ export const postsInitialState = {
 };
 
 export const postsReducer = (state, action) => {
-  // console.log('들어왔니', action.filteredPosts)
   switch (action.type) {
     case "ALL_POSTS":
       return {
@@ -31,4 +33,12 @@ export const postsReducer = (state, action) => {
     default:
       return state;
   }
+};
+
+export const usePostsState = () => {
+  return useContext(PostStateContext);
+};
+
+export const usePostsDispatch = () => {
+  return useContext(PostDispatchContext);
 };
