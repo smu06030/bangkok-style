@@ -44,7 +44,7 @@ const Detail = () => {
   }
 
   const handleClick = (postId) => {
-    navigate(`/modify?id=${postId}`);
+    navigate(`/modify?postId=${postId}`);
   };
   return (
     <>
