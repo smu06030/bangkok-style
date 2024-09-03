@@ -6,7 +6,6 @@ import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
-import supabase from "../../supabaseClient";
 import EntireContext from "../../Context/EntireContext";
 
 const Detail = () => {
@@ -37,7 +36,6 @@ const Detail = () => {
     }
     const newLikeStatus = !isLike;
     setIsLike(newLikeStatus);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     await updateLikeStatus(post.id, userInfo.id, !newLikeStatus);
   };
 
@@ -45,16 +43,15 @@ const Detail = () => {
     return <div>Loading...</div>; // 데이터가 없을 때 로딩 화면
   }
 
-  const handleClick = (id) => {
-    navigate(`/upload?id=${id}`);
+  const handleClick = (postId) => {
+    navigate(`/modify?id=${postId}`);
   };
 
   return (
     <>
-      <span>id: {post.id}</span>
       <OuterDiv>
         <PostDiv>
-          <span>user_id: {post.user_id}</span>
+          <span>작성자 : {post.nick_name}</span>
           <PostImg src={post.img_url} alt={post.id} />
           <span style={{ marginTop: "5px" }}>
             <span onClick={toggleLike}>
@@ -83,7 +80,7 @@ const OuterDiv = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 40%;
-  margin: 50px auto;
+  margin: 20px auto;
   span {
     margin-bottom: 10px;
   }
@@ -117,7 +114,7 @@ const PostImg = styled.img`
   max-height: 400px;
   margin: 0px auto;
   @media (max-height: 720px) {
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 350px;
   }
 `;

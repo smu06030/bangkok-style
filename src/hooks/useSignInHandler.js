@@ -3,8 +3,11 @@ import { useContext } from "react";
 import EntireContext from "../Context/EntireContext";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "../constant/regularExpression";
 import { toast } from "sonner";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useSignInHandler = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { signOut } = useContext(EntireContext);
 
   // 로그인 함수
@@ -37,6 +40,9 @@ const useSignInHandler = () => {
 
     if (!data.user) {
       toast.error("존재하지 않는 계정입니다.");
+    } else {
+      const backToDetail = location.state?.backToDetail || "/";
+      navigate(backToDetail);
     }
   };
 
