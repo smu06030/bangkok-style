@@ -4,15 +4,19 @@ import styled from "styled-components";
 import { toast } from "sonner";
 import { useCustomSelector } from "../../hooks/useSelector";
 
-const NicknameContainer = styled.div`
+const NicknameContainer = styled.form`
   display: flex;
-  margin: 15px 0 0 18px;
+  margin: 35px 0 10px 20px;
 `;
 
 const EditInput = styled.input`
-  border: 1px solid #c0c0c0;
-  border-radius: 5px;
   height: 20px;
+  border-width: 0 0 1px;
+  &:focus {
+    outline: none;
+  }
+  text-align: center;
+  font-size: 15px;
 `;
 
 const EditBtn = styled.button`
@@ -33,11 +37,12 @@ const Nickname = () => {
   const nickname = userInfo.user_metadata.nickname;
   const userName = userInfo.user_metadata.user_name;
 
-  const handleNicknameChange = (e) => {
+  const onChangeNickname = (e) => {
     setUpdateNickname(e.target.value);
   };
 
-  const handleNicknameUpdate = async () => {
+  const handleNicknameUpdate = async (e) => {
+    e.preventDefault();
     if (!updateNickname.trim()) {
       toast.error("닉네임을 입력해주세요.");
       return;
@@ -50,26 +55,23 @@ const Nickname = () => {
     setEdited(false);
   };
 
-  const handleNicknameEdit = () => {
+  const handleNicknameEdit = (e) => {
+    e.preventDefault();
     setEdited(true);
   };
 
   return (
     <NicknameContainer>
       {edited ? (
-        <EditInput type="text" placeholder="닉네임 입력" value={updateNickname} onChange={handleNicknameChange} />
+        <EditInput type="text" placeholder="닉네임 입력" value={updateNickname} onChange={onChangeNickname} />
       ) : (
         <NicknameText>{nickname ?? userName}</NicknameText>
       )}
 
       {edited ? (
-        <EditBtn type="button" onClick={handleNicknameUpdate}>
-          ✔
-        </EditBtn>
+        <EditBtn onClick={(e) => handleNicknameUpdate(e)}>✔️</EditBtn>
       ) : (
-        <EditBtn type="button" onClick={handleNicknameEdit}>
-          ✐
-        </EditBtn>
+        <EditBtn onClick={(e) => handleNicknameEdit(e)}>✐</EditBtn>
       )}
     </NicknameContainer>
   );

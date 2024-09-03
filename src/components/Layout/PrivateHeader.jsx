@@ -47,23 +47,24 @@ const Logout = styled(Link)`
 const PrivateHeader = () => {
   const { onSignOutHandler } = useSignInHandler();
   return (
-    <HeaderWrapper>
-      <Toaster  richColors />
-      <Logo to={URLS.home}>방콕 스타일</Logo>
-
-      <HeaderIcons>
-        <Link to={URLS.upload}>
-          <Upload width="24" height="24" />
-        </Link>
-        <Link to={URLS.like}>
-          <Like width="24" height="24" />
-        </Link>
-        <Link to={URLS.myPage}>
-          <MyUser width="24" height="24" />
-        </Link>
-        <Logout onClick={(e)=>onSignOutHandler(e)}>로그아웃</Logout>
-      </HeaderIcons>
-    </HeaderWrapper>
+    <>
+      <Toaster position="top-center" richColors />
+      <HeaderWrapper>
+        <Logo to={URLS.home}>방콕 스타일</Logo>
+        <HeaderIcons>
+          <Link to={URLS.upload}>
+            <Upload width="24" height="24" />
+          </Link>
+          <Link to={URLS.like}>
+            <Like width="24" height="24" />
+          </Link>
+          <Link to={URLS.myPage}>
+            <MyUser width="24" height="24" />
+          </Link>
+          <Logout onClick={(e) => onSignOutHandler(e)}>로그아웃</Logout>
+        </HeaderIcons>
+      </HeaderWrapper>
+    </>
   );
 };
 

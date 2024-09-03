@@ -8,8 +8,8 @@ import Layout from "../components/Layout/Layout";
 import NotPound from "../pages/NotPound";
 
 import Like from "../pages/Like";
-import UpLoad from "../pages/protected/UpLoad";
-import ModifyUpLoad from "../pages/protected/ModifyUpLoad";
+import UpLoad from "../pages/private/UpLoad";
+import ModifyUpLoad from "../pages/private/ModifyUpLoad";
 import PasswordRecovery from "../pages/public/PasswordRecovery";
 import PrivateRoute from "./PrivateRoute";
 import MyPage from "../pages/private/MyPage";
