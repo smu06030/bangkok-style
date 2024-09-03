@@ -41,6 +41,10 @@ const LoadingWrapper = styled.div`
   z-index: 100;
 `;
 
+const NotPost = styled.h3`
+  margin: 2rem 0;
+`
+
 const Posts = () => {
   const { loading, userInfo } = useFetchPosts();
   const { allPosts, displayedPosts, debounceValue, filteredPosts } = useCustomSelector((state) => state.posts);
@@ -60,14 +64,17 @@ const Posts = () => {
     ? displayedPosts.length < filteredPosts.length
     : displayedPosts.length < allPosts.length;
 
+  // 게시글 없음
+  const notPosts = <NotPost>게시글이 없습니다.</NotPost>;
+
   const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} userInfo={userInfo} />);
   const showPosts = displayedPosts.length ? (
     <>
       <Article>{postCard}</Article>
-      {showLoadMore && <Button onClick={handleLoadMore}>더보기</Button>}
+      {showLoadMore ? <Button onClick={handleLoadMore}>더보기</Button> : notPosts}
     </>
   ) : (
-    <h3>게시글이 없습니다.</h3>
+    notPosts
   );
 
   if (loading) {
