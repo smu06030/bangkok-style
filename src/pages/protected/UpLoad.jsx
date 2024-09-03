@@ -59,27 +59,36 @@ const UpLoad = () => {
   // 업로드 버튼
   const createPost = async (e) => {
     e.preventDefault();
-
     if (title.length === 0) {
       toast.error("제목을 입력해주세요");
       return;
     } else if (content.length === 0) {
       toast.error("내용을 입력해주세요");
       return;
+    } else if (fashionUrl.length === 0) {
+      toast.error("사진을 등록해주세요");
+      return;
     } else {
-      toast.success("게시글이 등록되었습니다.");
-      await supabase.from("posts").insert([
-        {
-          title,
-          content,
-          hash_tag: hashtags,
-          img_url: fashionUrl,
-          user_id: loginUserId,
-          nickname: nickName
-        }
-      ]);
+      try {
+        await supabase.from("posts").insert([
+          {
+            title,
+            content,
+            hash_tag: hashtags,
+            img_url: fashionUrl,
+            user_id: loginUserId,
+            nickname: nickName
+          }
+        ]);
+      } catch (error) {
+        console.error("Error uploading post:", error);
+      } finally {
+        toast.success("게시글이 등록되었습니다.");
+        setTimeout(function () {
+          navigate("/");
+        }, 2000);
+      }
     }
-    navigate("/");
   };
 
   const handleKeyPress = (event) => {
@@ -172,7 +181,9 @@ const UpLoad = () => {
             </div>
             <BtnDiv>
               {/* <Button onClick={updatePost}>수정</Button> */}
-              <Button onClick={createPost}>업로드</Button>
+              <Button onClick={createPost} style={{ backgroundColor: "#0056b3", color: "white" }}>
+                업로드
+              </Button>
             </BtnDiv>
           </UpLoadContainer>
         </div>
