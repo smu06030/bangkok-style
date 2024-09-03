@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
-import EntireContext from "../../Context/EntireContext";
+import { useState } from "react";
 import styled from "styled-components";
 import supabase from "../../supabaseClient";
 import { PASSWORD_REGEX } from "../../constant/regularExpression";
 import { toast } from "sonner";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const ModalOpenBtn = styled.button`
   border: none;
@@ -95,7 +95,7 @@ const ChangePassword = () => {
   // 비밀번호, 비밀번호 확인
   const [newPassword, setNewPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
   const userProvider = userInfo.app_metadata.provider;
 
   const [modal, setModal] = useState(false);
