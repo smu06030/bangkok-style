@@ -1,7 +1,6 @@
 import supabase from "../../supabaseClient";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EntireContext from "../../Context/EntireContext";
 import { Toaster, toast } from "sonner";
 import {
   BtnDiv,
@@ -16,9 +15,9 @@ import {
   Span,
   UpLoadContainer
 } from "../../styles/UpLoadStyle";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const UpLoad = () => {
-  // const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [hashtags, setHashtags] = useState([]);
@@ -28,13 +27,16 @@ const UpLoad = () => {
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
   const loginUserId = userInfo.id;
-  console.log("userInfo", userInfo.identities[0].identity_data.nickname);
   const nickName = userInfo.identities[0].identity_data.nickname;
-  console.log("nickName", nickName);
 
-  // 기본이미지 가져오기
+  //   context가 여러개로 나뉘어 불편함을 해소하고자 useSelector를 만들었습니다.
+  // const userInfo = useCustomSelector((state) => state.가져오고자하는 state);
+  // const {signIn} = useCustomDispatch((dispatch) => dispatch.가져오고자하는 dispatch);
+  // 처럼 사용하시면 됩니다.
+
+  //NOTE - 기본이미지 가져오기
   function checkFashion() {
     const { data } = supabase.storage.from("fashions").getPublicUrl("default-img.png");
     setPreviewUrls(data.publicUrl);
@@ -56,7 +58,7 @@ const UpLoad = () => {
     setFashionUrl(`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/fashions/${data.path}`);
   }
 
-  // 업로드 버튼
+  //NOTE -  업로드 버튼
   const createPost = async (e) => {
     e.preventDefault();
     if (title.length === 0) {
@@ -91,6 +93,7 @@ const UpLoad = () => {
     }
   };
 
+  //NOTE - 해시태그 입력하고 엔터누를때 작동하는 함수
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && inputValue.trim() !== "") {
       setHashtags([...hashtags, inputValue.trim()]);
@@ -98,6 +101,7 @@ const UpLoad = () => {
     }
   };
 
+  //NOTE - 입력한 해시태그 지우는 함수
   const removeHashTag = (idx) => {
     setHashtags(hashtags.filter((_, i) => i !== idx));
   };
@@ -180,7 +184,6 @@ const UpLoad = () => {
               </div>
             </div>
             <BtnDiv>
-              {/* <Button onClick={updatePost}>수정</Button> */}
               <Button onClick={createPost} style={{ backgroundColor: "#0056b3", color: "white" }}>
                 업로드
               </Button>

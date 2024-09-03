@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import useFetchPosts from "../../hooks/useFetchPosts";
 import PostCard from "./PostCard";
 import styled from "styled-components";
@@ -6,7 +5,7 @@ import Loading from "../../assets/images/Loading";
 import Button from "../UI/Button";
 import { filteredDisplayedPostsData, filteredSearchTermData } from "../../utils/filteredPostsData";
 import { LIMIT_NUMBER } from "../../constant/constants";
-import EntireContext from "../../Context/EntireContext";
+import { useCustomDispatch, useCustomSelector } from "../../hooks/useSelector";
 
 const PostsWrapper = styled.div`
   text-align: center;
@@ -44,7 +43,8 @@ const LoadingWrapper = styled.div`
 
 const Posts = () => {
   const { loading, userInfo } = useFetchPosts();
-  const { allPosts, displayedPosts, debounceValue, filteredPosts, setDisplayedPosts } = useContext(EntireContext);
+  const { allPosts, displayedPosts, debounceValue, filteredPosts } = useCustomSelector((state) => state.posts);
+  const { setDisplayedPosts } = useCustomDispatch((dispatch) => dispatch.posts);
 
   // 더보기 클릭
   const handleLoadMore = () => {

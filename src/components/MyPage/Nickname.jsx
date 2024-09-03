@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
-import EntireContext from "../../Context/EntireContext";
+import { useState } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
 import { toast } from "sonner";
+import { useCustomSelector } from "../../hooks/useSelector";
 
 const NicknameContainer = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const NicknameText = styled.p`
 const Nickname = () => {
   const [updateNickname, setUpdateNickname] = useState("");
   const [edited, setEdited] = useState(false);
-  const { userInfo } = useContext(EntireContext);
+  const userInfo = useCustomSelector((state) => state.userInfo);
   const nickname = userInfo.user_metadata.nickname;
   const userName = userInfo.user_metadata.user_name;
 

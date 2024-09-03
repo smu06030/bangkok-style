@@ -1,10 +1,10 @@
-import EntireContext from "../Context/EntireContext";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import supabase from "../supabaseClient";
+import { useCustomDispatch } from "../hooks/useSelector";
 
-// 유저정보를 context에 저장하는 함수
+// 유저정보를 실시간으로 context에 저장하는 함수
 const useOnAuthStateChange = () => {
-  const { signIn } = useContext(EntireContext);
+  const { signIn } = useCustomDispatch((dispatch) => dispatch.userInfo);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
