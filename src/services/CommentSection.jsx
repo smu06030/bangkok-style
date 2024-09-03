@@ -26,7 +26,6 @@ const CommentSection = ({ post_id, setComments }) => {
       if (commentsError) {
         throw commentsError;
       }
-
       setLocalComments(commentsData);
       setComments(commentsData);
     };
@@ -44,9 +43,12 @@ const CommentSection = ({ post_id, setComments }) => {
     if (inputVal.trim()) {
       const { data, error } = await supabase
         .from("comments")
-        .insert([
-          { post_id: post_id, user_id: userInfo.id, content: inputVal, nickname: userInfo.user_metadata.nickname }
-        ])
+        .insert({
+          post_id: post_id,
+          user_id: userInfo.id,
+          content: inputVal,
+          nickname: userInfo.user_metadata.nickname
+        })
         .select();
 
       if (error) {
@@ -83,11 +85,7 @@ const CommentSection = ({ post_id, setComments }) => {
       return;
     }
     if (newContent.trim()) {
-      const { data, error } = await supabase
-        .from("comments")
-        .update({ content: newContent })
-        .eq("id", editCommentId)
-        .single();
+      const { data, error } = await supabase.from("comments").update({ content: newContent }).eq("id", editCommentId);
 
       if (error) {
         console.log("댓글 수정 오류 ->", error);
@@ -99,7 +97,7 @@ const CommentSection = ({ post_id, setComments }) => {
       setNewContent("");
     }
   };
-  const latestComment = comments.slice(-1)[0] || {};
+  const latestComment = comments.slice(-1)[0] || "";
 
   const toggleModal = () => {
     setIsOpenModal(!isOpenModal);
@@ -136,7 +134,7 @@ const CommentSection = ({ post_id, setComments }) => {
                   <p>{comment.content}</p>
                   <p>{comment.created_at}</p>
                 </ModalComments>
-                {userInfo ? (
+                {userInfo && userInfo.id === comment.user_id ? (
                   <CommentButtons>
                     <Buttons
                       onClick={() => {
@@ -180,7 +178,6 @@ const CommentSection = ({ post_id, setComments }) => {
 
 export default CommentSection;
 
-// Styled Components
 const CommentForm = styled.form`
   display: flex;
   gap: 10px;

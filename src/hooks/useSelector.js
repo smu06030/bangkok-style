@@ -18,6 +18,3 @@ export const useCustomSelector = (callback) => {
 export const useCustomDispatch = (callback) => {
   return callback(dispatchMap)();
 };
-
-// const userInfo = useCustomSelector((state) => state.userInfo);
-// const userInfoDispatch = useCustomDispatch((dispatch) => dispatch.userInfo);
