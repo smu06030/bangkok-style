@@ -27,7 +27,7 @@ const SignInput = ({ inputs, setInputs, label, name, type, placeholder, terms, f
         value={inputs[name]}
         onChange={(e) => inputOnChange(e)}
       />
-      <SignUpAlert>{inputs[name].length > 0 && terms}</SignUpAlert>
+      <SignAlert>{inputs[name].length > 0 && terms}</SignAlert>
     </SignFieldset>
   );
 };
@@ -49,7 +49,8 @@ const SignFieldset = styled.fieldset`
   gap: 10px;
 `;
 
-const SignUpAlert = styled.p`
+const SignAlert = styled.p`
+  font-size: 14px;
   height: 16px;
   color: red;
   padding-bottom: 14px;

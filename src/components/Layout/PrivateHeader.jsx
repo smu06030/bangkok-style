@@ -48,7 +48,7 @@ const PrivateHeader = () => {
   const { onSignOutHandler } = useSignInHandler();
   return (
     <HeaderWrapper>
-      <Toaster position="top-center" richColors />
+      <Toaster  richColors />
       <Logo to={URLS.home}>방콕 스타일</Logo>
 
       <HeaderIcons>
