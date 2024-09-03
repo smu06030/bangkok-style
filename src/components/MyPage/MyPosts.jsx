@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import URLS from "../../constant/urls";
 import { useCustomSelector } from "../../hooks/useSelector";
 
 const Container = styled.div`
-  padding: 0 100px;
+  padding: 50px 100px;
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 `;
 
 const Card = styled.div`
   cursor: pointer;
   transition: box-shadow 0.3s ease;
+  border-radius: 8px;
   &:hover {
     box-shadow: 1px 1px 20px #ddd;
   }
@@ -21,6 +24,12 @@ const Card = styled.div`
 const PostImg = styled.img`
   width: 100%;
   height: 250px;
+  border-radius: 8px;
+`;
+
+const TitleBox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const PostTitle = styled.p`
@@ -28,31 +37,67 @@ const PostTitle = styled.p`
   padding: 10px;
 `;
 
+const EditBtn = styled.button`
+  border: none;
+  border-radius: 5px;
+  background-color: #e4e4e4;
+  font-size: 13px;
+  margin: 5px 5px 5px 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #d2d2d2;
+  }
+`;
+
 const MyPosts = () => {
-  const [myPostList, setPostList] = useState([]);
+  const [myPostList, setMyPostList] = useState([]);
+  const navigate = useNavigate();
   const userInfo = useCustomSelector((state) => state.userInfo);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await supabase.from("posts").select("*");
       const mypost = response.data.filter((p) => p.user_id === userInfo.id);
-      setPostList(mypost);
-      console.log("mypost =>", mypost);
+      setMyPostList(mypost);
     };
     fetchPosts();
   }, []);
 
+  const moveToDetailPage = (postId) => {
+    navigate(`${URLS.detail}?id=${postId}`);
+  };
+
+  const moveToModifyPage = (e, postId) => {
+    e.stopPropagation();
+    navigate(`${URLS.modify}?id=${postId}`);
+  };
+
   return (
     <Container>
-      {myPostList ? (
+      {myPostList.length > 0 ? (
         myPostList.map((post) => (
-          <Card key={post.id}>
+          <Card
+            key={post.id}
+            onClick={() => {
+              moveToDetailPage(post.id);
+            }}
+          >
             <PostImg src={post.img_url} alt="게시글 이미지" />
-            <PostTitle>{post.title}</PostTitle>
+            <TitleBox>
+              <PostTitle>{post.title}</PostTitle>
+              <EditBtn
+                type="button"
+                onClick={(e) => {
+                  moveToModifyPage(e, post.id);
+                }}
+              >
+                수정
+              </EditBtn>
+            </TitleBox>
           </Card>
         ))
       ) : (
-        <p>등록된 글이 없습니다.</p>
+        <p>등록된 게시물이 없습니다.</p>
       )}
     </Container>
   );
