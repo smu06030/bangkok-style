@@ -34,7 +34,6 @@ const ModifyUpLoad = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const postId = searchParams.get("postId");
-
   // 해당 게시글 가져오기
   const getPosts = async (postId) => {
     const { data, error } = await supabase.from("posts").select("*").eq("id", postId);
@@ -48,21 +47,22 @@ const ModifyUpLoad = () => {
 
   // 게시글 가져온 후 상태에 저장
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedPosts = await getPosts(postId); //?
-      if (fetchedPosts && fetchedPosts.length > 0) {
-        const post = fetchedPosts[0];
-        //
-        //!SECTION
-        setTitle(post.title || "");
-        setContent(post.content || "");
-        setPreviewUrls(post.img_url || "");
-        setHashtags(post.hash_tag || "");
-      }
-    };
-    fetchData();
-  }, [postId]); // <-질문하기
+    fetchData(postId);
+  }, []);
 
+  const fetchData = async (postId) => {
+    const fetchedPosts = await getPosts(postId);
+    if (fetchedPosts && fetchedPosts.length > 0) {
+      const post = fetchedPosts[0];
+      console.log("DDD");
+      //!SECTION
+      setTitle(post.title || "");
+      setContent(post.content || "");
+      setPreviewUrls(post.img_url || "");
+      setHashtags(post.hash_tag || "");
+      setFashionUrl(post.img_url || "");
+    }
+  };
   //NOTE - 이미지 프리뷰 & 이미지 스토리지 업로드 함수
   async function handleFilePreviewChange(files) {
     const [file] = files;
@@ -96,6 +96,9 @@ const ModifyUpLoad = () => {
 
   //NOTE - 게시글 수정하는 함수
   const updatePost = async () => {
+    console.log("title", title);
+    console.log("fashionUrl", fashionUrl);
+
     try {
       await supabase
         .from("posts")

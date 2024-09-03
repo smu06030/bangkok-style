@@ -17,7 +17,8 @@ export const ImagesDiv = styled.div`
 export const Img = styled.img`
   margin: 10px;
   height: 250px;
-  width: 300px;
+  width: 350px;
+  border-radius: 5px;
 `;
 
 export const P = styled.p`
