@@ -1,13 +1,13 @@
 import styled from "styled-components";
 // import useFetchPosts from "../../hooks/useFetchPosts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
 import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
 import { useCustomSelector } from "../../hooks/useSelector";
-
+import useFetchPosts from "../../hooks/useFetchPosts";
 const Detail = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,17 +15,9 @@ const Detail = () => {
   const post_id = queryParams.get("id");
   const userInfo = useCustomSelector((state) => state.userInfo);
   const { allPosts } = useCustomSelector((state) => state.posts);
-  const [post, setPost] = useState(null);
   const [isLike, setIsLike] = useState(false);
-
-  // postId가 바뀔 때 post정보 가져오기
-  useEffect(() => {
-    const selectedPost = allPosts.find((post) => post.id === Number(post_id));
-    if (selectedPost) {
-      setPost(selectedPost);
-      setIsLike(selectedPost.isLiked);
-    }
-  }, [post_id, allPosts]);
+  const post = useMemo(() => allPosts.find((post) => post.id === Number(post_id)), [allPosts]);
+  useFetchPosts();
 
   // 좋아요 상태
   const toggleLike = async () => {
@@ -46,6 +38,7 @@ const Detail = () => {
   const handleClick = (postId) => {
     navigate(`/modify?postId=${postId}`);
   };
+
   return (
     <>
       <OuterDiv>
@@ -60,10 +53,7 @@ const Detail = () => {
           <span style={{ color: "#6d9fff" }}>{post.hash_tag}</span>
           <PostTitle>{post.title}</PostTitle>
           <span style={{ width: "400px" }}>{post.content}</span>
-          <CommentSection
-            post_id={post_id}
-            setComments={(comments) => setPost((prevPost) => ({ ...prevPost, comments }))}
-          />
+          <CommentSection post_id={post_id} />
           <div onClick={() => handleClick(post.id)}>
             {userInfo && userInfo.id === post.user_id ? <Button>수정</Button> : null}
           </div>
