@@ -2,6 +2,8 @@ import { useEffect, useState, useContext } from "react";
 import supabase from "../../supabaseClient";
 import styled from "styled-components";
 import EntireContext from "../../Context/EntireContext";
+import { useNavigate } from "react-router-dom";
+import URLS from "../../constant/urls";
 
 const Container = styled.div`
   padding: 50px 100px;
@@ -22,8 +24,12 @@ const Card = styled.div`
 const PostImg = styled.img`
   width: 100%;
   height: 250px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-radius: 8px;
+`;
+
+const TitleBox = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const PostTitle = styled.p`
@@ -31,9 +37,22 @@ const PostTitle = styled.p`
   padding: 10px;
 `;
 
+const EditBtn = styled.button`
+  border: none;
+  border-radius: 5px;
+  background-color: #e4e4e4;
+  font-size: 13px;
+  margin: 5px 5px 5px 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #d2d2d2;
+  }
+`;
+
 const MyPosts = () => {
   const [myPostList, setPostList] = useState([]);
   const { userInfo } = useContext(EntireContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -44,13 +63,37 @@ const MyPosts = () => {
     fetchPosts();
   }, []);
 
+  const moveToDetailPage = (postId) => {
+    navigate(`${URLS.detail}?id=${postId}`);
+  };
+
+  const moveToModifyPage = (e, postId) => {
+    e.stopPropagation();
+    navigate(`${URLS.modify}?id=${postId}`);
+  };
+
   return (
     <Container>
       {myPostList ? (
         myPostList.map((post) => (
-          <Card key={post.id}>
+          <Card
+            key={post.id}
+            onClick={() => {
+              moveToDetailPage(post.id);
+            }}
+          >
             <PostImg src={post.img_url} alt="게시글 이미지" />
-            <PostTitle>{post.title}</PostTitle>
+            <TitleBox>
+              <PostTitle>{post.title}</PostTitle>
+              <EditBtn
+                type="button"
+                onClick={(e) => {
+                  moveToModifyPage(e, post.id);
+                }}
+              >
+                수정
+              </EditBtn>
+            </TitleBox>
           </Card>
         ))
       ) : (
