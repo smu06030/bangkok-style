@@ -1,6 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import supabase from "../../supabaseClient";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import {
   BtnDiv,
   Button,
@@ -27,19 +28,14 @@ const ModifyUpLoad = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
-  // const { userInfo } = useContext(EntireContext);
-  // console.log("userInfo", userInfo);
-  // console.log("userInfo.id", userInfo.id);
-  // const loginUserId = userInfo.id
+  // 쿼리스트링으로 받아온 id
+  // const location = useLocation();
+  // const postId = location.search.substr(8);
 
-  //임시
-  // const loginUserId = "18c32b4d-8bf9-4bd0-a557-4350ed6717b3";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const postId = searchParams.get("postId");
 
-  //쿼리스트링으로 받아온 id
-  const location = useLocation();
-  const postId = location.search.substr(8);
-
-  //포스터 가져오기
+  // 해당 게시글 가져오기
   const getPosts = async (postId) => {
     const { data, error } = await supabase.from("posts").select("*").eq("id", postId);
     if (error) {
@@ -50,13 +46,14 @@ const ModifyUpLoad = () => {
     return data;
   };
 
-  // 포스터 가져온 후 담기!
+  // 게시글 가져온 후 상태에 저장
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedPosts = await getPosts(postId);
+      const fetchedPosts = await getPosts(postId); //?
       if (fetchedPosts && fetchedPosts.length > 0) {
         const post = fetchedPosts[0];
         console.log("post 가져옴 상태에 넣기 전 ==>", post);
+        //!SECTION
         setTitle(post.title || "");
         setContent(post.content || "");
         setPreviewUrls(post.img_url || "");
@@ -64,7 +61,7 @@ const ModifyUpLoad = () => {
       }
     };
     fetchData();
-  }, [postId]); //[]로 했어서 가끔 이상했나..?
+  }, [postId]); // <-질문하기
 
   //NOTE - 이미지 프리뷰 & 이미지 스토리지 업로드 함수
   async function handleFilePreviewChange(files) {
@@ -76,6 +73,7 @@ const ModifyUpLoad = () => {
     const previewUrl = URL.createObjectURL(file);
     setPreviewUrls(previewUrl);
 
+    //이미지 스토리지에 저장
     const filePath = `fashion_${Date.now()}`;
     const { data, error } = await supabase.storage.from("fashions").upload(filePath, file);
     if (error) return;
@@ -84,20 +82,12 @@ const ModifyUpLoad = () => {
 
   //NOTE - 해시태그 입력하고 엔터누를때 작동하는 함수
   const handleKeyPress = (event) => {
-    console.log("handleKeyPress이후 inputValue ==>", inputValue); //#수정
-    console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트']
-
     //엔터키 누름 && 해시태그 값 있을 때
     if (event.key === "Enter" && inputValue.trim() !== "") {
-      //
-      console.log("handleKeyPress이후 hashtags ==>", hashtags); //['#테스트', '#테스트'] 인 이유 =>함수(setHashtags, setInputValue 등)가 비동기적으로 작동하기때문에
-      setHashtags((prevHashtags) => [...prevHashtags, inputValue]); // 이렇게 수정해야??
-      console.log("handleKeyPress  함수형 업데이트 이후 hashtags ==>", hashtags); // 안되넹ㅋ
-
+      setHashtags((prevHashtags) => [...prevHashtags, inputValue]);
       setInputValue("");
     }
   };
-  console.log("handleKeyPress  함수형 업데이트 이후 hashtags2 ==>", hashtags); // 된다 뭐지.. ㅠ
 
   //NOTE - 입력한 해시태그 지우는 함수
   const removeHashTag = (idx) => {
@@ -106,23 +96,27 @@ const ModifyUpLoad = () => {
 
   //NOTE - 게시글 수정하는 함수
   const updatePost = async () => {
-    const { data, error } = await supabase
-      .from("posts")
-      .update({
-        title: title,
-        content: content,
-        img_url: fashionUrl,
-        hash_tag: hashtags
-      })
-      .eq("id", postId); // postId로 특정 게시물 식별
+    console.log("수정버튼클릭");
+    console.log("fashionUrl==>", fashionUrl);
 
-    if (error) {
+    try {
+      await supabase
+        .from("posts")
+        .update({
+          title: title,
+          content: content,
+          img_url: fashionUrl,
+          hash_tag: hashtags
+        })
+        .eq("id", postId); // postId로 특정 게시물 식별
+    } catch (error) {
       console.error("Error updating post:", error);
-      return;
+    } finally {
+      toast.success("게시글이 수정되었습니다.");
+      setTimeout(function () {
+        navigate("/");
+      }, 2000);
     }
-    console.log("Post updated successfully:", data);
-    alert("게시물이 성공적으로 수정되었습니다!");
-    navigate("/");
   };
 
   return (
