@@ -29,12 +29,10 @@ const ModifyUpLoad = () => {
   const fileInputRef = useRef(null);
 
   // 쿼리스트링으로 받아온 id
-  // const location = useLocation();
-  // const postId = location.search.substr(8);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const postId = searchParams.get("postId");
-  // 해당 게시글 가져오기
+
+  //NOTE - 해당 게시글 가져오기
   const getPosts = async (postId) => {
     const { data, error } = await supabase.from("posts").select("*").eq("id", postId);
     if (error) {
@@ -45,7 +43,7 @@ const ModifyUpLoad = () => {
     return data;
   };
 
-  // 게시글 가져온 후 상태에 저장
+  //NOTE - 게시글 가져온 후 상태에 저장
   useEffect(() => {
     fetchData(postId);
   }, []);
@@ -54,7 +52,6 @@ const ModifyUpLoad = () => {
     const fetchedPosts = await getPosts(postId);
     if (fetchedPosts && fetchedPosts.length > 0) {
       const post = fetchedPosts[0];
-      console.log("DDD");
       //!SECTION
       setTitle(post.title || "");
       setContent(post.content || "");
@@ -63,6 +60,7 @@ const ModifyUpLoad = () => {
       setFashionUrl(post.img_url || "");
     }
   };
+
   //NOTE - 이미지 프리뷰 & 이미지 스토리지 업로드 함수
   async function handleFilePreviewChange(files) {
     const [file] = files;
@@ -96,9 +94,6 @@ const ModifyUpLoad = () => {
 
   //NOTE - 게시글 수정하는 함수
   const updatePost = async () => {
-    console.log("title", title);
-    console.log("fashionUrl", fashionUrl);
-
     try {
       await supabase
         .from("posts")
@@ -226,7 +221,6 @@ const ModifyUpLoad = () => {
           <Button onClick={updatePost} style={{ backgroundColor: "#1e293b", color: "white" }}>
             수정
           </Button>
-          {/* <Button>업로드</Button> */}
         </BtnDiv>
       </UpLoadContainer>
     </>
