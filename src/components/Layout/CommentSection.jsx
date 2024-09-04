@@ -14,8 +14,8 @@ const CommentSection = ({ post_id }) => {
   const [newContent, setNewContent] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
   const userInfo = useCustomSelector((state) => state.userInfo);
-  const nickname = userInfo.user_metadata.nickname;
-  const userName = userInfo.user_metadata.user_name;
+  const nickname = userInfo?.user_metadata.nickname;
+  const userName = userInfo?.user_metadata.user_name;
 
   // 댓글 가져오기
   useEffect(() => {
