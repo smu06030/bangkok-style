@@ -32,6 +32,8 @@ const NicknameText = styled.p`
 
 
 
+
+
 const Nickname = () => {
   const [updateNickname, setUpdateNickname] = useState("");
   const [edited, setEdited] = useState(false);
