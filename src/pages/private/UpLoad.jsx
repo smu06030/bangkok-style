@@ -30,6 +30,7 @@ const UpLoad = () => {
   const userInfo = useCustomSelector((state) => state.userInfo);
   const loginUserId = userInfo.id;
   const nickname = userInfo.user_metadata.nickname;
+  const userName = userInfo.user_metadata.user_name;
 
   //NOTE - 기본이미지 가져오기
   function checkFashion() {
@@ -74,7 +75,7 @@ const UpLoad = () => {
             hash_tag: hashtags,
             img_url: fashionUrl,
             user_id: loginUserId,
-            nickname: nickname
+            nickname: nickname ?? userName
           }
         ]);
       } catch (error) {
