@@ -65,7 +65,7 @@ const Posts = () => {
     : displayedPosts.length < allPosts.length;
 
   // 게시글 없음
-  const notPosts = <NotPost>게시글이 없습니다.</NotPost>;
+  const notPosts = <NotPost>더 이상 게시글이 없습니다.</NotPost>;
 
   const postCard = displayedPosts.map((post) => <PostCard key={post.id} post={post} userInfo={userInfo} />);
   const showPosts = displayedPosts.length ? (

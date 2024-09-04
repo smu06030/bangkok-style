@@ -14,6 +14,8 @@ const CommentSection = ({ post_id }) => {
   const [newContent, setNewContent] = useState("");
   const [editCommentId, setEditCommentId] = useState(null);
   const userInfo = useCustomSelector((state) => state.userInfo);
+  const nickname = userInfo.user_metadata.nickname;
+  const userName = userInfo.user_metadata.user_name;
 
   // 댓글 가져오기
   useEffect(() => {
@@ -46,7 +48,7 @@ const CommentSection = ({ post_id }) => {
           post_id: post_id,
           user_id: userInfo.id,
           content: inputVal,
-          nickname: userInfo.user_metadata.nickname
+          nickname: nickname ?? userName
         })
         .select();
 
@@ -125,7 +127,6 @@ const CommentSection = ({ post_id }) => {
           <ModalContents>
             {comments.map((comment) => (
               <CommentDiv key={comment.id}>
-                {/* <p>{comment.nickname}</p> */}
                 <ModalComments>
                   <p>{comment.nickname} :</p>
                   <p>{comment.content}</p>
