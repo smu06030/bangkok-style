@@ -4,7 +4,7 @@
 
 방콕 스타일은 재택근무, 원격 수업 등 집에서 나가지 않고도 스타일리시한 OOTD를 완성할 수 있는 패션 뉴스피드 서비스입니다.
 
-배포 링크 : <br />
+배포 링크 : https://bangkok-style.vercel.app/<br />
 깃허브 링크 : https://github.com/smu06030/bangkok-style
 
 ## 🗂️ 파일 구조
