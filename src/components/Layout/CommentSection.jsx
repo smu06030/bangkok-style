@@ -127,7 +127,6 @@ const CommentSection = ({ post_id }) => {
           <ModalContents>
             {comments.map((comment) => (
               <CommentDiv key={comment.id}>
-                {/* <p>{comment.nickname}</p> */}
                 <ModalComments>
                   <p>{comment.nickname} :</p>
                   <p>{comment.content}</p>
