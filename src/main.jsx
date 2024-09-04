@@ -1,10 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import UserInfoContextProvider from "./Context/UserInfoContextProvider.jsx";
+import PostsContextProvider from "./Context/PostsContextProvider.jsx";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+createRoot(document.getElementById("root")).render(
+  <PostsContextProvider>
+    <UserInfoContextProvider>
+      <App />
+    </UserInfoContextProvider>
+  </PostsContextProvider>
+);
