@@ -9,6 +9,29 @@
 
 ## 🗂️ 파일 구조
 
+📦src <br />
+ ┣ 📂assets <br />
+ ┃ ┣ 📂fonts <br />
+ ┃ ┗ 📂images <br />
+ ┣ 📂components <br />
+ ┃ ┣ 📂Layout <br />
+ ┃ ┣ 📂MyPage <br />
+ ┃ ┗ 📂UI <br />
+ ┣ 📂constant <br />
+ ┣ 📂Context <br />
+ ┣ 📂hooks <br />
+ ┣ 📂modules <br />
+ ┣ 📂pages <br />
+ ┃ ┣ 📂private <br />
+ ┃ ┣ 📂public <br />
+ ┣ 📂routes <br />
+ ┣ 📂services <br />
+ ┣ 📂styles <br />
+ ┣ 📂utils <br />
+ ┣ 📜App.jsx <br />
+ ┣ 📜main.jsx <br />
+ ┗ 📜supabaseClient.js <br />
+
 ## 📌 요구 사항
 
 ### 필수 구현 사항
