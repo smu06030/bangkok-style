@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const UpLoadContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 20px;
-  padding: 0px 500px;
 `;
 
 export const ImagesDiv = styled.div`
@@ -28,22 +28,15 @@ export const P = styled.p`
 `;
 
 export const InputTitle = styled.input`
-  width: 100%;
+  width: 570px;
   border-radius: 5px;
   border-style: none;
   background-color: #eeeeee;
   height: 50px;
-  padding: 0px 10px;
-  /* &:invalid{
-    border-color: red; 
-  } */
-  /* &:invalid{
-    border-color: red; 
-  } */
 `;
 
 export const InputTextarea = styled.textarea`
-  width: 100%;
+  width: 550px;
   border-radius: 5px;
   border-style: none;
   background-color: #eeeeee;
@@ -53,7 +46,7 @@ export const InputTextarea = styled.textarea`
 `;
 
 export const HashInput = styled.input`
-  width: 100%;
+  width: 550px;
   border-radius: 5px;
   border-style: none;
   background-color: #eeeeee;
@@ -71,12 +64,10 @@ export const Span = styled.span`
 
 export const ButtonX = styled.button`
   border-style: none;
-  /* background-color: white; */
   margin-left: 5px;
 `;
 
 export const BtnDiv = styled.div`
-  /* border: 1px solid gray; */
   padding: 10px 0px;
   text-align: right;
 `;
@@ -88,9 +79,6 @@ export const Button = styled.button`
   border-style: none;
   background-color: #eeeeee;
   position: relative;
-  left: 20px;
-  margin-left: 10px;
+  left: 230px;
   cursor: pointer;
-  &:hover {
-  }
 `;

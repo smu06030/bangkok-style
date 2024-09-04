@@ -18,7 +18,6 @@ const useFetchPosts = () => {
       setLoading(true);
       const response = await getAllData();
       const data = formattedLikeData(response);
-      console.log("data", data);
 
       // 전체 게시글 데이터 저장
       setAllPosts(data);

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 // import useFetchPosts from "../../hooks/useFetchPosts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Like, LikeActive } from "../../assets/images/Likes";
 import updateLikeStatus from "../../services/likeService";
-import CommentSection from "../../services/CommentSection";
 import Button from "../../components/UI/Button";
 import { useCustomSelector } from "../../hooks/useSelector";
 import useFetchPosts from "../../hooks/useFetchPosts";
+import CommentSection from "../../components/Layout/CommentSection";
 const Detail = () => {
   const navigate = useNavigate();
   const location = useLocation();

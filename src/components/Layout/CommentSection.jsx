@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import supabase from "../supabaseClient";
-import { Form, useLocation, useNavigate } from "react-router-dom";
-import Button from "../components/UI/Button";
-import { useCustomSelector } from "../hooks/useSelector";
+import { useCustomSelector } from "../../hooks/useSelector";
+import supabase from "../../supabaseClient";
+import Button from "../UI/Button";
 
 const CommentSection = ({ post_id }) => {
   const navigate = useNavigate();
@@ -148,7 +148,7 @@ const CommentSection = ({ post_id }) => {
             ))}
             <div>
               {editCommentId && (
-                <Form
+                <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     handleEditComment();
@@ -161,7 +161,7 @@ const CommentSection = ({ post_id }) => {
                       취소
                     </Buttons>
                   </ModalInputForm>
-                </Form>
+                </form>
               )}
 
               <Buttons onClick={toggleModal}>close</Buttons>

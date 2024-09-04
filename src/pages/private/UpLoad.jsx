@@ -29,12 +29,7 @@ const UpLoad = () => {
   const fileInputRef = useRef(null);
   const userInfo = useCustomSelector((state) => state.userInfo);
   const loginUserId = userInfo.id;
-  const nickName = userInfo.identities[0].identity_data.nickname;
-
-  //   context가 여러개로 나뉘어 불편함을 해소하고자 useSelector를 만들었습니다.
-  // const userInfo = useCustomSelector((state) => state.가져오고자하는 state);
-  // const {signIn} = useCustomDispatch((dispatch) => dispatch.가져오고자하는 dispatch);
-  // 처럼 사용하시면 됩니다.
+  const nickname = userInfo.user_metadata.nickname;
 
   //NOTE - 기본이미지 가져오기
   function checkFashion() {
@@ -79,7 +74,7 @@ const UpLoad = () => {
             hash_tag: hashtags,
             img_url: fashionUrl,
             user_id: loginUserId,
-            nickname: userInfo.user_metadata.nickname
+            nickname: nickname
           }
         ]);
       } catch (error) {
@@ -184,7 +179,12 @@ const UpLoad = () => {
               </div>
             </div>
             <BtnDiv>
-              <Button onClick={createPost} style={{ backgroundColor: "#0056b3", color: "white" }}>
+              <Button
+                onClick={createPost}
+                onMouseEnter={(e) => (e.target.style.backgroundColor = "#6d9fff")}
+                onMouseLeave={(e) => (e.target.style.backgroundColor = "#0056b3")}
+                style={{ backgroundColor: "#0056b3", color: "white" }}
+              >
                 업로드
               </Button>
             </BtnDiv>
