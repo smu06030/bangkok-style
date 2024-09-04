@@ -130,7 +130,7 @@ const UpLoad = () => {
                 style={{ display: "none" }}
               />
             </ImagesDiv>
-            <div style={{ marginTop: "10px" }}>
+            <div style={{ marginTop: "5px" }}>
               <P>제목</P>
               <InputTitle
                 type="text"
@@ -184,7 +184,7 @@ const UpLoad = () => {
                 onClick={createPost}
                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#6d9fff")}
                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#0056b3")}
-                style={{ backgroundColor: "#0056b3", color: "white" }}
+                style={{ backgroundColor: "#0056b3", color: "white", position: "relative", left: "50px" }}
               >
                 업로드
               </Button>
