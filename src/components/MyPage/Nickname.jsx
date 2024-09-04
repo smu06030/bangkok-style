@@ -30,6 +30,8 @@ const NicknameText = styled.p`
   font-size: 20px;
 `;
 
+
+
 const Nickname = () => {
   const [updateNickname, setUpdateNickname] = useState("");
   const [edited, setEdited] = useState(false);
