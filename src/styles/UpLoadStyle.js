@@ -28,11 +28,12 @@ export const P = styled.p`
 `;
 
 export const InputTitle = styled.input`
-  width: 570px;
+  width: 550px;
   border-radius: 5px;
   border-style: none;
   background-color: #eeeeee;
   height: 50px;
+  padding: 0px 10px;
 `;
 
 export const InputTextarea = styled.textarea`
@@ -70,6 +71,9 @@ export const ButtonX = styled.button`
 export const BtnDiv = styled.div`
   padding: 10px 0px;
   text-align: right;
+  position: relative;
+  left: 180px;
+  top: 20px;
 `;
 
 export const Button = styled.button`
@@ -78,7 +82,6 @@ export const Button = styled.button`
   border-radius: 5px;
   border-style: none;
   background-color: #eeeeee;
-  position: relative;
-  left: 230px;
   cursor: pointer;
+  margin-left: 10px;
 `;
