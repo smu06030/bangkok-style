@@ -42,6 +42,7 @@ const SignUp = () => {
           }
         />
         <SignInput
+          pattern={PASSWORD_REGEX}
           inputs={signUpInputs}
           setInputs={setSignUpInputs}
           label={"비밀번호 확인"}
